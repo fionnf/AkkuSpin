@@ -3,6 +3,10 @@ import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 import data_processing
 import utils
+import os
+import eclabfiles as ecf
+import pandas as pd
+import nmrglue as ng
 
 def register_callbacks(app):
     @app.callback(
@@ -13,26 +17,28 @@ def register_callbacks(app):
          Input('voltage_folder_input', 'value'),
          Input('ppm_min_input', 'value'),
          Input('ppm_max_input', 'value'),
-         Input('time_window_input', 'value')]
+         Input('time_window_input', 'value'),
+         Input('nmr_format_selector', 'value')]
     )
-    def update_plots(_, nmr_folder, voltage_folder, ppm_min, ppm_max, time_window_hours):
+    def update_plots(_, nmr_folder, voltage_folder, ppm_min, ppm_max, time_window_hours, nmr_format_list):
         print("Callback triggered")
         try:
-            print("try")
+            format_type = nmr_format_list[0]
+
             # Parse ppm_min and ppm_max as float values
             ppm_min, ppm_max = float(ppm_min), float(ppm_max)
 
             # Calculate time range based on user input
-            most_recent_time = get_most_recent_time(nmr_folder)
+            most_recent_time = utils.get_most_recent_time(nmr_folder)
             if most_recent_time is None:
                 raise ValueError("No NMR spectra found in the specified folder.")
-            start_date = most_recent_time - datetime.timedelta(hours=float(time_window_hours))
+            start_date = most_recent_time - utils.datetime.timedelta(hours=float(time_window_hours))
 
             # Find NMR spectra in the calculated time range
-            spectra_paths = find_spectra_in_range(nmr_folder, start_date, most_recent_time, '19F')
+            spectra_paths = data_processing.find_spectra_in_range(nmr_folder, start_date, most_recent_time, '19F')
 
             # Extract times for the first and last NMR spectra
-            nmr_times = [extract_date_time(path) for path in spectra_paths]
+            nmr_times = [data_processing.extract_date_time(path) for path in spectra_paths]
             nmr_start_time, nmr_end_time = min(nmr_times), max(nmr_times)
 
             # Identify the MPR and MPL file in the voltage_folder
@@ -49,7 +55,7 @@ def register_callbacks(app):
 
             # Parse the MPR file into a DataFrame for voltage data
             df = ecf.to_df(mpr_file)
-            start_time = extract_start_time(mpl_file)
+            start_time = utils.extract_start_time(mpl_file)
             df['absolute_time'] = pd.to_timedelta(df['time'], unit='s') + start_time
             filtered_df = df[(df['absolute_time'] >= nmr_start_time) & (df['absolute_time'] <= nmr_end_time)]
 
@@ -60,16 +66,16 @@ def register_callbacks(app):
             ppm_values = None
 
             for path in spectra_paths:
-                dic, data, sw, obs, car, label = read_varian_lowmem(path)
+                dic, data, sw, obs, car, label = data_processing.read_nmr_data_lowmem(path, format_type)
 
                 if not autophase_done:
                     # Perform autophasing for the first spectrum
-                    dic, data, p0, p1 = process_nmr_data(dic, data, sw, obs, car, apply_autophase=True)
+                    dic, data, p0, p1 = data_processing.process_nmr_data(dic, data, sw, obs, car, nmr_format, apply_autophase=True)
                     phase_params = (p0, p1)
                     autophase_done = True
                 else:
                     # Apply the stored phase parameters for subsequent spectra
-                    dic, data, _, _ = process_nmr_data(dic, data, sw, obs, car, p0=phase_params[0], p1=phase_params[1],
+                    dic, data, _, _ = data_processing.process_nmr_data(dic, data, sw, obs, car, nmr_format, p0=phase_params[0], p1=phase_params[1],
                                                        apply_autophase=False)
 
                 uc = ng.pipe.make_uc(dic, data)
@@ -121,7 +127,7 @@ def register_callbacks(app):
             )
 
             # Find the first and last spectra
-            first_spectrum_path, last_spectrum_path = find_first_last_spectra(nmr_folder, '19F')
+            first_spectrum_path, last_spectrum_path = utils.find_first_last_spectra(nmr_folder, '19F')
 
             # Define a figure for the spectra
             spectra_fig = go.Figure()
@@ -131,8 +137,8 @@ def register_callbacks(app):
 
             for idx, path in enumerate([first_spectrum_path, last_spectrum_path]):
                 if path:
-                    dic, data, sw, obs, car, label = read_varian_lowmem(path)
-                    dic, data, _, _ = process_nmr_data(dic, data, sw, obs, car, apply_autophase=True)
+                    dic, data, sw, obs, car, label = data_processing.read_varian_lowmem(path)
+                    dic, data, _, _ = data_processing.process_nmr_data(dic, data, sw, obs, car, nmr_format, apply_autophase=True)
                     uc = ng.pipe.make_uc(dic, data)
                     ppm = uc.ppm_scale()
                     intensity = data.real
@@ -141,9 +147,10 @@ def register_callbacks(app):
                     offset = offset_value if idx > 0 else 0
 
                     spectra_fig.add_trace(go.Scatter(
-                        x=list(reversed(ppm)),  # Reverse the x-axis
+                        x=list((ppm)),  # Reverse the x-axis
                         y=intensity + offset, mode='lines',
                         name=f'Spectrum {idx + 1} ({os.path.basename(path)})'))
+                    spectra_fig.update_xaxes(autorange="reversed")
 
             spectra_fig.update_layout(
                 title=f"First and Last NMR Spectra ({nmr_start_time.strftime('%Y-%m-%d %H:%M:%S')} - {nmr_end_time.strftime('%Y-%m-%d %H:%M:%S')})",

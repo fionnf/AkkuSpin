@@ -2,6 +2,7 @@ import datetime
 import nmrglue as ng
 import os
 
+
 def extract_date_time(file_path):
     # Extract the part of the directory name that contains the date and time
     try:
@@ -10,6 +11,7 @@ def extract_date_time(file_path):
     except (IndexError, ValueError):
         # Handle cases where the date and time cannot be extracted
         return None
+
 
 def find_spectra_in_range(directory, start_date, end_date, nucleus):
     spectra_paths = []
@@ -23,6 +25,14 @@ def find_spectra_in_range(directory, start_date, end_date, nucleus):
                     spectra_paths.append(file_path)
     return spectra_paths
 
+def read_nmr_data_lowmem(base_dir, format_type):
+    if format_type == 'Varian':
+        return read_varian_lowmem(base_dir)
+    elif format_type == 'Bruker':
+        return read_bruker_lowmem(base_dir)
+    else:
+        raise ValueError(f"Unsupported NMR data format: {format_type}")
+
 def read_varian_lowmem(base_dir):
     """Read Varian data as low-memory objects."""
     dic, data = ng.varian.read(base_dir)
@@ -33,10 +43,22 @@ def read_varian_lowmem(base_dir):
     label = procpar['tn']['values'][0]
     return dic, data, sw, obs, car, label
 
-def process_nmr_data(dic, data, sw, obs, car, apply_autophase=True, p0=0.0, p1=0.0):
-    """Process NMR data with optional autophasing."""
+def read_bruker_lowmem(base_dir):
+    """Read Bruker data as low-memory objects."""
+    return dic, data, sw, obs, car, label
+
+
+def process_nmr_data(dic, data, sw, obs, car, nmr_format, apply_autophase=True, p0=0.0, p1=0.0):
+    """Process NMR data with optional autophasing, adaptable to different NMR formats."""
+
     # Set up parameters
-    udic = ng.varian.guess_udic(dic, data)
+    if nmr_format == 'Varian':
+        udic = ng.varian.guess_udic(dic, data)
+    elif nmr_format == 'Bruker':
+        udic = ng.bruker.guess_udic(dic, data)
+    else:
+        raise ValueError(f"Unsupported NMR format: {nmr_format} proc")
+
     udic[0]['size'] = data.shape[0]
     udic[0]['complex'] = True
     udic[0]['encoding'] = 'direct'
@@ -46,9 +68,11 @@ def process_nmr_data(dic, data, sw, obs, car, apply_autophase=True, p0=0.0, p1=0
 
     # Convert to NMRPipe format and process
     C = ng.convert.converter()
-    C.from_varian(dic, data, udic)
+    if nmr_format == 'Varian':
+        C.from_varian(dic, data, udic)
+    elif nmr_format == 'Bruker':
+        C.from_bruker(dic, data, udic)
 
-    # Processing steps
     dic, data = C.to_pipe()
     dic, data = ng.pipe_proc.zf(dic, data, auto=True)
     dic, data = ng.pipe_proc.ft(dic, data, auto=True)
@@ -64,3 +88,4 @@ def process_nmr_data(dic, data, sw, obs, car, apply_autophase=True, p0=0.0, p1=0
         dic, data = ng.process.pipe_proc.ps(dic, data, p0=p0, p1=p1)
 
     return dic, data, p0, p1
+

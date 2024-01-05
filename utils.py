@@ -42,3 +42,11 @@ def find_first_last_spectra(directory, nucleus):
     # Sort the spectra based on their filenames
     spectra_paths.sort()
     return spectra_paths[0], spectra_paths[-1]  # Return first and last spectra
+
+def parse_contents(contents):
+    content_type, content_string = contents.split(',')
+    decoded = base64.b64decode(content_string)
+    content = json.loads(decoded.decode('utf-8'))
+    file_path = content['filename']
+    directory_path = os.path.dirname(file_path)
+    return directory_path

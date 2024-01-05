@@ -24,6 +24,18 @@ def create_layout():
                       style={'width': '80%', 'font-family': 'Arial, sans-serif', 'border': 'none', 'color': 'black',
                              'background-color': '#EDEDED'}),
         ], style={'display': 'inline-block'}),
+
+        html.Div([
+            dcc.Checklist(
+                id='nmr_format_selector',
+                options=[
+                    {'label': 'Bruker', 'value': 'Bruker'},
+                    {'label': 'Varian', 'value': 'Varian'}
+                ],
+                value=['Varian'],
+                labelStyle={'display': 'inline-block'}
+            )
+        ]),
     ], style={'margin': '0'}),
 
     html.Div([
