@@ -20,10 +20,10 @@ def register_callbacks(app):
          Input('time_window_input', 'value'),
          Input('nmr_format_selector', 'value')]
     )
-    def update_plots(_, nmr_folder, voltage_folder, ppm_min, ppm_max, time_window_hours, nmr_format_list):
+    def update_plots(_, nmr_folder, voltage_folder, ppm_min, ppm_max, time_window_hours, format_type):
         print("Callback triggered")
         try:
-            format_type = nmr_format_list[0]
+            format_type
 
             # Parse ppm_min and ppm_max as float values
             ppm_min, ppm_max = float(ppm_min), float(ppm_max)

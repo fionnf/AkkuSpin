@@ -26,16 +26,16 @@ def create_layout():
         ], style={'display': 'inline-block'}),
 
         html.Div([
-            dcc.Checklist(
+            dcc.RadioItems(
                 id='nmr_format_selector',
                 options=[
                     {'label': 'Bruker', 'value': 'Bruker'},
                     {'label': 'Varian', 'value': 'Varian'}
                 ],
-                value=['Varian'],
-                labelStyle={'display': 'inline-block'}
+                value='Varian',  # You can set the initial selected value here
+                labelStyle={'display': 'block'}  # You can change 'inline-block' to 'block' for vertical alignment
             )
-        ]),
+        ])
     ], style={'margin': '0'}),
 
     html.Div([
@@ -56,6 +56,8 @@ def create_layout():
             dcc.Input(id='time_window_input', type='number', placeholder='Time Window (hours)', value=1,
                       style={'width': '20%', 'font-family': 'Arial, sans-serif', 'border': 'none', 'color': 'black',
                              'background-color': '#EDEDED'}),
+
+
         ], style={'display': 'inline-block'}),
     ], style={'margin': '0'}),
 
