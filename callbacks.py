@@ -18,13 +18,12 @@ def register_callbacks(app):
          Input('ppm_min_input', 'value'),
          Input('ppm_max_input', 'value'),
          Input('time_window_input', 'value'),
-         Input('nmr_format_selector', 'value')]
+         Input('nmr_format_selector', 'value'),
+         Input('nucleus_selector','value')]
     )
-    def update_plots(_, nmr_folder, voltage_folder, ppm_min, ppm_max, time_window_hours, format_type):
+    def update_plots(_, nmr_folder, voltage_folder, ppm_min, ppm_max, time_window_hours, format_type, nucleus):
         print("Callback triggered")
         try:
-            format_type
-
             # Parse ppm_min and ppm_max as float values
             ppm_min, ppm_max = float(ppm_min), float(ppm_max)
 
@@ -35,7 +34,7 @@ def register_callbacks(app):
             start_date = most_recent_time - utils.datetime.timedelta(hours=float(time_window_hours))
 
             # Find NMR spectra in the calculated time range
-            spectra_paths = data_processing.find_spectra_in_range(nmr_folder, start_date, most_recent_time, '19F')
+            spectra_paths = data_processing.find_spectra_in_range(nmr_folder, start_date, most_recent_time, nucleus)
 
             # Extract times for the first and last NMR spectra
             nmr_times = [data_processing.extract_date_time(path) for path in spectra_paths]
@@ -127,7 +126,7 @@ def register_callbacks(app):
             )
 
             # Find the first and last spectra
-            first_spectrum_path, last_spectrum_path = utils.find_first_last_spectra(nmr_folder, '19F')
+            first_spectrum_path, last_spectrum_path = utils.find_first_last_spectra(nmr_folder, nucleus)
 
             # Define a figure for the spectra
             spectra_fig = go.Figure()

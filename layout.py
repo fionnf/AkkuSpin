@@ -12,7 +12,7 @@ def create_layout():
         html.Div([
             html.Label("NMR Folder Path:", style={'font-family': 'Arial, sans-serif', 'font-size': '16px'}),
             dcc.Input(id='nmr_folder_input', type='text', placeholder='Enter NMR Folder Path',
-                      value=r'G:\My Drive\RUG shared\Master Project\Intermezzos\NMRGlue\NMR_Volt_combines\NMR Folder',
+                      value=r'Test\NMR Folder',
                       style={'width': '80%', 'font-family': 'Arial, sans-serif', 'border': 'none', 'color': 'black',
                              'background-color': '#EDEDED'}),
         ], style={'display': 'inline-block'}),
@@ -20,7 +20,7 @@ def create_layout():
         html.Div([
             html.Label("Voltage Folder Path:", style={'font-family': 'Arial, sans-serif', 'font-size': '16px'}),
             dcc.Input(id='voltage_folder_input', type='text', placeholder='Enter Voltage Folder Path',
-                      value=r'G:\My Drive\RUG shared\Master Project\Intermezzos\NMRGlue\NMR_Volt_combines\Cyclerfolder',
+                      value=r'Test\Cyclerfolder',
                       style={'width': '80%', 'font-family': 'Arial, sans-serif', 'border': 'none', 'color': 'black',
                              'background-color': '#EDEDED'}),
         ], style={'display': 'inline-block'}),
@@ -33,7 +33,8 @@ def create_layout():
                     {'label': 'Varian', 'value': 'Varian'}
                 ],
                 value='Varian',  # You can set the initial selected value here
-                labelStyle={'display': 'block'}  # You can change 'inline-block' to 'block' for vertical alignment
+                labelStyle={'display': 'inline-block'},
+                style={'font-family': 'Arial, sans-serif', 'font-size': '14px'}
             )
         ])
     ], style={'margin': '0'}),
@@ -53,10 +54,21 @@ def create_layout():
                              'background-color': '#EDEDED'}),
 
             html.Label("Time Window (hours):", style={'font-family': 'Arial, sans-serif'}),
-            dcc.Input(id='time_window_input', type='number', placeholder='Time Window (hours)', value=1,
+            dcc.Input(id='time_window_input', type='number', placeholder='Time Window (hours)', value=3,
                       style={'width': '20%', 'font-family': 'Arial, sans-serif', 'border': 'none', 'color': 'black',
                              'background-color': '#EDEDED'}),
 
+            html.Label("Nucleus:", style={'font-family': 'Arial, sans-serif'),
+            dcc.RadioItems(
+                id='nucleus_selector',
+                options=[
+                    {'label': '1H', 'value': '1H'},
+                    {'label': '19F', 'value': '19F'}
+                ],
+                value='19F',
+                labelStyle={'display': 'inline-block'},
+                style={'font-family': 'Arial, sans-serif'}
+            ),
 
         ], style={'display': 'inline-block'}),
     ], style={'margin': '0'}),
