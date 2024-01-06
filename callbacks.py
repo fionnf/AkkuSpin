@@ -8,6 +8,7 @@ import eclabfiles as ecf
 import pandas as pd
 import nmrglue as ng
 from datetime import datetime
+import dash
 
 def register_callbacks(app):
     @app.callback(
@@ -18,18 +19,18 @@ def register_callbacks(app):
          Input('voltage_folder_input', 'value'),
          Input('ppm_min_input', 'value'),
          Input('ppm_max_input', 'value'),
-         Input('time_window_input', 'value'),
          Input('nmr_format_selector', 'value'),
          Input('nucleus_selector','value'),
          Input('data_selector', 'value'),
          Input('live_time_window_input', 'value'),
          Input('past_start_datetime', 'value'),
-         Input('past_end_datetime','value')
+         Input('past_end_datetime','value'),
+         Input('interval-component', 'n_intervals')
          ],
     )
 
-    def update_plots(_, nmr_folder, voltage_folder, ppm_min, ppm_max, time_window_hours, format_type,
-                     nucleus, data_selector, live_time_window, past_start_datetime, past_end_datetime):
+    def update_plots(_, nmr_folder, voltage_folder, ppm_min, ppm_max, format_type,
+                     nucleus, data_selector, live_time_window, past_start_datetime, past_end_datetime, interval_component):
         print("Callback triggered")
         try:
             # Parse ppm_min and ppm_max as float values
@@ -41,10 +42,13 @@ def register_callbacks(app):
                 if end_datetime is None:
                     raise ValueError("No NMR spectra found in the specified folder.")
                 start_datetime = end_datetime - utils.datetime.timedelta(hours=float(live_time_window))
-            if data_selector == 'past':
+            elif data_selector == 'past':
                 # Calculate past time range based on user input
                 start_datetime = datetime.strptime(past_start_datetime, '%Y-%m-%d %H:%M')
                 end_datetime = datetime.strptime(past_end_datetime, '%Y-%m-%d %H:%M')
+
+            if data_selector != 'live':
+                raise dash.exceptions.PreventUpdate
 
             # Find NMR spectra in the calculated time range
             spectra_paths = data_processing.find_spectra_in_range(nmr_folder, start_datetime, end_datetime, nucleus)

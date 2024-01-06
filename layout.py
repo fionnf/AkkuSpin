@@ -9,6 +9,13 @@ def create_layout():
                        'color': 'white'}),
     ], style={'background-color': '#0047AB', 'color': 'white', 'margin': '0', 'padding': '0'}),
 
+    # Interval component for live updates
+    dcc.Interval(
+        id='interval-component',
+        interval=120 * 1000,  # in milliseconds (5 seconds here)
+        n_intervals=0
+    ),
+
     html.Div([
         html.Div([
             html.Label("NMR Folder Path:", style={'font-family': 'Arial, sans-serif', 'font-size': '16px'}),
@@ -54,11 +61,6 @@ def create_layout():
                       style={'width': '20%', 'font-family': 'Arial, sans-serif', 'border': 'none', 'color': 'black',
                              'background-color': '#EDEDED'}),
 
-            html.Label("Time Window (hours):", style={'font-family': 'Arial, sans-serif'}),
-            dcc.Input(id='time_window_input', type='number', placeholder='Time Window (hours)', value=3,
-                      style={'width': '20%', 'font-family': 'Arial, sans-serif', 'border': 'none', 'color': 'black',
-                             'background-color': '#EDEDED'}),
-
             html.Label(" Nucleus:", style={'font-family': 'Arial, sans-serif'}),
             dcc.RadioItems(
                 id='nucleus_selector',
@@ -75,15 +77,14 @@ def create_layout():
 
         html.Div([
             html.Div([
-                html.H3("Data Selection", style={'font-family': 'Arial, sans-serif'}),
                 dcc.RadioItems(
                     id='data_selector',
                     options=[
                         {'label': 'Live Data', 'value': 'live'},
-                        {'label': 'Past Data', 'value': 'past'}
+                        {'label': 'Historic Data', 'value': 'past'}
                     ],
                     value='live',  # Default value
-                    labelStyle={'display': 'block'},
+                    labelStyle={'display': 'inline-block'},
                     style={'font-family': 'Arial, sans-serif'}
                 ),
 
