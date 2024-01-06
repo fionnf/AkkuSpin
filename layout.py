@@ -33,7 +33,7 @@ def create_layout():
                     {'label': 'Bruker', 'value': 'Bruker'},
                     {'label': 'Varian', 'value': 'Varian'}
                 ],
-                value='Varian',  # You can set the initial selected value here
+                value='Varian',
                 labelStyle={'display': 'inline-block'},
                 style={'font-family': 'Arial, sans-serif', 'font-size': '14px'}
             )
