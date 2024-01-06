@@ -1,7 +1,7 @@
-# SpectroVolt Insights
+# AkkuSpin
 
 ## Overview
-SpectroVolt Insights is a web-based application designed for visualizing and analyzing battery cycling data in conjunction with NMR (Nuclear Magnetic Resonance) spectroscopy results. This tool aims to provide comprehensive insights into battery performance and characteristics through interactive data visualization.
+AkkuSpin is a web-based application designed for visualizing and analyzing battery cycling data in conjunction with NMR (Nuclear Magnetic Resonance) spectroscopy results. This tool aims to provide comprehensive insights into battery performance and characteristics through interactive data visualization.
 
 ## Features
 - **NMR Data Visualization**: Interactive plots displaying NMR spectra and derived parameters.

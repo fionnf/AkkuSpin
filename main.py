@@ -6,7 +6,7 @@ app = dash.Dash(__name__)
 
 app.layout = layout.create_layout()
 
-app.title = 'SpectroVolt'
+app.title = 'AkkuSpin'
 
 callbacks.register_callbacks(app)
 

@@ -4,7 +4,7 @@ from dash import html, dcc
 def create_layout():
     return html.Div([
     html.Div([
-        html.H1("SpectroVolt Insights",
+        html.H1("AkkuSpin",
                 style={'font-family': 'Arial, sans-serif', 'text-align': 'center', 'padding': '20px 0',
                        'color': 'white'}),
     ], style={'background-color': '#0047AB', 'color': 'white', 'margin': '0', 'padding': '0'}),
@@ -72,6 +72,39 @@ def create_layout():
             ),
 
         ], style={'display': 'inline-block'}),
+
+        html.Div([
+            html.Div([
+                html.H3("Data Selection", style={'font-family': 'Arial, sans-serif'}),
+                dcc.RadioItems(
+                    id='data_selector',
+                    options=[
+                        {'label': 'Live Data', 'value': 'live'},
+                        {'label': 'Past Data', 'value': 'past'}
+                    ],
+                    value='live',  # Default value
+                    labelStyle={'display': 'block'},
+                    style={'font-family': 'Arial, sans-serif'}
+                ),
+
+                # Live Data Input Field
+                html.Div([
+                    html.Label("Time Window (hours):", style={'font-family': 'Arial, sans-serif'}),
+                    dcc.Input(id='live_time_window_input', type='number', placeholder='Enter Time Window', value=3)
+                ], style={'padding': '10px 0'}),
+
+                # Past Data Input Fields
+                html.Div([
+                    html.Label("Start DateTime (YYYY-MM-DD HH:MM):", style={'font-family': 'Arial, sans-serif'}),
+                    dcc.Input(id='past_start_datetime', type='text', placeholder='2023-11-18 05:00',
+                              style={'margin-right': '10px'}, value='2023-11-18 05:00'),
+                    html.Label("End DateTime (YYYY-MM-DD HH:MM):", style={'font-family': 'Arial, sans-serif'}),
+                    dcc.Input(id='past_end_datetime', type='text', placeholder='2023-11-18 09:00', value='2023-11-18 09:00')
+                ], style={'padding': '10px 0'})
+
+            ], style={'display': 'inline-block'}),
+        ],)
+
     ], style={'margin': '0'}),
 
     html.Div([
