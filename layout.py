@@ -1,5 +1,6 @@
 from dash import html, dcc
 
+
 def create_layout():
     return html.Div([
     html.Div([
@@ -58,7 +59,7 @@ def create_layout():
                       style={'width': '20%', 'font-family': 'Arial, sans-serif', 'border': 'none', 'color': 'black',
                              'background-color': '#EDEDED'}),
 
-            html.Label("Nucleus:", style={'font-family': 'Arial, sans-serif'),
+            html.Label(" Nucleus:", style={'font-family': 'Arial, sans-serif'}),
             dcc.RadioItems(
                 id='nucleus_selector',
                 options=[
@@ -67,7 +68,7 @@ def create_layout():
                 ],
                 value='19F',
                 labelStyle={'display': 'inline-block'},
-                style={'font-family': 'Arial, sans-serif'}
+                style={'font-family': 'Arial, sans-serif', 'display': 'inline-block'}
             ),
 
         ], style={'display': 'inline-block'}),
