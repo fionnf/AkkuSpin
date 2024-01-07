@@ -46,9 +46,8 @@ def register_callbacks(app):
                 # Calculate past time range based on user input
                 start_datetime = datetime.strptime(past_start_datetime, '%Y-%m-%d %H:%M')
                 end_datetime = datetime.strptime(past_end_datetime, '%Y-%m-%d %H:%M')
-
-            if data_selector != 'live':
-                raise dash.exceptions.PreventUpdate
+            elif data_selector != 'live' and data_selector != 'past':
+                print('dataselector: ', data_selector)
 
             # Find NMR spectra in the calculated time range
             spectra_paths = data_processing.find_spectra_in_range(nmr_folder, start_datetime, end_datetime, nucleus)
