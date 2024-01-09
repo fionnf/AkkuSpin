@@ -96,6 +96,8 @@ def create_layout():
                 html.Label("Max PPM:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.Input(id='ppm_max_input', type='number', placeholder='Max PPM', value=-57.25,
                           style=input_style),
+
+                html.Button('Update', id='update_button', n_clicks=0),
             ], style={'width': '32%', 'background-color': '#f7f7f7', 'padding': '20px', 'box-sizing': 'border-box'}),
         ], style={'display': 'flex', 'justify-content': 'space-between', 'margin-bottom': '20px'}),
 
