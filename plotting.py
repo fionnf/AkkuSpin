@@ -52,8 +52,8 @@ def create_spectra_fig(first_spectrum_path, last_spectrum_path, format_type, nmr
 
     for idx, path in enumerate([first_spectrum_path, last_spectrum_path]):
         if path:
-            dic, data, sw, obs, car, label = data_processing.read_nmr_data_lowmem(path, format_type)
-            dic, data, _, _ = data_processing.process_nmr_data(dic, data, sw, obs, car, format_type,
+            dic, data, sw, obs, car, label, runtime = data_processing.read_nmr_data_lowmem(path, format_type)
+            dic, data, _, _ = data_processing.process_nmr_data(dic, data, sw, obs, car, format_type, runtime,
                                                                apply_autophase=True)
             uc = ng.pipe.make_uc(dic, data)
             ppm = uc.ppm_scale()

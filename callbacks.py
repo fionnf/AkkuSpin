@@ -78,20 +78,21 @@ def register_callbacks(app):
                 phase_params = (None, None)
 
                 heatmap_intensity = []
+                spectrum_runtime = []
                 ppm_values = None
 
                 for path in spectra_paths:
-                    dic, data, sw, obs, car, label = data_processing.read_nmr_data_lowmem(path, format_type)
+                    dic, data, sw, obs, car, label, runtime = data_processing.read_nmr_data_lowmem(path, format_type)
+                    spectrum_runtime.append(runtime)
 
                     if not autophase_done:
                         # Perform autophasing for the first spectrum
-                        dic, data, p0, p1 = data_processing.process_nmr_data(dic, data, sw, obs, car, format_type, apply_autophase=True)
+                        dic, data, p0, p1 = data_processing.process_nmr_data(dic, data, sw, obs, car, format_type, runtime, apply_autophase=True)
                         phase_params = (p0, p1)
                         autophase_done = True
                     else:
                         # Apply the stored phase parameters for subsequent spectra
-                        dic, data, _, _ = data_processing.process_nmr_data(dic, data, sw, obs, car, format_type, p0=phase_params[0], p1=phase_params[1],
-                                                           apply_autophase=False)
+                        dic, data, _, _ = data_processing.process_nmr_data(dic, data, sw, obs, car, format_type, runtime, p0=phase_params[0], p1=phase_params[1], apply_autophase=False)
 
                     uc = ng.pipe.make_uc(dic, data)
                     if ppm_values is None:
@@ -114,7 +115,7 @@ def register_callbacks(app):
                 # Create a subplot figure with 2 columns
                 fig = make_subplots(rows=1, cols=2, shared_yaxes=True, column_widths=[0.75, 0.25], horizontal_spacing=0.02)
 
-                fig_nmr_heatmap = plotting.create_nmr_heatmap(filtered_ppm_values, nmr_times, filtered_heatmap_intensity)
+                fig_nmr_heatmap = plotting.create_nmr_heatmap(filtered_ppm_values, spectrum_runtime, filtered_heatmap_intensity)
                 fig_voltage_trace = plotting.create_voltage_trace(volt_df)
 
                 fig.add_trace(fig_nmr_heatmap['data'][0], row=1, col=1)

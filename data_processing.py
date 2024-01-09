@@ -45,14 +45,16 @@ def read_varian_lowmem(base_dir):
     rfl = float(procpar['rfl']['values'][0])
     car = (sw / 2)-rfl
     label = procpar['tn']['values'][0]
-    return dic, data, sw, obs, car, label
+    runtime_str = procpar['time_run']['values'][0]
+    runtime = datetime.datetime.strptime(runtime_str, "%Y%m%dT%H%M%S")
+    return dic, data, sw, obs, car, label, runtime
 
 def read_bruker_lowmem(base_dir):
     """Read Bruker data as low-memory objects."""
-    return dic, data, sw, obs, car, label
+    return dic, data, sw, obs, car, label, runtime
 
 
-def process_nmr_data(dic, data, sw, obs, car, nmr_format, apply_autophase=True, p0=0.0, p1=0.0):
+def process_nmr_data(dic, data, sw, obs, car, nmr_format, runtime, apply_autophase=True, p0=0.0, p1=0.0):
     """Process NMR data with optional autophasing, adaptable to different NMR formats."""
 
     # Set up parameters
@@ -69,6 +71,7 @@ def process_nmr_data(dic, data, sw, obs, car, nmr_format, apply_autophase=True, 
     udic[0]['sw'] = sw
     udic[0]['obs'] = obs
     udic[0]['car'] = car
+    udic[0]['runtime'] = runtime
 
     # Convert to NMRPipe format and process
     C = ng.convert.converter()
@@ -85,10 +88,11 @@ def process_nmr_data(dic, data, sw, obs, car, nmr_format, apply_autophase=True, 
 
     # Autophase if needed
     if apply_autophase:
+        print("Applying autophase")
         data, phase_params = ng.proc_autophase.autops(data, 'acme', return_phases=True)
-        p0, p1 = phase_params  # Unpack the phase parameters
+        p0, p1 = phase_params
     else:
-        # Apply the same phasing parameters (p0, p1) from the first spectrum
+        print("No autophase")
         dic, data = ng.process.pipe_proc.ps(dic, data, p0=p0, p1=p1)
 
     return dic, data, p0, p1
@@ -98,7 +102,6 @@ def process_eclab_files(directory, start_time, end_time):
     mpr_file = eclabfiles[0]
     mpl_file = eclabfiles[1]
 
-    # Parse the MPR file into a DataFrame for voltage data
     df = ecf.to_df(mpr_file)
     ecl_start_time = utils.extract_start_time(mpl_file)
     df['absolute_time'] = pd.to_timedelta(df['time'], unit='s') + ecl_start_time
