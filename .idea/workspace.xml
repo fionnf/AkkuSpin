@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aa2a8b96-8459-4ba9-8b62-b3ac3109b15c" name="Changes" comment="sw changes with car">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/callbacks.py" beforeDir="false" afterPath="$PROJECT_DIR$/callbacks.py" afterDir="false" />
+    <list default="true" id="aa2a8b96-8459-4ba9-8b62-b3ac3109b15c" name="Changes" comment="using spectrum derived times in plot">
       <change beforePath="$PROJECT_DIR$/data_processing.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_processing.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/plotting.py" beforeDir="false" afterPath="$PROJECT_DIR$/plotting.py" afterDir="false" />
     </list>
@@ -127,7 +125,7 @@
       <workItem from="1704490893415" duration="6716000" />
       <workItem from="1704560367202" duration="297000" />
       <workItem from="1704650651726" duration="3521000" />
-      <workItem from="1704791742818" duration="20450000" />
+      <workItem from="1704791742818" duration="20760000" />
     </task>
     <task id="LOCAL-00001" summary="working simple">
       <option name="closed" value="true" />
@@ -273,7 +271,15 @@
       <option name="project" value="LOCAL" />
       <updated>1704813468474</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="using spectrum derived times in plot">
+      <option name="closed" value="true" />
+      <created>1704816447695</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1704816447695</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -308,11 +314,12 @@
     <MESSAGE value="message area included" />
     <MESSAGE value="lan address printout working." />
     <MESSAGE value="sw changes with car" />
-    <option name="LAST_COMMIT_MESSAGE" value="sw changes with car" />
+    <MESSAGE value="using spectrum derived times in plot" />
+    <option name="LAST_COMMIT_MESSAGE" value="using spectrum derived times in plot" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/NMRVolt$app.coverage" NAME="app Coverage Results" MODIFIED="1704407230014" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/NMRVolt$cap.coverage" NAME="cap Coverage Results" MODIFIED="1704410607546" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/NMRVolt$main.coverage" NAME="main Coverage Results" MODIFIED="1704816382196" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/NMRVolt$main.coverage" NAME="main Coverage Results" MODIFIED="1704816725475" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

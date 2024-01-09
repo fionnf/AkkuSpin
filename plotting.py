@@ -16,8 +16,10 @@ def create_nmr_heatmap(ppm_values, nmr_times, heatmap_intensity):
         showscale=False),
     )
 
+    fig.update_xaxes(autorange="reversed")
+
     fig.update_layout(
-        #title="NMR Heatmap",
+        title="NMR Data and Voltage Trace",
         xaxis_title="Chemical Shift (ppm)",
         yaxis_title="Time"
     )
@@ -60,9 +62,11 @@ def create_spectra_fig(first_spectrum_path, last_spectrum_path, format_type, nmr
             intensity = data.real
 
             spectra_fig.add_trace(go.Scatter(
-                x=list((ppm)),  # Reverse the x-axis
+                x=list((ppm)),
                 y=intensity, mode='lines',
-                name=f'Spectrum {idx + 1} ({os.path.basename(path)})'))
+                name=f'Spectrum {idx + 1} ({os.path.basename(path)})')
+            )
+
             spectra_fig.update_xaxes(autorange="reversed")
 
     spectra_fig.update_layout(
