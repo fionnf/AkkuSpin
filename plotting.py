@@ -46,8 +46,6 @@ def create_voltage_trace(df):
 def create_spectra_fig(first_spectrum_path, last_spectrum_path, format_type, nmr_start_time, nmr_end_time):
     spectra_fig = go.Figure()
 
-    offset_value = 0
-
     for idx, path in enumerate([first_spectrum_path, last_spectrum_path]):
         if path:
             dic, data, sw, obs, car, label = data_processing.read_nmr_data_lowmem(path, format_type)
