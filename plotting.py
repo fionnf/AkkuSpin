@@ -96,7 +96,7 @@ def create_3d_fid_plot(base_dir, format_type):
         #)
     )])
 
-    fid_fig.update_layout(title='Real FID', autosize=True, xaxis_title='Time (s)', yaxis_title='Intensity'
+    fid_fig.update_layout(title='Real FID', autosize=True, xaxis_title='Time (s)', yaxis_title='Intensity',
                       margin=dict(l=65, r=50, b=65, t=90))
 
     return fid_fig
