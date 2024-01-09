@@ -42,7 +42,8 @@ def read_varian_lowmem(base_dir):
     procpar = ng.varian.read_procpar(base_dir + "/procpar")
     sw = float(procpar['sw']['values'][0])
     obs = float(procpar['sfrq']['values'][0])
-    car = -sw / 2  # Assuming the carrier is at the midpoint of sw
+    rfl = float(procpar['rfl']['values'][0])
+    car = (sw / 2)-rfl
     label = procpar['tn']['values'][0]
     return dic, data, sw, obs, car, label
 
@@ -77,10 +78,10 @@ def process_nmr_data(dic, data, sw, obs, car, nmr_format, apply_autophase=True, 
         C.from_bruker(dic, data, udic)
 
     dic, data = C.to_pipe()
+    dic, data = ng.pipe_proc.em(dic, data, lb=2)
     dic, data = ng.pipe_proc.zf(dic, data, auto=True)
     dic, data = ng.pipe_proc.ft(dic, data, auto=True)
-    data *= 800
-    dic, data = ng.pipe_proc.em(dic, data, lb=0.5)
+
 
     # Autophase if needed
     if apply_autophase:
