@@ -54,7 +54,6 @@ def register_callbacks(app):
                 ppm_min, ppm_max = float(ppm_min), float(ppm_max)
 
                 if data_selector == 'live':
-                    # Calculate time range based on user input
                     end_datetime = utils.get_most_recent_time(nmr_folder)
                     if end_datetime is None:
                         raise ValueError("No NMR spectra found in the specified folder.")
@@ -124,6 +123,8 @@ def register_callbacks(app):
                 first_spectrum_path, last_spectrum_path = utils.find_first_last_spectra(nmr_folder, nucleus)
 
                 spectra_fig = plotting.create_spectra_fig(first_spectrum_path, last_spectrum_path, format_type, nmr_start_time, nmr_end_time)
+
+
 
                 return fig, spectra_fig, ""
             else:

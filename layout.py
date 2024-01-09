@@ -15,6 +15,16 @@ def create_layout():
         'margin-bottom': '10px'
     }
 
+    config = {
+        'toImageButtonOptions': {
+            'format': 'svg',
+            'filename': 'nmr_heatmap',
+            'height': 500,
+            'width': 700,
+            'scale': 1
+        }
+    }
+
     return html.Div([
         html.Div([
             html.H1("AkkuSpin", style={'text-align': 'center', 'padding': '20px 0', 'color': 'white', 'font-family': sans_serif_font}),
@@ -109,13 +119,13 @@ def create_layout():
 
         # NMR Plot
         html.Div([
-            dcc.Graph(id='nmr_plot', style={'margin': '0'}),
+            dcc.Graph(id='nmr_plot', style={'margin': '0'}, config=config),
         ], style={'width': '100%', 'margin': '0 auto'}),
 
         # First and Last NMR Spectra Plot
         html.Div([
             html.H2("First and Last NMR Spectra", style={'font-family': sans_serif_font, 'font-size': '18px', 'line-height': '1.5', 'padding': '10px', 'margin-top': '0'}),
-            dcc.Graph(id='first_last_spectrum_plot', style={'margin': '0'}),
+            dcc.Graph(id='first_last_spectrum_plot', style={'margin': '0'}, config=config),
         ], style={'width': '100%', 'margin': '0 auto'}),
 
         html.Div(id='dummy_div')

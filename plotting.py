@@ -22,6 +22,8 @@ def create_nmr_heatmap(ppm_values, nmr_times, heatmap_intensity):
         yaxis_title="Time"
     )
 
+
+
     return fig
 
 
@@ -31,8 +33,9 @@ def create_voltage_trace(df):
     fig.add_trace(go.Scatter(
         x=df['Ewe'],
         y=df['absolute_time'],
-        mode='lines'),
-    )
+        mode='lines',
+        line=dict(color='Red')
+    ))
 
     fig.update_layout(
         title="Voltage Trace",
@@ -41,6 +44,7 @@ def create_voltage_trace(df):
     )
 
     return fig
+
 
 
 def create_spectra_fig(first_spectrum_path, last_spectrum_path, format_type, nmr_start_time, nmr_end_time):
