@@ -101,6 +101,12 @@ def create_layout():
             ], style={'width': '32%', 'background-color': '#f7f7f7', 'padding': '20px', 'box-sizing': 'border-box'}),
         ], style={'display': 'flex', 'justify-content': 'space-between', 'margin-bottom': '20px'}),
 
+        #Message area
+        html.Div(
+            id='message_area',
+            style={'font-family': sans_serif_font, 'font-size': '16px'}
+        ),
+
         # NMR Plot
         html.Div([
             dcc.Graph(id='nmr_plot', style={'margin': '0'}),
