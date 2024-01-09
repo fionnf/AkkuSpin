@@ -1,6 +1,9 @@
 import datetime
 import nmrglue as ng
 import os
+import utils
+import eclabfiles as ecf
+import pandas as pd
 
 
 def extract_date_time(file_path):
@@ -89,3 +92,15 @@ def process_nmr_data(dic, data, sw, obs, car, nmr_format, apply_autophase=True, 
 
     return dic, data, p0, p1
 
+def process_eclab_files(directory, start_time, end_time):
+    eclabfiles = utils.identify_eclab_files(directory)
+    mpr_file = eclabfiles[0]
+    mpl_file = eclabfiles[1]
+
+    # Parse the MPR file into a DataFrame for voltage data
+    df = ecf.to_df(mpr_file)
+    ecl_start_time = utils.extract_start_time(mpl_file)
+    df['absolute_time'] = pd.to_timedelta(df['time'], unit='s') + ecl_start_time
+    volt_df = df[(df['absolute_time'] >= start_time) & (df['absolute_time'] <= end_time)]
+
+    return volt_df

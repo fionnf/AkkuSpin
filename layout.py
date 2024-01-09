@@ -23,7 +23,7 @@ def create_layout():
         # Interval component for live updates
         dcc.Interval(
             id='interval-component',
-            interval=120 * 1000,  # in milliseconds
+            interval=500 * 1000,  # in milliseconds
             n_intervals=0
         ),
 
