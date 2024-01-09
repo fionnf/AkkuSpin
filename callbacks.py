@@ -105,32 +105,9 @@ def register_callbacks(app):
             fig.add_trace(fig_nmr_heatmap['data'][0], row=1, col=1)
             fig.add_trace(fig_voltage_trace['data'][0], row=1, col=2)
 
-
-            # Find the first and last spectra
             first_spectrum_path, last_spectrum_path = utils.find_first_last_spectra(nmr_folder, nucleus)
 
-            # Define a figure for the spectra
-            spectra_fig = go.Figure()
-
-            for idx, path in enumerate([first_spectrum_path, last_spectrum_path]):
-                if path:
-                    dic, data, sw, obs, car, label = data_processing.read_varian_lowmem(path)
-                    dic, data, _, _ = data_processing.process_nmr_data(dic, data, sw, obs, car, format_type, apply_autophase=True)
-                    uc = ng.pipe.make_uc(dic, data)
-                    ppm = uc.ppm_scale()
-                    intensity = data.real
-
-                    spectra_fig.add_trace(go.Scatter(
-                        x=list((ppm)),  # Reverse the x-axis
-                        y=intensity, mode='lines',
-                        name=f'Spectrum {idx + 1} ({os.path.basename(path)})'))
-                    spectra_fig.update_xaxes(autorange="reversed")
-
-            spectra_fig.update_layout(
-                title=f"First and Last NMR Spectra ({nmr_start_time.strftime('%Y-%m-%d %H:%M:%S')} - {nmr_end_time.strftime('%Y-%m-%d %H:%M:%S')})",
-                xaxis_title="Chemical Shift (ppm)",
-                yaxis_title="Intensity"
-            )
+            spectra_fig = plotting.create_spectra_fig(first_spectrum_path, last_spectrum_path, format_type, nmr_start_time, nmr_end_time)
 
             return fig, spectra_fig
 
