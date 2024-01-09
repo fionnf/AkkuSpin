@@ -16,6 +16,7 @@ def register_callbacks(app):
     @app.callback(
         [Output('nmr_plot', 'figure'),
          Output('first_last_spectrum_plot', 'figure'),
+         Output('fid_plot', 'figure'),
          Output('message_area', 'children')],
         [State('dummy_div', 'children'),
          State('nmr_folder_input', 'value'),
@@ -43,11 +44,11 @@ def register_callbacks(app):
         if not all([nmr_folder, voltage_folder, ppm_min, ppm_max, format_type, nucleus, data_selector, live_time_window,
                     past_start_datetime, past_end_datetime]):
             error_message = "Incomplete or invalid input. Please check your inputs."
-            return go.Figure(), go.Figure(), error_message
+            return go.Figure(), go.Figure(), go.Figure(), error_message
 
         if ppm_min > ppm_max:
             error_message = "ppm min > ppm max, Choose a valid ppm range"
-            return go.Figure(), go.Figure(), error_message
+            return go.Figure(), go.Figure(), go.Figure(), error_message
 
         try:
             if trigger_id == 'update_button' or trigger_id == 'interval-component':
@@ -63,7 +64,7 @@ def register_callbacks(app):
                     start_datetime = datetime.strptime(past_start_datetime, '%Y-%m-%d %H:%M')
                     end_datetime = datetime.strptime(past_end_datetime, '%Y-%m-%d %H:%M')
                 elif data_selector != 'live' and data_selector != 'past':
-                    print('dataselector error: ', data_selector)
+                    raise ValueError('dataselector: ', data_selector)
 
                 # Find NMR spectra in the calculated time range
                 spectra_paths = data_processing.find_spectra_in_range(nmr_folder, start_datetime, end_datetime, nucleus)
@@ -125,15 +126,13 @@ def register_callbacks(app):
 
                 spectra_fig = plotting.create_spectra_fig(first_spectrum_path, last_spectrum_path, format_type, nmr_start_time, nmr_end_time)
 
+                fid_fig = plotting.create_3d_fid_plot(last_spectrum_path, format_type)
 
-
-                return fig, spectra_fig, ""
+                return fig, spectra_fig, fid_fig, ""
             else:
-                # If the callback wasn't triggered by the button or the interval, you can decide what to do
-                # For example, you might want to return the current figures without updating
                 print("Callback triggered by an unexpected source.")
-                return go.Figure(), go.Figure(), ""
+                return go.Figure(), go.Figure(), go.Figure(), ""
 
         except Exception as e:
             print(f"Error: {e}")
-            return go.Figure(), go.Figure(), ""
+            return go.Figure(), go.Figure(), go.Figure(), ""
