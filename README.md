@@ -7,7 +7,7 @@ AkkuSpin is a web-based application designed for visualizing and analyzing batte
 - **NMR Data Visualization**: Interactive plots displaying NMR spectra captured over time. 
 - **Battery Cycling Data Analysis**: Visualization of battery charge/discharge cycles with support for ECLab files.  
 - **Data Integration**: Combines NMR and battery cycling data for in-depth analysis.
-- **User-Friendly Interface**: Easy to navigate interface for both technical and non-technical users.
+- **User-Friendly Interface**: Easy to navigate interface for both technical and non-technical users..
 
 ## Installation
 
