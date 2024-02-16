@@ -10,11 +10,13 @@ AkkuSpin is a web-based application designed for visualizing and analyzing batte
 - **User-Friendly Interface**: Easy to navigate interface for both technical and non-technical users.
 
 ## Installation
+- **Install Python**: https://www.python.org/
+- **Install dependencies using pip**: ECLabFiles, numpy, nmrglue, dash, plotly
 
 ## License
+MIT Licence as described in Licence file. 
 
 ## Contact
-
 For any queries or suggestions, please contact us at f.m.eckardt.ferreira@student.rug.nl.
 
 ## Acquisition of Spectra
