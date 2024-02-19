@@ -135,7 +135,7 @@ def create_layout():
             dcc.Graph(id='cycle_plot', style={'margin': '0'}, config=config),
         ], style={'width': '100%', 'margin': '0 auto'}),
 
-        # First and Last NMR Spectra Plot
+        # FID Plot
         html.Div([
             html.H2("FID", style={'font-family': sans_serif_font, 'font-size': '18px', 'line-height': '1.5', 'padding': '10px',
                            'margin-top': '0'}),
