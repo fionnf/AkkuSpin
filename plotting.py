@@ -4,6 +4,7 @@ import data_processing
 import nmrglue as ng
 import os
 import numpy as np
+import pandas as pd
 
 
 def create_nmr_heatmap(ppm_values, nmr_times, heatmap_intensity):
@@ -98,28 +99,32 @@ def create_3d_fid_plot(base_dir, format_type):
 
     return fid_fig
 
+def plot_capacities_and_efficiency_eclab(directory):
+    processed_df = data_processing.process_mpr_capacity(directory)
 
-def plot_cycling_data(directory, theoretical_capacity):
-    # Call the processing function to get the data ready for plotting
-    output = data_processing.process_cycling_data(directory, theoretical_capacity,charge_step_id=1, discharge_step_id=2)
+    # Convert the 'Last_UTS' Unix timestamp to datetime
+    processed_df['Time_Days'] = (pd.to_datetime(processed_df['Last_UTS'], unit='s') - pd.to_datetime(
+        processed_df['Last_UTS'].iloc[0], unit='s')).dt.total_seconds() / (24 * 3600)
 
+    # Create subplots: one y-axis for capacities, another for Coulombic Efficiency
     fig = make_subplots(specs=[[{"secondary_y": True}]])
 
-    fig.add_trace(
-        go.Scatter(x=output['cycle_numbers'], y=output['max_charge_cycle'], mode='markers', name='Normalized Charge Capacity',
-                   marker_color='green'),
-        secondary_y=False,
-    )
-    fig.add_trace(
-        go.Scatter(x=output['cycle_numbers'], y=output['max_discharge_cycle'], mode='markers', name='Normalized Discharge Capacity',
-                   marker_color='blue'),
-        secondary_y=True,
-    )
-    fig.update_layout(
-        xaxis_title='Cycle Number',
-    )
+    # Plot Charge and Discharge Capacities
+    fig.add_trace(go.Scatter(x=processed_df['Cycle_Number'], y=processed_df['Charge_Capacity'], mode='markers',
+                             name='Charge Capacity', marker=dict(color='blue')), secondary_y=False)
+    fig.add_trace(go.Scatter(x=processed_df['Cycle_Number'], y=processed_df['Discharge_Capacity'], mode='markers',
+                             name='Discharge Capacity', marker=dict(color='red')), secondary_y=False)
 
-    fig.update_yaxes(title_text='Charge Capacity (%)', secondary_y=False, color='green')
-    fig.update_yaxes(title_text='Discharge Capacity (%)', secondary_y=True, color='blue')
+    # Plot Coulombic Efficiency on secondary y-axis
+    fig.add_trace(
+        go.Scatter(x=processed_df['Cycle_Number'], y=processed_df['Coulombic Efficiency'], mode='markers',
+                   name='Coulombic Efficiency', marker=dict(color='green')), secondary_y=True)
+
+    # Set x-axis title
+    fig.update_xaxes(title_text="Cycle Number",tickfont=dict(size=16))
+
+    # Set y-axes titles
+    fig.update_yaxes(title_text="Capacity (mAh)", secondary_y=False, tickfont=dict(size=16))
+    fig.update_yaxes(title_text="Coulombic Efficiency (%)", secondary_y=True, tickfont=dict(size=16))
 
     return fig
