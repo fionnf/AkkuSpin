@@ -24,9 +24,6 @@ def create_nmr_heatmap(ppm_values, nmr_times, heatmap_intensity):
         xaxis_title="Chemical Shift (ppm)",
         yaxis_title="Time"
     )
-
-
-
     return fig
 
 

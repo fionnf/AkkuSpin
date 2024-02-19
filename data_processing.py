@@ -105,3 +105,4 @@ def process_eclab_files(directory, start_time, end_time):
     volt_df = df[(df['absolute_time'] >= start_time) & (df['absolute_time'] <= end_time)]
 
     return volt_df
+
