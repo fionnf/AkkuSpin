@@ -4,7 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aa2a8b96-8459-4ba9-8b62-b3ac3109b15c" name="Changes" comment="using spectrum derived times in plot">
+    <list default="true" id="c46ea227-d559-4ffa-92c3-11a7b053a423" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/AkkuSpin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AkkuSpin.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/NMRVolt.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_6_2024_6_11_PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_6_2024_6_11_PM_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_6_2024_6_11_PM__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/callbacks.py" beforeDir="false" afterPath="$PROJECT_DIR$/callbacks.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data_processing.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_processing.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/plotting.py" beforeDir="false" afterPath="$PROJECT_DIR$/plotting.py" afterDir="false" />
     </list>
@@ -13,75 +24,40 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Python Script" />
-      </list>
-    </option>
-  </component>
-  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
-    <envs>
-      <env key="FLASK_APP" value="app" />
-    </envs>
-    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
-    <option name="myEnvs">
-      <map>
-        <entry key="FLASK_APP" value="app" />
-      </map>
-    </option>
-  </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="modularity-and-run" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="RESET_MODE" value="HARD" />
   </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 7
-}</component>
-  <component name="ProjectId" id="2aVG0skB61hErooSnMA4ThCWksO" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 7
+}]]></component>
+  <component name="ProjectId" id="2caHVJsI5EWE20B5Exkt2hND228" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Python.app.executor": "Run",
-    "Python.cap.executor": "Run",
+    "Python.Unnamed.executor": "Run",
     "Python.main.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "ignore.virus.scanning.warn.message": "true",
+    "git-widget-placeholder": "cycle__plot",
+    "last_opened_file_path": "C:/Users/S3941868/PycharmProjects/AkkuSpin/main.py",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "settings.sync",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\fionn\Desktop\NMRVolt\assets" />
-      <recent name="C:\Users\fionn\Desktop\NMRVolt\Test" />
-      <recent name="C:\Users\fionn\Desktop\NMRVolt" />
-    </key>
-  </component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
-      <module name="NMRVolt" />
+      <module name="AkkuSpin" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -89,8 +65,9 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="SDK_NAME" value="Python 3.12 (AkkuSpin)" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
@@ -114,211 +91,19 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="aa2a8b96-8459-4ba9-8b62-b3ac3109b15c" name="Changes" comment="" />
-      <created>1704396113803</created>
+      <changelist id="c46ea227-d559-4ffa-92c3-11a7b053a423" name="Changes" comment="" />
+      <created>1708342798048</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1704396113803</updated>
-      <workItem from="1704396121541" duration="5158000" />
-      <workItem from="1704405775291" duration="4873000" />
-      <workItem from="1704490893415" duration="6716000" />
-      <workItem from="1704560367202" duration="297000" />
-      <workItem from="1704650651726" duration="3521000" />
-      <workItem from="1704791742818" duration="20760000" />
+      <updated>1708342798048</updated>
+      <workItem from="1708342811169" duration="4009000" />
     </task>
-    <task id="LOCAL-00001" summary="working simple">
-      <option name="closed" value="true" />
-      <created>1704406650930</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1704406650930</updated>
-    </task>
-    <task id="LOCAL-00002" summary="NMR format slector working.">
-      <option name="closed" value="true" />
-      <created>1704494362292</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1704494362292</updated>
-    </task>
-    <task id="LOCAL-00003" summary="NMR format slector working update.">
-      <option name="closed" value="true" />
-      <created>1704497117697</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1704497117697</updated>
-    </task>
-    <task id="LOCAL-00004" summary="nucleus selector working">
-      <option name="closed" value="true" />
-      <created>1704562808896</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1704562808896</updated>
-    </task>
-    <task id="LOCAL-00005" summary="uncommitted changes">
-      <option name="closed" value="true" />
-      <created>1704563806284</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1704563806284</updated>
-    </task>
-    <task id="LOCAL-00006" summary="uncommitted changes">
-      <option name="closed" value="true" />
-      <created>1704564289645</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1704564289645</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Readme Update">
-      <option name="closed" value="true" />
-      <created>1704564559504</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1704564559504</updated>
-    </task>
-    <task id="LOCAL-00008" summary="host update">
-      <option name="closed" value="true" />
-      <created>1704565016339</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1704565016339</updated>
-    </task>
-    <task id="LOCAL-00009" summary="working past/live slector in updateplots code">
-      <option name="closed" value="true" />
-      <created>1704584453702</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1704584453702</updated>
-    </task>
-    <task id="LOCAL-00010" summary="working live updates with callback 120s">
-      <option name="closed" value="true" />
-      <created>1704585534412</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1704585534412</updated>
-    </task>
-    <task id="LOCAL-00011" summary="modular plotting functions included working.">
-      <option name="closed" value="true" />
-      <created>1704802929045</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1704802929045</updated>
-    </task>
-    <task id="LOCAL-00012" summary="first last spectra fig working modular">
-      <option name="closed" value="true" />
-      <created>1704804940252</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1704804940252</updated>
-    </task>
-    <task id="LOCAL-00013" summary="first last spectra fig working modular">
-      <option name="closed" value="true" />
-      <created>1704804985834</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1704804985834</updated>
-    </task>
-    <task id="LOCAL-00014" summary="working update button">
-      <option name="closed" value="true" />
-      <created>1704805918684</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1704805918684</updated>
-    </task>
-    <task id="LOCAL-00015" summary="message area included">
-      <option name="closed" value="true" />
-      <created>1704806573325</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1704806573325</updated>
-    </task>
-    <task id="LOCAL-00016" summary="lan address printout working.">
-      <option name="closed" value="true" />
-      <created>1704807984010</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1704807984010</updated>
-    </task>
-    <task id="LOCAL-00017" summary="lan address printout working.">
-      <option name="closed" value="true" />
-      <created>1704808191373</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1704808191373</updated>
-    </task>
-    <task id="LOCAL-00018" summary="sw changes with car">
-      <option name="closed" value="true" />
-      <created>1704813468474</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1704813468474</updated>
-    </task>
-    <task id="LOCAL-00019" summary="using spectrum derived times in plot">
-      <option name="closed" value="true" />
-      <created>1704816447695</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1704816447695</updated>
-    </task>
-    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="working simple" />
-    <MESSAGE value="NMR format slector working." />
-    <MESSAGE value="NMR format slector working update." />
-    <MESSAGE value="nucleus selector working" />
-    <MESSAGE value="uncommitted changes" />
-    <MESSAGE value="Readme Update" />
-    <MESSAGE value="host update" />
-    <MESSAGE value="unnessecary module removed" />
-    <MESSAGE value="working past/live slector in updateplots code" />
-    <MESSAGE value="working live updates with callback 120s" />
-    <MESSAGE value="modular plotting functions included working." />
-    <MESSAGE value="first last spectra fig working modular" />
-    <MESSAGE value="working update button" />
-    <MESSAGE value="message area included" />
-    <MESSAGE value="lan address printout working." />
-    <MESSAGE value="sw changes with car" />
-    <MESSAGE value="using spectrum derived times in plot" />
-    <option name="LAST_COMMIT_MESSAGE" value="using spectrum derived times in plot" />
-  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/NMRVolt$app.coverage" NAME="app Coverage Results" MODIFIED="1704407230014" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/NMRVolt$cap.coverage" NAME="cap Coverage Results" MODIFIED="1704410607546" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/NMRVolt$main.coverage" NAME="main Coverage Results" MODIFIED="1704816725475" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/AkkuSpin$main.coverage" NAME="main Coverage Results" MODIFIED="1708346837269" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

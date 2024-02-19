@@ -24,9 +24,6 @@ def create_nmr_heatmap(ppm_values, nmr_times, heatmap_intensity):
         xaxis_title="Chemical Shift (ppm)",
         yaxis_title="Time"
     )
-
-
-
     return fig
 
 
@@ -100,3 +97,29 @@ def create_3d_fid_plot(base_dir, format_type):
                       margin=dict(l=65, r=50, b=65, t=90))
 
     return fid_fig
+
+
+def plot_cycling_data(directory, theoretical_capacity):
+    # Call the processing function to get the data ready for plotting
+    output = data_processing.process_cycling_data(directory, theoretical_capacity,charge_step_id=1, discharge_step_id=2)
+
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+    fig.add_trace(
+        go.Scatter(x=output['cycle_numbers'], y=output['max_charge_cycle'], mode='markers', name='Normalized Charge Capacity',
+                   marker_color='green'),
+        secondary_y=False,
+    )
+    fig.add_trace(
+        go.Scatter(x=output['cycle_numbers'], y=output['max_discharge_cycle'], mode='markers', name='Normalized Discharge Capacity',
+                   marker_color='blue'),
+        secondary_y=True,
+    )
+    fig.update_layout(
+        xaxis_title='Cycle Number',
+    )
+
+    fig.update_yaxes(title_text='Charge Capacity (%)', secondary_y=False, color='green')
+    fig.update_yaxes(title_text='Discharge Capacity (%)', secondary_y=True, color='blue')
+
+    return fig

@@ -105,3 +105,37 @@ def process_eclab_files(directory, start_time, end_time):
     volt_df = df[(df['absolute_time'] >= start_time) & (df['absolute_time'] <= end_time)]
 
     return volt_df
+
+
+def process_cycling_data(directory, theoretical_capacity, charge_step_id=1, discharge_step_id=2):
+    eclabfiles = utils.identify_eclab_files(directory)
+    mpr_file = eclabfiles[0]
+    df = ecf.to_df(mpr_file)
+
+    # Ensure discharge capacities are positive
+    df['Q charge/discharge'] = df['Q charge/discharge'].apply(lambda x: abs(x) if x < 0 else x)
+
+    # Assign cycle numbers based on 'counter inc.', assuming each increment represents a new cycle
+    df['Cycle_Number'] = df['counter inc.'].cumsum()
+
+    # Filter data for charge and discharge steps, and calculate capacities
+    charge_df = df[df['Ns'] == charge_step_id]
+    discharge_df = df[df['Ns'] == discharge_step_id]
+    charge_capacity = charge_df.groupby('Cycle_Number')['Q charge/discharge'].max()
+    discharge_capacity = discharge_df.groupby('Cycle_Number')['Q charge/discharge'].max()
+    last_discharge_idx = discharge_df.groupby('Cycle_Number').tail(1).index
+    cycle_end_times = df.loc[last_discharge_idx, 'time']
+
+    # Calculate Coulombic Efficiency (Discharge/Charge * 100)
+    coulombic_efficiency = (discharge_capacity / charge_capacity) * 100
+
+    # Preparing the output dictionary
+    output = {
+        'max_charge_cycle': charge_capacity.div(theoretical_capacity) * 100,
+        'max_discharge_cycle': discharge_capacity.div(theoretical_capacity) * 100,
+        'coulombic_efficiency': coulombic_efficiency,
+        'cycle_numbers': charge_capacity.index,
+        'cycle_times': cycle_end_times
+    }
+
+    return output

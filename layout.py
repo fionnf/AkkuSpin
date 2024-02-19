@@ -106,7 +106,6 @@ def create_layout():
                 html.Label("Max PPM:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.Input(id='ppm_max_input', type='number', placeholder='Max PPM', value=-57.25,
                           style=input_style),
-
                 html.Button('Update', id='update_button', n_clicks=0),
             ], style={'width': '32%', 'background-color': '#f7f7f7', 'padding': '20px', 'box-sizing': 'border-box'}),
         ], style={'display': 'flex', 'justify-content': 'space-between', 'margin-bottom': '20px'}),
@@ -128,7 +127,15 @@ def create_layout():
             dcc.Graph(id='first_last_spectrum_plot', style={'margin': '0'}, config=config),
         ], style={'width': '100%', 'margin': '0 auto'}),
 
-        # First and Last NMR Spectra Plot
+        # Cycling data plot
+        html.Div([
+            html.H2("Battery Cycling Data",
+                    style={'font-family': sans_serif_font, 'font-size': '18px', 'line-height': '1.5', 'padding': '10px',
+                           'margin-top': '0'}),
+            dcc.Graph(id='cycle_plot', style={'margin': '0'}, config=config),
+        ], style={'width': '100%', 'margin': '0 auto'}),
+
+        # FID Plot
         html.Div([
             html.H2("FID", style={'font-family': sans_serif_font, 'font-size': '18px', 'line-height': '1.5', 'padding': '10px',
                            'margin-top': '0'}),
