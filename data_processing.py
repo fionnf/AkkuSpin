@@ -106,3 +106,44 @@ def process_eclab_files(directory, start_time, end_time):
 
     return volt_df
 
+
+def process_cycling_data(directory, theoretical_capacity):
+    eclabfiles = utils.identify_eclab_files(directory)
+    mpr_file = eclabfiles[0]
+
+    df = ecf.to_df(mpr_file)
+
+    # Preprocess and calculate capacities and efficiency
+    df['Charge_Capacity'] = df['Q charge/mA.h']
+    df['Discharge_Capacity'] = df['Q discharge/mA.h']
+    df['Coulombic_Efficiency'] = df['Efficiency/%']
+    df['Cycle_Number'] = df['cycle number']
+    df['Days'] = pd.to_datetime(df['time/s'], unit='s').dt.floor('d') - pd.to_datetime(df['time/s'], unit='s').dt.floor(
+        'd').min()
+
+    # Correct the DataFrame reference for max calculations
+    max_charge_cycle = df.groupby('Cycle_Number')['Charge_Capacity'].max().div(theoretical_capacity) * 100
+    max_discharge_cycle = df.groupby('Cycle_Number')['Discharge_Capacity'].max().div(theoretical_capacity) * 100
+
+    # Assuming 'cumulative_time' needs to be calculated or is provided in the dataset
+    df['cumulative_time'] = np.cumsum(df['time/s'])
+
+    # Interpolate time data across cycles
+    interp_time = []
+    for i in range(len(max_charge_cycle)):
+        if i < len(max_charge_cycle) - 1:
+            time_start = df['cumulative_time'][df.index[df['Cycle_Number'] == max_charge_cycle.index[i]].min()]
+            time_end = df['cumulative_time'][df.index[df['Cycle_Number'] == max_charge_cycle.index[i + 1]].min()]
+            num_points = max_charge_cycle.index[i + 1] - max_charge_cycle.index[i] + 1
+            interp_time.extend(np.linspace(time_start, time_end, num_points, endpoint=False))
+        else:
+            interp_time.append(df['cumulative_time'].iloc[-1])
+
+    output = {
+        'max_charge_cycle': max_charge_cycle,
+        'max_discharge_cycle': max_discharge_cycle,
+        'cycle_numbers': max_charge_cycle.index,
+        'interp_time': interp_time,  # Updated to include interpolated time correctly
+    }
+
+    return output
