@@ -136,3 +136,21 @@ def register_callbacks(app):
         except Exception as e:
             print(f"Error: {e}")
             return go.Figure(), go.Figure(), go.Figure(), ""
+
+    @app.callback(
+        Output('cycle_plot', 'figure'),  # Assuming you have a Graph component with this ID
+        [Input('voltage_folder_input', 'value'),  # Assuming you have an input component for directory
+         Input('theoretical-capacity-input', 'value')]  # Assuming you have an input component for theoretical capacity
+    )
+    def update_electrochemical_plot(directory, theoretical_capacity):
+        if directory and theoretical_capacity:
+            # Process the data and generate the plot
+            try:
+                theoretical_capacity = float(theoretical_capacity)  # Ensure theoretical capacity is a float
+                figure = plotting.plot_cycling_data_with_processing_plotly(directory, theoretical_capacity)
+                return figure
+            except Exception as e:
+                print(f"Error processing data or generating plot: {e}")
+                return go.Figure()  # Return an empty figure in case of error
+        else:
+            return go.Figure()  # Return an empty figure if inputs are missing

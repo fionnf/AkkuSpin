@@ -143,7 +143,7 @@ def process_cycling_data(directory, theoretical_capacity):
         'max_charge_cycle': max_charge_cycle,
         'max_discharge_cycle': max_discharge_cycle,
         'cycle_numbers': max_charge_cycle.index,
-        'interp_time': interp_time,  # Updated to include interpolated time correctly
+        'interp_time': interp_time,
     }
 
     return output

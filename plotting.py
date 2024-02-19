@@ -97,3 +97,42 @@ def create_3d_fid_plot(base_dir, format_type):
                       margin=dict(l=65, r=50, b=65, t=90))
 
     return fid_fig
+
+
+def plot_cycling_data_with_processing(directory, theoretical_capacity):
+    # Call the processing function to get the data ready for plotting
+    output = process_cycling_data(directory, theoretical_capacity)
+
+    fig, ax1 = plt.subplots()
+
+    # Create secondary y-axis for discharge capacities
+    ax2 = ax1.twinx()
+
+    # Plot normalized charge capacities
+    ax1.plot(output['cycle_numbers'], output['max_charge_cycle'], 'g-', label='Normalized Charge Capacity')
+    # Plot normalized discharge capacities
+    ax2.plot(output['cycle_numbers'], output['max_discharge_cycle'], 'b-', label='Normalized Discharge Capacity')
+
+    # Set x-axis label
+    ax1.set_xlabel('Cycle Number')
+    # Set y-axis labels
+    ax1.set_ylabel('Normalized Capacity (%)', color='g')
+    ax2.set_ylabel('Discharge Capacity (%)', color='b')
+
+    # Create secondary x-axis for interpolated time
+    ax3 = ax1.twiny()
+    # Align the top x-axis ticks with the bottom x-axis by setting the limits
+    ax3.set_xlim(ax1.get_xlim())
+    # Set secondary x-axis label
+    ax3.set_xlabel('Time (days)')
+
+    # Generate tick labels for interpolated time based on cycle numbers
+    interp_time_ticks = np.linspace(min(output['interp_time']), max(output['interp_time']), len(ax1.get_xticks()))
+    ax3.set_xticks(ax1.get_xticks())
+    ax3.set_xticklabels([f"{t:.2f}" for t in interp_time_ticks])
+
+    # Add legends
+    ax1.legend(loc='upper left')
+    ax2.legend(loc='upper right')
+
+    plt.show()
