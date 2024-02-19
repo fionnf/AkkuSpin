@@ -121,10 +121,10 @@ def plot_capacities_and_efficiency_eclab(directory):
                    name='Coulombic Efficiency', marker=dict(color='green')), secondary_y=True)
 
     # Set x-axis title
-    fig.update_xaxes(title_text="Cycle Number",tickfont=dict(size=16))
+    fig.update_xaxes(title_text="Cycle Number",tickfont=dict(size=16), showgrid=False)
 
     # Set y-axes titles
-    fig.update_yaxes(title_text="Capacity (mAh)", secondary_y=False, tickfont=dict(size=16))
-    fig.update_yaxes(title_text="Coulombic Efficiency (%)", secondary_y=True, tickfont=dict(size=16))
+    fig.update_yaxes(title_text="Capacity (mAh)", secondary_y=False, tickfont=dict(size=16), showgrid=False)
+    fig.update_yaxes(title_text="Coulombic Efficiency (%)", secondary_y=True, tickfont=dict(size=16), showgrid=False)
 
     return fig
