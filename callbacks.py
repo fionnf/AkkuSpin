@@ -134,7 +134,7 @@ def register_callbacks(app):
                 return go.Figure(), go.Figure(), go.Figure(), ""
 
         except Exception as e:
-            print(f"Error: {e}")
+            print(f"Error in heatmap callback: {e}")
             return go.Figure(), go.Figure(), go.Figure(), ""
 
     @app.callback(
@@ -147,10 +147,10 @@ def register_callbacks(app):
             # Process the data and generate the plot
             try:
                 theoretical_capacity = float(theoretical_capacity)  # Ensure theoretical capacity is a float
-                figure = plotting.plot_cycling_data_with_processing_plotly(directory, theoretical_capacity)
+                figure = plotting.plot_cycling_data(directory, theoretical_capacity)
                 return figure
             except Exception as e:
-                print(f"Error processing data or generating plot: {e}")
-                return go.Figure()  # Return an empty figure in case of error
+                print(f"Error processing data or generating battery cycling plot: {e}")
+                return go.Figure()
         else:
-            return go.Figure()  # Return an empty figure if inputs are missing
+            return go.Figure()
