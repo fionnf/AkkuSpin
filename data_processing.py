@@ -108,6 +108,7 @@ def process_eclab_files(directory, start_time, end_time):
 
 
 def process_mpr_capacity(directory):
+    print('Processing mpr file for capacity plot')
     eclabfiles = utils.identify_eclab_files(directory)
     mpr_file = eclabfiles[0]
 
@@ -138,7 +139,8 @@ def process_mpr_capacity(directory):
         'Last_UTS': last_uts.reindex(cycle_numbers, fill_value=0)
     })
 
-    pd.set_option('display.max_columns', None)
-    pd.set_option('display.width', None)
-    print(processed_df)
+    #Printing
+    #pd.set_option('display.max_columns', None)
+    #pd.set_option('display.width', None)
+    #print(processed_df)
     return processed_df
