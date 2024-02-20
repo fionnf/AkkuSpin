@@ -1,6 +1,7 @@
 import datetime
 import os
 import pandas as pd
+import hashlib
 
 def extract_start_time(mpl_file_path):
     # Extracts the start time from an MPL file
@@ -55,3 +56,18 @@ def identify_eclab_files(directory):
             #raise FileNotFoundError("MPR or MPL file not found in the provided folder.")
 
     return mpr_file, mpl_file
+
+base_dir = os.path.dirname(os.path.abspath(__file__))
+cache_dir = os.path.join(base_dir, 'cache_dir')
+if not os.path.exists(cache_dir):
+    os.makedirs(cache_dir, exist_ok=True)
+
+
+def generate_uid(path, nucleus, *args):
+    # Combine path, nucleus, and any other arguments into a single string
+    combined = f"{path}_{nucleus}_" + "_".join(map(str, args))
+
+    # Use SHA-256 hashing to generate a unique identifier
+    uid = hashlib.sha256(combined.encode()).hexdigest()
+
+    return uid
