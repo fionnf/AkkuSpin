@@ -4,6 +4,7 @@ import os
 import utils
 import eclabfiles as ecf
 import pandas as pd
+import pickle
 
 
 def extract_date_time(file_path):
