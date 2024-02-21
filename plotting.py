@@ -102,6 +102,7 @@ def create_3d_fid_plot(base_dir, format_type):
 
 def plot_capacities_and_efficiency_eclab(directory):
     processed_df = data_processing.process_eclab(directory)
+    processed_df = processed_df[0]
 
     # Create subplots: one y-axis for capacities, another for Coulombic Efficiency
     fig = make_subplots(specs=[[{"secondary_y": True}]])

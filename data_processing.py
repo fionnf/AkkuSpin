@@ -5,7 +5,7 @@ import utils
 import eclabfiles as ecf
 import pandas as pd
 from galvani import BioLogic
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 
 def extract_date_time(file_path):
@@ -103,13 +103,13 @@ def eclab_voltage(processed_voltage_df, start_time, end_time):
 
     # Filter DataFrame between start_time and end_time
     volt_df = processed_voltage_df[
-        (processed_voltage_df['absolute_time'] >= start_time) & (processed_voltage_df['absolute_time'] <= end_time)]
+        (processed_voltage_df['Timestamp'] >= start_time) & (processed_voltage_df['Timestamp'] <= end_time)]
 
     return volt_df
 
 def process_eclab(directory):
 
-    print('Processing MPR file for capacity plot')
+    print('Processing MPR file')
 
     eclabfiles = utils.identify_eclab_files(directory)
     mpr_file_path = eclabfiles[0]
@@ -164,5 +164,5 @@ def process_eclab(directory):
         'Timestamp':full_time_utc,
         'Voltage':full_volt
     })
-    print(processed_cycle_df, processed_voltage_df)
+    print('MPR Processed')
     return processed_cycle_df, processed_voltage_df

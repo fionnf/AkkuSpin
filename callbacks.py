@@ -66,16 +66,17 @@ def register_callbacks(app):
                 elif data_selector != 'live' and data_selector != 'past':
                     raise ValueError('dataselector: ', data_selector)
 
+
                 # Find NMR spectra in the calculated time range
                 spectra_paths = data_processing.find_spectra_in_range(nmr_folder, start_datetime, end_datetime, nucleus)
-
+                print('finding nmr spectra in time')
                 # Extract times for the first and last NMR spectra
                 nmr_times = [data_processing.extract_date_time(path) for path in spectra_paths]
                 nmr_start_time, nmr_end_time = min(nmr_times), max(nmr_times)
 
+                print('ready to plot v trace')
                 eclab_df = data_processing.process_eclab(voltage_folder)
                 ec_v_df = eclab_df[1]
-                print(ec_v_df)
                 volt_df = data_processing.eclab_voltage(ec_v_df, start_datetime, end_datetime)
 
                 autophase_done = False
