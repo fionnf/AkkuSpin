@@ -73,7 +73,10 @@ def register_callbacks(app):
                 nmr_times = [data_processing.extract_date_time(path) for path in spectra_paths]
                 nmr_start_time, nmr_end_time = min(nmr_times), max(nmr_times)
 
-                volt_df = data_processing.process_eclab_files(voltage_folder, nmr_start_time, nmr_end_time)
+                eclab_df = data_processing.process_eclab(voltage_folder)
+                ec_v_df = eclab_df[1]
+                print(ec_v_df)
+                volt_df = data_processing.eclab_voltage(ec_v_df, start_datetime, end_datetime)
 
                 autophase_done = False
                 phase_params = (None, None)

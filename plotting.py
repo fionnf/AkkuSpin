@@ -32,8 +32,8 @@ def create_voltage_trace(df):
     fig = go.Figure()
 
     fig.add_trace(go.Scatter(
-        x=df['Ewe'],
-        y=df['absolute_time'],
+        x=df['Voltage'],
+        y=df['Timestamp'],
         mode='lines',
         line=dict(color='Red')
     ))
@@ -101,11 +101,7 @@ def create_3d_fid_plot(base_dir, format_type):
 
 
 def plot_capacities_and_efficiency_eclab(directory):
-    processed_df = data_processing.process_mpr_capacity(directory)
-
-    # Convert the 'Last_UTS' Unix timestamp to datetime
-    processed_df['Time_Days'] = (pd.to_datetime(processed_df['Last_UTS'], unit='s') - pd.to_datetime(
-        processed_df['Last_UTS'].iloc[0], unit='s')).dt.total_seconds() / (24 * 3600)
+    processed_df = data_processing.process_eclab(directory)
 
     # Create subplots: one y-axis for capacities, another for Coulombic Efficiency
     fig = make_subplots(specs=[[{"secondary_y": True}]])
