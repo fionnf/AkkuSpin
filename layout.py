@@ -33,7 +33,7 @@ def create_layout():
         # Interval component for live updates
         dcc.Interval(
             id='interval-component',
-            interval=500 * 1000,  # in milliseconds
+            interval=200 * 1000,  # in milliseconds
             n_intervals=0
         ),
 
@@ -43,10 +43,10 @@ def create_layout():
                 html.H2("Global Settings", style={'font-family': sans_serif_font, 'font-size': '18px', 'line-height': '1.5', 'padding': '10px', 'margin-top': '0'}),
                 html.Label("NMR Folder Path:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.Input(id='nmr_folder_input', type='text', placeholder='Enter NMR Folder Path',
-                          value=r'Test\NMR Folder', style=input_style),
+                          value=r'N:\anorg\s3941868\FF059', style=input_style),
                 html.Label("Voltage Folder Path:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.Input(id='voltage_folder_input', type='text', placeholder='Enter Voltage Folder Path',
-                          value=r'Test\Cyclerfolder', style=input_style),
+                          value=r'X:\My Documents\Data\BioLogic\FF056', style=input_style),
                 html.Label("NMR Format:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.RadioItems(
                     id='nmr_format_selector',
@@ -101,10 +101,10 @@ def create_layout():
             html.Div([
                 html.H2("Plot Settings", style={'font-family': sans_serif_font, 'font-size': '18px', 'line-height': '1.5', 'padding': '10px', 'margin-top': '0'}),
                 html.Label("Min PPM:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
-                dcc.Input(id='ppm_min_input', type='number', placeholder='Min PPM', value=-58.75,
+                dcc.Input(id='ppm_min_input', type='number', placeholder='Min PPM', value=-60,
                           style=input_style),
                 html.Label("Max PPM:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
-                dcc.Input(id='ppm_max_input', type='number', placeholder='Max PPM', value=-57.25,
+                dcc.Input(id='ppm_max_input', type='number', placeholder='Max PPM', value=-51,
                           style=input_style),
                 html.Button('Update', id='update_button', n_clicks=0),
             ], style={'width': '32%', 'background-color': '#f7f7f7', 'padding': '20px', 'box-sizing': 'border-box'}),
