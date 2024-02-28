@@ -37,6 +37,8 @@ def find_first_last_spectra(directory, nucleus):
     return spectra_paths[0], spectra_paths[-1]  # Return first and last spectra
 
 def identify_eclab_files(directory):
+    contents = os.listdir(directory)
+
     mpr_file = None
     mpl_file = None
     for file in os.listdir(directory):
@@ -44,15 +46,10 @@ def identify_eclab_files(directory):
             mpr_file = os.path.join(directory, file)
         elif file.endswith('.mpl'):
             mpl_file = os.path.join(directory, file)
-        #if not mpr_file or not mpl_file:
-            #raise FileNotFoundError("MPR or MPL file not found in the provided folder.")
+    if not mpr_file or not mpl_file:
+        raise FileNotFoundError("MPR or MPL file not found in the provided folder.")
 
     return mpr_file, mpl_file
-
-base_dir = os.path.dirname(os.path.abspath(__file__))
-cache_dir = os.path.join(base_dir, 'cache_dir')
-if not os.path.exists(cache_dir):
-    os.makedirs(cache_dir, exist_ok=True)
 
 
 def generate_uid(path, nucleus, *args):
