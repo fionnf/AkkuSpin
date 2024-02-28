@@ -4,7 +4,6 @@ import os
 import utils
 import eclabfiles as ecf
 import pandas as pd
-import pickle
 
 
 def extract_date_time(file_path):
@@ -58,17 +57,6 @@ def read_bruker_lowmem(base_dir):
 def process_nmr_data(dic, data, sw, obs, car, nmr_format, runtime, apply_autophase=True, p0=0.0, p1=0.0):
     """Process NMR data with optional autophasing, adaptable to different NMR formats."""
 
-    # Generate UID based on relevant parameters (adjust as needed)
-    uid = utils.generate_uid(nmr_format, obs, car, runtime)  # Implement generate_uid accordingly
-
-    # Use the cache_dir from utils.py
-    cache_file_path = os.path.join(utils.cache_dir, f'{uid}.pkl')
-
-    # Check if cached data exists
-    if os.path.exists(cache_file_path):
-        with open(cache_file_path, 'rb') as cache_file:
-            return pickle.load(cache_file)  # Return cached results
-
     # Set up parameters
     if nmr_format == 'Varian':
         udic = ng.varian.guess_udic(dic, data)
@@ -103,10 +91,6 @@ def process_nmr_data(dic, data, sw, obs, car, nmr_format, runtime, apply_autopha
         p0, p1 = phase_params
     else:
         dic, data = ng.process.pipe_proc.ps(dic, data, p0=p0, p1=p1)
-
-    # Cache the results
-    with open(cache_file_path, 'wb') as cache_file:
-        pickle.dump((dic, data, p0, p1), cache_file)
 
     return dic, data, p0, p1
 

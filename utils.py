@@ -3,14 +3,6 @@ import os
 import pandas as pd
 import hashlib
 
-def extract_start_time(mpl_file_path):
-    # Extracts the start time from an MPL file
-    with open(mpl_file_path, 'r', encoding='ISO-8859-1') as file:
-        for line in file:
-            if line.startswith('Acquisition started on :'):
-                timestamp = line.split(':')[1].strip()
-                return pd.to_datetime(timestamp)
-
 
 def get_most_recent_time(directory):
     most_recent_time = None
