@@ -5,6 +5,10 @@ import utils
 from galvani import BioLogic
 from datetime import timedelta
 import pandas as pd
+import shelve
+import hashlib
+import os
+
 
 
 def extract_date_time(file_path):
@@ -55,43 +59,57 @@ def read_bruker_lowmem(base_dir):
     return dic, data, sw, obs, car, label, runtime
 
 
-def process_nmr_data(dic, data, sw, obs, car, nmr_format, runtime, apply_autophase=True, p0=0.0, p1=0.0):
+def process_nmr_data(path, dic, data, sw, obs, car, nmr_format, apply_autophase=True, p0=0.0, p1=0.0):
     """Process NMR data with optional autophasing, adaptable to different NMR formats."""
 
-    # Set up parameters
-    if nmr_format == 'Varian':
-        udic = ng.varian.guess_udic(dic, data)
-    elif nmr_format == 'Bruker':
-        udic = ng.bruker.guess_udic(dic, data)
-    else:
-        raise ValueError(f"Unsupported NMR format: {nmr_format} proc")
+    # Ensure the cache directory exists
+    cache_dir = 'cache_dir'
+    os.makedirs(cache_dir, exist_ok=True)
+    cache_path = os.path.join(cache_dir, 'nmr_data_cache.db')
 
-    udic[0]['size'] = data.shape[0]
-    udic[0]['complex'] = True
-    udic[0]['encoding'] = 'direct'
-    udic[0]['sw'] = sw
-    udic[0]['obs'] = obs
-    udic[0]['car'] = car
-    udic[0]['runtime'] = runtime
+    uid = utils.generate_uid(path, nmr_format, sw, obs, car, apply_autophase, p0, p1)
 
-    # Convert to NMRPipe format and process
-    C = ng.convert.converter()
-    if nmr_format == 'Varian':
-        C.from_varian(dic, data, udic)
-    elif nmr_format == 'Bruker':
-        C.from_bruker(dic, data, udic)
+    with shelve.open(cache_path) as cache:
+        if uid in cache:
+            print(f"Retrieving cached data for UID: {uid}")
+            dic, data, p0, p1 = cache[uid]
+        else:
+            print(f"Processing and caching data for UID: {uid}")
+            # Your existing processing logic here
+            if nmr_format == 'Varian':
+                udic = ng.varian.guess_udic(dic, data)
+            elif nmr_format == 'Bruker':
+                udic = ng.bruker.guess_udic(dic, data)
+            else:
+                raise ValueError(f"Unsupported NMR format: {nmr_format}")
 
-    dic, data = C.to_pipe()
-    dic, data = ng.pipe_proc.em(dic, data, lb=1)
-    dic, data = ng.pipe_proc.zf(dic, data, auto=True)
-    dic, data = ng.pipe_proc.ft(dic, data, auto=True)
+            udic[0]['size'] = data.shape[0]
+            udic[0]['complex'] = True
+            udic[0]['encoding'] = 'direct'
+            udic[0]['sw'] = sw
+            udic[0]['obs'] = obs
+            udic[0]['car'] = car
+            udic[0]['runtime'] = runtime
 
-    # Autophase if needed
-    if apply_autophase:
-        data, phase_params = ng.proc_autophase.autops(data, 'acme', return_phases=True)
-        p0, p1 = phase_params
-    else:
-        dic, data = ng.process.pipe_proc.ps(dic, data, p0=p0, p1=p1)
+            C = ng.convert.converter()
+            if nmr_format == 'Varian':
+                C.from_varian(dic, data, udic)
+            elif nmr_format == 'Bruker':
+                C.from_bruker(dic, data, udic)
+
+            dic, data = C.to_pipe()
+            dic, data = ng.pipe_proc.em(dic, data, lb=1)
+            dic, data = ng.pipe_proc.zf(dic, data, auto=True)
+            dic, data = ng.pipe_proc.ft(dic, data, auto=True)
+
+            if apply_autophase:
+                data, phase_params = ng.proc_autophase.autops(data, 'acme', return_phases=True)
+                p0, p1 = phase_params
+            else:
+                dic, data = ng.process.pipe_proc.ps(dic, data, p0=p0, p1=p1)
+
+            # Cache the processed data
+            cache[uid] = (dic, data, p0, p1)
 
     return dic, data, p0, p1
 
