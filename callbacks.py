@@ -75,7 +75,7 @@ def register_callbacks(app):
                 nmr_times = [data_processing.extract_date_time(path) for path in spectra_paths]
                 nmr_start_time, nmr_end_time = min(nmr_times), max(nmr_times)
 
-                print('ready to plot v trace')
+                print('Plotting voltage trace')
                 eclab_df = data_processing.process_eclab(voltage_folder)
                 ec_v_df = eclab_df[1]
                 volt_df = data_processing.eclab_voltage(ec_v_df, start_datetime, end_datetime)
@@ -112,7 +112,6 @@ def register_callbacks(app):
                         )
 
                     spectrum_runtime.append(runtime)
-                    print(f"Spectrum {index + 1}: Runtime = {runtime}")
 
                     if ppm_values is None:
                         uc = ng.pipe.make_uc(dic, data)
@@ -120,8 +119,6 @@ def register_callbacks(app):
 
                     intensity = data.real
                     heatmap_intensity.append(intensity)
-                    print(
-                        f"Spectrum {index + 1}: Intensity length = {len(intensity)}, Heatmap length = {len(heatmap_intensity)}")
 
                 # Reduce the resolution for testing
                 # reduced_ppm_values = ppm_values[::10]  # Take every 1000th value as a sample
@@ -143,6 +140,10 @@ def register_callbacks(app):
 
                 fig.add_trace(fig_nmr_heatmap['data'][0], row=1, col=1)
                 fig.add_trace(fig_voltage_trace['data'][0], row=1, col=2)
+
+                fig.update_xaxes(title_text="Chemical Shift (ppm)", row=1, col=1)
+                fig.update_yaxes(title_text="Time", row=1, col=1)
+                fig.update_xaxes(title_text="Voltage", row=1, col=2)
 
                 first_spectrum_path, last_spectrum_path = utils.find_first_last_spectra(nmr_folder, nucleus)
 
