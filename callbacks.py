@@ -57,7 +57,7 @@ def register_callbacks(app):
                 if data_selector == 'live':
                     end_datetime = utils.get_most_recent_time(nmr_folder)
                     if end_datetime is None:
-                        raise ValueError("No NMR spectra found in the specified folder.")
+                        raise ValueError("No NMR spectra found in the specified folder, or incorrect spectra naming (eg. 1H_20231101T000823.fid).")
                     start_datetime = end_datetime - utils.datetime.timedelta(hours=float(live_time_window))
                 elif data_selector == 'past':
                     # Calculate past time range based on user input
@@ -69,7 +69,7 @@ def register_callbacks(app):
 
                 # Find NMR spectra in the calculated time range
                 spectra_paths = data_processing.find_spectra_in_range(nmr_folder, start_datetime, end_datetime, nucleus)
-                print('finding nmr spectra in time range')
+                print(f'finding nmr spectra in time range: {start_datetime},{end_datetime}')
                 print(spectra_paths)
                 # Extract times for the first and last NMR spectra
                 nmr_times = [data_processing.extract_date_time(path) for path in spectra_paths]
