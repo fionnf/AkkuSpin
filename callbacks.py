@@ -17,7 +17,8 @@ def register_callbacks(app):
         [Output('nmr_plot', 'figure'),
          Output('first_last_spectrum_plot', 'figure'),
          Output('fid_plot', 'figure'),
-         Output('message_area', 'children')],
+         Output('cycle_plot', 'figure'),
+         Output('message_area', 'children'),],
         [State('dummy_div', 'children'),
          State('nmr_folder_input', 'value'),
          State('voltage_folder_input', 'value'),
@@ -70,7 +71,6 @@ def register_callbacks(app):
                 # Find NMR spectra in the calculated time range
                 spectra_paths = data_processing.find_spectra_in_range(nmr_folder, start_datetime, end_datetime, nucleus)
                 print(f'finding nmr spectra in time range: {start_datetime},{end_datetime}')
-                print(spectra_paths)
                 # Extract times for the first and last NMR spectra
                 nmr_times = [data_processing.extract_date_time(path) for path in spectra_paths]
                 nmr_start_time, nmr_end_time = min(nmr_times), max(nmr_times)
@@ -120,9 +120,13 @@ def register_callbacks(app):
                     intensity = data.real
                     heatmap_intensity.append(intensity)
 
-                # Reduce the resolution for testing
-                # reduced_ppm_values = ppm_values[::10]  # Take every 1000th value as a sample
-                # reduced_heatmap_intensity = [intensity[::10] for intensity in heatmap_intensity]
+                # Reduce the resolution for larger widths
+                if ppm_max - ppm_min > 25:
+                    reduction_factor = 10
+                    # Apply resolution reduction
+                    print('Applying resolution reduction')
+                    ppm_values = ppm_values[::reduction_factor]
+                    heatmap_intensity = [intensity[::reduction_factor] for intensity in heatmap_intensity]
 
                 # Find the indices for the desired ppm range
                 ppm_indices = [i for i, ppm in enumerate(ppm_values) if ppm_min <= ppm <= ppm_max]
@@ -151,26 +155,22 @@ def register_callbacks(app):
 
                 fid_fig = plotting.create_3d_fid_plot(last_spectrum_path, format_type)
 
-                return fig, spectra_fig, fid_fig, ""
+                # Check if electrochemistry data directory is provided
+                if voltage_folder:
+                    try:
+                        # Generate electrochemical plot
+                        cycle_plot = plotting.plot_capacities_and_efficiency_eclab(voltage_folder)
+                    except Exception as e:
+                        print(f"Error processing data or generating battery cycling plot: {e}")
+                        cycle_plot = go.Figure()
+                else:
+                    cycle_plot = go.Figure()
+
+                return fig, spectra_fig, fid_fig, cycle_plot, ""
             else:
                 print("Callback triggered by an unexpected source.")
-                return go.Figure(), go.Figure(), go.Figure(), ""
+                return go.Figure(), go.Figure(), go.Figure(), go.Figure(), ""
 
         except Exception as e:
             print(f"Error in heatmap callback: {e}")
-            return go.Figure(), go.Figure(), go.Figure(), ""
-
-    @app.callback(
-        Output('cycle_plot', 'figure'),
-        [Input('voltage_folder_input', 'value')]
-    )
-    def update_electrochemical_plot(directory):
-        if directory:
-            try:
-                figure = plotting.plot_capacities_and_efficiency_eclab(directory)
-                return figure
-            except Exception as e:
-                print(f"Error processing data or generating battery cycling plot: {e}")
-                return go.Figure()
-        else:
-            return go.Figure()
+            return go.Figure(), go.Figure(), go.Figure(), go.Figure(), ""
