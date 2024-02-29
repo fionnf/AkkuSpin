@@ -69,7 +69,8 @@ def register_callbacks(app):
 
                 # Find NMR spectra in the calculated time range
                 spectra_paths = data_processing.find_spectra_in_range(nmr_folder, start_datetime, end_datetime, nucleus)
-                print('finding nmr spectra in time')
+                print('finding nmr spectra in time range')
+                print(spectra_paths)
                 # Extract times for the first and last NMR spectra
                 nmr_times = [data_processing.extract_date_time(path) for path in spectra_paths]
                 nmr_start_time, nmr_end_time = min(nmr_times), max(nmr_times)
@@ -86,25 +87,41 @@ def register_callbacks(app):
                 spectrum_runtime = []
                 ppm_values = None
 
-                for path in spectra_paths:
-                    dic, data, sw, obs, car, label, runtime = data_processing.read_nmr_data_lowmem(path, format_type)
-                    spectrum_runtime.append(runtime)
-
+                for index, path in enumerate(spectra_paths):
+                    # Ensure correct argument passing. Adjust according to the updated function signature
                     if not autophase_done:
-                        # Perform autophasing for the first spectrum
-                        dic, data, p0, p1 = data_processing.process_nmr_data(path, dic, data, sw, obs, car, format_type, runtime, apply_autophase=True)
+                        # For the first spectrum, apply autophasing
+                        dic, data, p0, p1, runtime, obs, sw, car = data_processing.process_nmr_data(
+                            path=path,
+                            nmr_format=format_type,
+                            apply_autophase=True,
+                            p0=0,
+                            p1=0
+                        )
+                        # Store phase parameters from the first spectrum for subsequent use
                         phase_params = (p0, p1)
                         autophase_done = True
                     else:
-                        # Apply the stored phase parameters for subsequent spectra
-                        dic, data, _, _ = data_processing.process_nmr_data(path, dic, data, sw, obs, car, format_type, runtime, p0=phase_params[0], p1=phase_params[1], apply_autophase=False)
+                        # For subsequent spectra, use stored phase parameters without autophasing
+                         dic, data, p0, p1, runtime, obs, sw, car = data_processing.process_nmr_data(
+                            path=path,
+                            nmr_format=format_type,
+                            apply_autophase=False,
+                            p0=phase_params[0],
+                            p1=phase_params[1]
+                        )
 
-                    uc = ng.pipe.make_uc(dic, data)
+                    spectrum_runtime.append(runtime)
+                    print(f"Spectrum {index + 1}: Runtime = {runtime}")
+
                     if ppm_values is None:
-                        ppm_values = uc.ppm_scale()  # Get ppm scale from the first spectrum
+                        uc = ng.pipe.make_uc(dic, data)
+                        ppm_values = uc.ppm_scale()
 
-                    intensity = data.real  # Assuming you want to plot the real part
+                    intensity = data.real
                     heatmap_intensity.append(intensity)
+                    print(
+                        f"Spectrum {index + 1}: Intensity length = {len(intensity)}, Heatmap length = {len(heatmap_intensity)}")
 
                 # Reduce the resolution for testing
                 # reduced_ppm_values = ppm_values[::10]  # Take every 1000th value as a sample

@@ -59,7 +59,7 @@ def read_bruker_lowmem(base_dir):
     return dic, data, sw, obs, car, label, runtime
 
 
-def process_nmr_data(path, dic, data, sw, obs, car, nmr_format, apply_autophase=True, p0=0.0, p1=0.0):
+def process_nmr_data(path, nmr_format, apply_autophase=True, p0=0.0, p1=0.0):
     """Process NMR data with optional autophasing, adaptable to different NMR formats."""
 
     # Ensure the cache directory exists
@@ -67,14 +67,17 @@ def process_nmr_data(path, dic, data, sw, obs, car, nmr_format, apply_autophase=
     os.makedirs(cache_dir, exist_ok=True)
     cache_path = os.path.join(cache_dir, 'nmr_data_cache.db')
 
-    uid = utils.generate_uid(path, nmr_format, sw, obs, car, apply_autophase, p0, p1)
+    uid = utils.generate_uid(path, nmr_format)
 
     with shelve.open(cache_path) as cache:
         if uid in cache:
             print(f"Retrieving cached data for UID: {uid}")
-            dic, data, p0, p1 = cache[uid]
+            dic, data, p0, p1, runtime, obs, sw, car = cache[uid]
         else:
             print(f"Processing and caching data for UID: {uid}")
+
+            dic, data, sw, obs, car, label, runtime = read_nmr_data_lowmem(path, nmr_format)
+
             # Your existing processing logic here
             if nmr_format == 'Varian':
                 udic = ng.varian.guess_udic(dic, data)
@@ -109,9 +112,9 @@ def process_nmr_data(path, dic, data, sw, obs, car, nmr_format, apply_autophase=
                 dic, data = ng.process.pipe_proc.ps(dic, data, p0=p0, p1=p1)
 
             # Cache the processed data
-            cache[uid] = (dic, data, p0, p1)
+            cache[uid] = (dic, data, p0, p1, runtime, obs, sw, car)
 
-    return dic, data, p0, p1
+    return dic, data, p0, p1, runtime, obs, sw, car
 
 def eclab_voltage(processed_voltage_df, start_time, end_time):
     # Ensure start_time and end_time are in datetime format
