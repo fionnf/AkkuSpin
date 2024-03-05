@@ -160,8 +160,8 @@ def process_eclab(directory):
 
     coulombic_efficiency = (discharge_capacity / charge_capacity) * 100
 
-    if mpl_file_path is not None and os.path.exists(mpl_file_path):
-        start_time = extract_start_time(mpl_file_path)
+    if mpl_file is not None and os.path.exists(mpl_file):
+        start_time = extract_start_time(mpl_file)
     else:
         start_time = pd.to_datetime(mpr_file.timestamp)
 
