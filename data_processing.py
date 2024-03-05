@@ -160,8 +160,11 @@ def process_eclab(directory):
 
     coulombic_efficiency = (discharge_capacity / charge_capacity) * 100
 
-    #absolote time handling
-    start_time = extract_start_time(mpl_file)
+    if mpl_file_path is not None and os.path.exists(mpl_file_path):
+        start_time = extract_start_time(mpl_file_path)
+    else:
+        start_time = pd.to_datetime(mpr_file.timestamp)
+
     df['Absolute_Time_UTC'] = df['time/s'].apply(lambda s: start_time + timedelta(seconds=s))
 
     time = df.groupby('Full_Cycle_Number')['time/s'].max()

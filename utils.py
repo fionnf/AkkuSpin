@@ -44,10 +44,12 @@ def identify_eclab_files(directory):
     for file in os.listdir(directory):
         if file.endswith('.mpr'):
             mpr_file = os.path.join(directory, file)
+            print('MPR found')
         elif file.endswith('.mpl'):
             mpl_file = os.path.join(directory, file)
-    if not mpr_file or not mpl_file:
-        raise FileNotFoundError("MPR or MPL file not found in the provided folder.")
+            print('MPL found')
+    if not mpr_file None:
+        raise FileNotFoundError("MPR file not found in the provided folder.")
 
     return mpr_file, mpl_file
 
