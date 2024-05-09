@@ -145,7 +145,8 @@ def register_callbacks(app):
                 fig.add_trace(fig_nmr_heatmap['data'][0], row=1, col=1)
                 fig.add_trace(fig_voltage_trace['data'][0], row=1, col=2)
 
-                fig.update_xaxes(title_text="Chemical Shift (ppm)", row=1, col=1)
+                fig.update_xaxes(range=[ppm_max, ppm_min], title_text="Chemical Shift (ppm)", row=1, col=1)
+
                 fig.update_yaxes(title_text="Time", row=1, col=1)
                 fig.update_xaxes(title_text="Voltage", row=1, col=2)
 

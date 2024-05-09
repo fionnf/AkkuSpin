@@ -18,18 +18,15 @@ def create_nmr_heatmap(ppm_values, nmr_times, heatmap_intensity):
         showscale=False),
     )
 
-    # Reverse the order of tick values and corresponding tick text
-    reversed_ppm_values = ppm_values[::-1]
-    reversed_ppm_text = [str(round(val, 2)) for val in reversed_ppm_values]
+    fig.update_xaxes(
+        title="Chemical Shift (ppm)",
+        autorange="reversed",
+        range=[ppm_values[-1], ppm_values[0]]  # Set the range explicitly from max to min
+    )
 
     fig.update_layout(
         title="NMR Data and Voltage Trace",
-        xaxis_title="Chemical Shift (ppm)",
-        yaxis_title="Time",
-        xaxis=dict(
-            tickvals=reversed_ppm_values,
-            ticktext=reversed_ppm_text
-        )
+        yaxis_title="Time"
     )
     return fig
 
