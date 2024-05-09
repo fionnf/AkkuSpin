@@ -17,10 +17,10 @@ def create_layout():
 
     config = {
         'toImageButtonOptions': {
-            'format': 'svg',
+            'format': 'png',
             'filename': 'nmr_heatmap',
             'height': 500,
-            'width': 700,
+            'width': 900,
             'scale': 1
         }
     }
@@ -33,7 +33,7 @@ def create_layout():
         # Interval component for live updates
         dcc.Interval(
             id='interval-component',
-            interval=200 * 1000,  # in milliseconds
+            interval=900 * 1000,  # in milliseconds
             n_intervals=0
         ),
 

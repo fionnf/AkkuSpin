@@ -18,3 +18,5 @@ print(f'Network address (accessible within your LAN): http://{local_ip}:8080')
 
 if __name__ == '__main__':
     app.run_server(debug=True, host='0.0.0.0', port=8080)
+
+#AKKUSPIN
