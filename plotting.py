@@ -11,19 +11,25 @@ def create_nmr_heatmap(ppm_values, nmr_times, heatmap_intensity):
     fig = make_subplots(rows=1, cols=1)
 
     fig.add_trace(go.Heatmap(
-        x=list(reversed(ppm_values)),
+        x=ppm_values,
         y=nmr_times,
         z=heatmap_intensity,
         colorscale='Viridis',
         showscale=False),
     )
 
-    fig.update_xaxes(autorange="reversed")
+    # Reverse the order of tick values and corresponding tick text
+    reversed_ppm_values = ppm_values[::-1]
+    reversed_ppm_text = [str(round(val, 2)) for val in reversed_ppm_values]
 
     fig.update_layout(
         title="NMR Data and Voltage Trace",
         xaxis_title="Chemical Shift (ppm)",
-        yaxis_title="Time"
+        yaxis_title="Time",
+        xaxis=dict(
+            tickvals=reversed_ppm_values,
+            ticktext=reversed_ppm_text
+        )
     )
     return fig
 
