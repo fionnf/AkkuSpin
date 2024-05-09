@@ -17,11 +17,11 @@ def create_layout():
 
     config = {
         'toImageButtonOptions': {
-            'format': 'svg',
+            'format': 'png',
             'filename': 'nmr_heatmap',
             'height': 500,
-            'width': 700,
-            'scale': 1
+            'width': 900,
+            'scale': 4
         }
     }
 

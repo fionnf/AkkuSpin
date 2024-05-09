@@ -1,0 +1,63 @@
+Index: plotting.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import plotly.graph_objs as go\r\nfrom plotly.subplots import make_subplots\r\nimport data_processing\r\nimport nmrglue as ng\r\nimport os\r\nimport numpy as np\r\nimport pandas as pd\r\n\r\n\r\ndef create_nmr_heatmap(ppm_values, nmr_times, heatmap_intensity):\r\n\r\n    fig = make_subplots(rows=1, cols=1)\r\n\r\n    fig.add_trace(go.Heatmap(\r\n        x=list(reversed(ppm_values)),\r\n        y=nmr_times,\r\n        z=heatmap_intensity,\r\n        colorscale='Viridis',\r\n        showscale=False),\r\n    )\r\n\r\n    fig.update_xaxes(autorange=\"reversed\")\r\n\r\n    fig.update_layout(\r\n        title=\"NMR Data and Voltage Trace\",\r\n        xaxis_title=\"Chemical Shift (ppm)\",\r\n        yaxis_title=\"Time\"\r\n    )\r\n    return fig\r\n\r\n\r\ndef create_voltage_trace(df):\r\n    fig = go.Figure()\r\n\r\n    fig.add_trace(go.Scatter(\r\n        x=df['Voltage'],\r\n        y=df['Timestamp'],\r\n        mode='lines',\r\n        line=dict(color='Red')\r\n    ))\r\n\r\n    fig.update_layout(\r\n        title=\"Voltage Trace\",\r\n        xaxis_title=\"Voltage (V)\",\r\n        yaxis_title=\"Time\"\r\n    )\r\n\r\n    return fig\r\n\r\n\r\n\r\ndef create_spectra_fig(first_spectrum_path, last_spectrum_path, format_type, nmr_start_time, nmr_end_time):\r\n    spectra_fig = go.Figure()\r\n\r\n    for idx, path in enumerate([first_spectrum_path, last_spectrum_path]):\r\n        if path:\r\n            dic, data, p0, p1, runtime, obs, sw, car = data_processing.process_nmr_data(\r\n                path=path,\r\n                nmr_format=format_type,\r\n                apply_autophase=True,\r\n                p0=0,\r\n                p1=0\r\n            )\r\n            uc = ng.pipe.make_uc(dic, data)\r\n            ppm = uc.ppm_scale()\r\n            intensity = data.real\r\n\r\n            spectra_fig.add_trace(go.Scatter(\r\n                x=list((ppm)),\r\n                y=intensity, mode='lines',\r\n                name=f'Spectrum {idx + 1} ({os.path.basename(path)})')\r\n            )\r\n\r\n            spectra_fig.update_xaxes(autorange=\"reversed\")\r\n\r\n    spectra_fig.update_layout(\r\n        title=f\"First and Last NMR Spectra ({nmr_start_time.strftime('%Y-%m-%d %H:%M:%S')} - {nmr_end_time.strftime('%Y-%m-%d %H:%M:%S')})\",\r\n        xaxis_title=\"Chemical Shift (ppm)\",\r\n        yaxis_title=\"Intensity\"\r\n    )\r\n\r\n    return spectra_fig\r\n\r\ndef create_3d_fid_plot(base_dir, format_type):\r\n\r\n    dic, data, sw, obs, car, label, runtime = data_processing.read_nmr_data_lowmem(base_dir, format_type)\r\n\r\n    time_points = np.linspace(0, len(data)/sw, len(data))\r\n\r\n    # Create a 3D scatter plot\r\n    fid_fig = go.Figure(data=[go.Scatter(\r\n        x=time_points,   # Time\r\n        y=data.real,     # Real part of the FID\r\n        #z=data.imag,     # Imaginary part of the FID\r\n        mode='lines',\r\n        #marker=dict(\r\n            #size=2,\r\n            #opacity=0.8\r\n        #)\r\n    )])\r\n\r\n    fid_fig.update_layout(title='Real FID', autosize=True, xaxis_title='Time (s)', yaxis_title='Intensity',\r\n                      margin=dict(l=65, r=50, b=65, t=90))\r\n\r\n    return fid_fig\r\n\r\n\r\ndef plot_capacities_and_efficiency_eclab(directory):\r\n    processed_df = data_processing.process_eclab(directory)\r\n    processed_df = processed_df[0]\r\n\r\n    # Create subplots: one y-axis for capacities, another for Coulombic Efficiency\r\n    fig = make_subplots(specs=[[{\"secondary_y\": True}]])\r\n\r\n    # Plot Charge and Discharge Capacities\r\n    fig.add_trace(go.Scatter(x=processed_df['Cycle_Number'], y=processed_df['Charge_Capacity'], mode='markers',\r\n                             name='Charge Capacity', marker=dict(color='blue')), secondary_y=False)\r\n    fig.add_trace(go.Scatter(x=processed_df['Cycle_Number'], y=processed_df['Discharge_Capacity'], mode='markers',\r\n                             name='Discharge Capacity', marker=dict(color='red')), secondary_y=False)\r\n\r\n    # Plot Coulombic Efficiency on secondary y-axis\r\n    fig.add_trace(\r\n        go.Scatter(x=processed_df['Cycle_Number'], y=processed_df['Coulombic Efficiency'], mode='markers',\r\n                   name='Coulombic Efficiency', marker=dict(color='green')), secondary_y=True)\r\n\r\n    # Set x-axis title\r\n    fig.update_xaxes(title_text=\"Cycle Number\",tickfont=dict(size=16), showgrid=False)\r\n\r\n    # Set y-axes titles\r\n    fig.update_yaxes(title_text=\"Capacity (mAh)\", secondary_y=False, tickfont=dict(size=16), showgrid=False)\r\n    fig.update_yaxes(title_text=\"Coulombic Efficiency (%)\", secondary_y=True, tickfont=dict(size=16), showgrid=False)\r\n\r\n    return fig
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/plotting.py b/plotting.py
+--- a/plotting.py	
++++ b/plotting.py	
+@@ -7,7 +7,13 @@
+ import pandas as pd
+ 
+ 
+-def create_nmr_heatmap(ppm_values, nmr_times, heatmap_intensity):
++def create_nmr_heatmap(ppm_values, nmr_times, heatmap_intensity, time_format='timestamp', start_time):
++
++    if time_format == 'abs':
++        nmr_times = [(time - start_time).total_seconds() for time in times]
++        y_axis_title = "Time since start (s)"
++    else:
++        y_axis_title = "Time"
+ 
+     fig = make_subplots(rows=1, cols=1)
+ 
+@@ -24,17 +30,25 @@
+     fig.update_layout(
+         title="NMR Data and Voltage Trace",
+         xaxis_title="Chemical Shift (ppm)",
+-        yaxis_title="Time"
++        yaxis_title=y_axis_title
+     )
+     return fig
+ 
+ 
+-def create_voltage_trace(df):
++def create_voltage_trace(df, time_format='timestamp', start_time):
++    if time_format == 'abs':
++        df['Time since start (s)'] = (df['Timestamp'] - start_time).dt.total_seconds()
++        y_axis_title = "Time since start (s)"
++        time_column = 'Time since start (s)'
++    else:
++        y_axis_title = "Time"
++        time_column = 'Timestamp'
++
+     fig = go.Figure()
+ 
+     fig.add_trace(go.Scatter(
+         x=df['Voltage'],
+-        y=df['Timestamp'],
++        y=df[time_column],
+         mode='lines',
+         line=dict(color='Red')
+     ))
+@@ -42,7 +56,7 @@
+     fig.update_layout(
+         title="Voltage Trace",
+         xaxis_title="Voltage (V)",
+-        yaxis_title="Time"
++        yaxis_title=y_axis_title
+     )
+ 
+     return fig
