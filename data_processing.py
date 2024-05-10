@@ -101,7 +101,7 @@ def process_nmr_data(path, nmr_format, apply_autophase=True, p0=0.0, p1=0.0):
                 C.from_bruker(dic, data, udic)
 
             dic, data = C.to_pipe()
-            dic, data = ng.pipe_proc.em(dic, data, lb=1)
+            dic, data = ng.pipe_proc.em(dic, data, lb=1.5)
             dic, data = ng.pipe_proc.zf(dic, data, auto=True)
             dic, data = ng.pipe_proc.ft(dic, data, auto=True)
 
