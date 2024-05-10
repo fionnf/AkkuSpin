@@ -8,11 +8,19 @@ import pandas as pd
 
 
 def create_nmr_heatmap(ppm_values, nmr_times, heatmap_intensity):
-    fig = make_subplots(rows=1, cols=1)
+    fig = go.Figure()
 
-    fig.add_trace(go.Heatmap(
+    # Re-create the y-axis with constant intervals.
+    # This depends on the ppm_values being recorded at almost constant intervals
+    # and a even distribution of data points across the time range.
+
+    y_axis_start = min(nmr_times).replace(second=0, microsecond=0)
+    y_axis_end = max(nmr_times).replace(second=0, microsecond=0)
+    y_axis = pd.date_range(start=y_axis_start, end=y_axis_end, periods=len(nmr_times))
+
+    fig.add_trace(go.Heatmapgl(
         x=ppm_values,
-        y=nmr_times,
+        y=y_axis,
         z=heatmap_intensity,
         colorscale='Viridis',
         showscale=False),
