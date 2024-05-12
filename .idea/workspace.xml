@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c46ea227-d559-4ffa-92c3-11a7b053a423" name="Changes" comment="issues with larger datasets">
+    <list default="true" id="c46ea227-d559-4ffa-92c3-11a7b053a423" name="Changes" comment="ci: gitignore">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_5_2024_12_23_PM_[Changes]/shelved.patch" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_5_2024_12_23_PM__Changes_.xml" beforeDir="false" />
@@ -104,7 +104,7 @@
       <option name="presentableId" value="Default" />
       <updated>1708342798048</updated>
       <workItem from="1708342811169" duration="4009000" />
-      <workItem from="1715517896304" duration="2152000" />
+      <workItem from="1715517896304" duration="2577000" />
     </task>
     <task id="LOCAL-00001" summary="finally rebased and working!">
       <option name="closed" value="true" />
@@ -122,7 +122,15 @@
       <option name="project" value="LOCAL" />
       <updated>1709659404942</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="ci: gitignore">
+      <option name="closed" value="true" />
+      <created>1715525465155</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1715525465155</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -143,7 +151,8 @@
     <MESSAGE value="commit" />
     <MESSAGE value="finally rebased and working!" />
     <MESSAGE value="Use old mpr fiole, when no mpl present." />
-    <option name="LAST_COMMIT_MESSAGE" value="Use old mpr fiole, when no mpl present." />
+    <MESSAGE value="ci: gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="ci: gitignore" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/NMRVolt$app.coverage" NAME="app Coverage Results" MODIFIED="1704407230014" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
