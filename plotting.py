@@ -12,24 +12,25 @@ def create_nmr_heatmap(ppm_values, nmr_times, heatmap_intensity):
 
     # Re-create the y-axis with constant intervals.
     # This depends on the ppm_values being recorded at almost constant intervals
-    # and a even distribution of data points across the time range.
+    # and an even distribution of data points across the time range.
 
     y_axis_start = min(nmr_times).replace(second=0, microsecond=0)
     y_axis_end = max(nmr_times).replace(second=0, microsecond=0)
     y_axis = pd.date_range(start=y_axis_start, end=y_axis_end, periods=len(nmr_times))
 
-    fig.add_trace(go.Heatmapgl(
+    fig.add_trace(go.Heatmap(
         x=ppm_values,
         y=y_axis,
         z=heatmap_intensity,
         colorscale='Viridis',
+        #zsmooth='best',
         showscale=False),
     )
 
     fig.update_xaxes(
         title="Chemical Shift (ppm)",
         autorange="reversed",
-        range=[ppm_values[-1], ppm_values[0]]  # Set the range explicitly from max to min
+        range=[ppm_values[-1], ppm_values[0]]
     )
 
     fig.update_layout(

@@ -1,4 +1,5 @@
 /cache_dir/
 __pycache__/
 data_dir/
+.idea/
 .DS_Store

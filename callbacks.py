@@ -134,7 +134,7 @@ def register_callbacks(app):
                 # Filter the ppm values and intensities according to the indices
                 filtered_ppm_values = [ppm_values[i] for i in ppm_indices]
                 filtered_heatmap_intensity = [[intensity[i] for i in ppm_indices] for intensity in heatmap_intensity]
-                filtered_ppm_values = list(reversed(filtered_ppm_values))
+                filtered_ppm_values = list(filtered_ppm_values)
 
                 # Create a subplot figure with 2 columns
                 fig = make_subplots(rows=1, cols=2, shared_yaxes=True, column_widths=[0.75, 0.25], horizontal_spacing=0.02)

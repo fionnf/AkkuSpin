@@ -20,8 +20,8 @@ def create_layout():
             'format': 'png',
             'filename': 'nmr_heatmap',
             'height': 500,
-            'width': 900,
-            'scale': 1
+            'width': 1100,
+            'scale': 3
         }
     }
 
@@ -43,10 +43,10 @@ def create_layout():
                 html.H2("Global Settings", style={'font-family': sans_serif_font, 'font-size': '18px', 'line-height': '1.5', 'padding': '10px', 'margin-top': '0'}),
                 html.Label("NMR Folder Path:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.Input(id='nmr_folder_input', type='text', placeholder='Enter NMR Folder Path',
-                          value=r'G:\.shortcut-targets-by-id\1gpf-XKVVvMHbMGqpyQS5Amwp9fh8r96B\RUG shared\Master Project\Experiment files\FF068\FF068', style=input_style),
+                          value=r'G:\My Drive\RUG shared\Master Project\Experiment files\FF025\FF025', style=input_style),
                 html.Label("Voltage Folder Path:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.Input(id='voltage_folder_input', type='text', placeholder='Enter Voltage Folder Path',
-                          value=r'X:\My Documents\Data\BioLogic\F068\FF068_a', style=input_style),
+                          value=r'G:\My Drive\RUG shared\Master Project\Experiment files\FF025\Akkuspin\Cycler', style=input_style),
                 html.Label("NMR Format:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.RadioItems(
                     id='nmr_format_selector',
@@ -89,11 +89,11 @@ def create_layout():
                 dcc.Input(id='live_time_window_input', type='number', placeholder='Enter Time Window', value=3,
                           style=input_style),
                 html.Label("Historic Start DateTime (YYYY-MM-DD HH:MM):", style={'font-family': sans_serif_font, 'font-size': '16px'}),
-                dcc.Input(id='past_start_datetime', type='text', placeholder='2024-04-12 19:00',
-                          style=input_style, value='2024-04-12 19:00'),
+                dcc.Input(id='past_start_datetime', type='text', placeholder='2023-11-14 17:56',
+                          style=input_style, value='2023-11-14 17:56'),
                 html.Label("Historic End DateTime (YYYY-MM-DD HH:MM):", style={'font-family': sans_serif_font, 'font-size': '16px'}),
-                dcc.Input(id='past_end_datetime', type='text', placeholder='2024-04-12 21:00',
-                          value='2024-04-12 21:00', style=input_style),
+                dcc.Input(id='past_end_datetime', type='text', placeholder='2023-11-15 01:06',
+                          value='2023-11-15 01:06', style=input_style),
             ], style={'width': '32%', 'background-color': '#f7f7f7', 'padding': '20px', 'box-sizing': 'border-box',
                       'margin-right': '2%'}),
 
@@ -101,10 +101,10 @@ def create_layout():
             html.Div([
                 html.H2("Plot Settings", style={'font-family': sans_serif_font, 'font-size': '18px', 'line-height': '1.5', 'padding': '10px', 'margin-top': '0'}),
                 html.Label("Min PPM:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
-                dcc.Input(id='ppm_min_input', type='number', placeholder='Min PPM', value=-60,
+                dcc.Input(id='ppm_min_input', type='number', placeholder='Min PPM', value=-59.5,
                           style=input_style),
                 html.Label("Max PPM:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
-                dcc.Input(id='ppm_max_input', type='number', placeholder='Max PPM', value=-51,
+                dcc.Input(id='ppm_max_input', type='number', placeholder='Max PPM', value=-57,
                           style=input_style),
                 html.Button('Update', id='update_button', n_clicks=0),
             ], style={'width': '32%', 'background-color': '#f7f7f7', 'padding': '20px', 'box-sizing': 'border-box'}),
