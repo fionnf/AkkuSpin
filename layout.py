@@ -43,10 +43,10 @@ def create_layout():
                 html.H2("Global Settings", style={'font-family': sans_serif_font, 'font-size': '18px', 'line-height': '1.5', 'padding': '10px', 'margin-top': '0'}),
                 html.Label("NMR Folder Path:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.Input(id='nmr_folder_input', type='text', placeholder='Enter NMR Folder Path',
-                          value=r'G:\My Drive\RUG shared\Master Project\Experiment files\FF025\FF025', style=input_style),
+                          value=r'G:\My Drive\RUG shared\Master Project\Data Backup\NMR400\FF060', style=input_style),
                 html.Label("Voltage Folder Path:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.Input(id='voltage_folder_input', type='text', placeholder='Enter Voltage Folder Path',
-                          value=r'G:\My Drive\RUG shared\Master Project\Experiment files\FF025\Akkuspin\Cycler', style=input_style),
+                          value=r'G:\My Drive\RUG shared\Master Project\Data Backup\XData\BioLogic\FF060', style=input_style),
                 html.Label("NMR Format:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.RadioItems(
                     id='nmr_format_selector',

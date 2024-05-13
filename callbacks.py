@@ -11,7 +11,7 @@ from datetime import datetime
 import plotting
 import dash
 from dash import callback_context
-
+import numpy as np
 def register_callbacks(app):
     @app.callback(
         [Output('nmr_plot', 'figure'),
@@ -70,6 +70,7 @@ def register_callbacks(app):
 
                 # Find NMR spectra in the calculated time range
                 spectra_paths = data_processing.find_spectra_in_range(nmr_folder, start_datetime, end_datetime, nucleus)
+                spectra_paths = sorted(spectra_paths)
                 print(f'finding nmr spectra in time range: {start_datetime},{end_datetime}')
                 # Extract times for the first and last NMR spectra
                 nmr_times = [data_processing.extract_date_time(path) for path in spectra_paths]
@@ -139,7 +140,8 @@ def register_callbacks(app):
                 # Create a subplot figure with 2 columns
                 fig = make_subplots(rows=1, cols=2, shared_yaxes=True, column_widths=[0.75, 0.25], horizontal_spacing=0.02)
 
-                fig_nmr_heatmap = plotting.create_nmr_heatmap(filtered_ppm_values, spectrum_runtime, filtered_heatmap_intensity)
+
+                fig_nmr_heatmap = plotting.create_nmr_heatmap(filtered_ppm_values, nmr_times, filtered_heatmap_intensity)
                 fig_voltage_trace = plotting.create_voltage_trace(volt_df)
 
                 fig.add_trace(fig_nmr_heatmap['data'][0], row=1, col=1)
