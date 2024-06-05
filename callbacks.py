@@ -170,7 +170,7 @@ def register_callbacks(app):
             print(f"Error in heatmap callback: {e}")
             return go.Figure(), go.Figure(), go.Figure(), go.Figure(), ""
 
-    @callback(
+    @app.callback(
         Output('input-storage', 'data'),
         [
             Input('nmr_folder_input', 'value'),
@@ -216,7 +216,7 @@ def register_callbacks(app):
         }
 
     # Callback to load input values from dcc.Store
-    @callback(
+    @app.callback(
         [
             Output('nmr_folder_input', 'value'),
             Output('voltage_folder_input', 'value'),
