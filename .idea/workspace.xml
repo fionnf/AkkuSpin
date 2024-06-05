@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c46ea227-d559-4ffa-92c3-11a7b053a423" name="Changes" comment="fix: input memory working">
+    <list default="true" id="c46ea227-d559-4ffa-92c3-11a7b053a423" name="Changes" comment="fix: allback fix for original callback">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/callbacks.py" beforeDir="false" afterPath="$PROJECT_DIR$/callbacks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_processing.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_processing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/layout.py" beforeDir="false" afterPath="$PROJECT_DIR$/layout.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +119,7 @@
       <workItem from="1716469531688" duration="1041000" />
       <workItem from="1717154918393" duration="3346000" />
       <workItem from="1717512284180" duration="1329000" />
-      <workItem from="1717576021014" duration="3141000" />
+      <workItem from="1717576021014" duration="5324000" />
     </task>
     <task id="LOCAL-00001" summary="finally rebased and working!">
       <option name="closed" value="true" />
@@ -169,7 +169,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717578307480</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="fix: allback fix for original callback">
+      <option name="closed" value="true" />
+      <created>1717579511361</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1717579511361</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -194,7 +202,8 @@
     <MESSAGE value="add integration UI" />
     <MESSAGE value="feat: input memory not fully working yet." />
     <MESSAGE value="fix: input memory working" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: input memory working" />
+    <MESSAGE value="fix: allback fix for original callback" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: allback fix for original callback" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/NMRVolt$cap.coverage" NAME="cap Coverage Results" MODIFIED="1704410607546" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -202,7 +211,7 @@
     <SUITE FILE_PATH="coverage/AkkuSpin$layout.coverage" NAME="layout Coverage Results" MODIFIED="1708384113996" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/NMRVolt$main.coverage" NAME="main Coverage Results" MODIFIED="1704816725475" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/AkkuSpin$callbacks.coverage" NAME="callbacks Coverage Results" MODIFIED="1708384205204" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/AkkuSpin$main.coverage" NAME="main Coverage Results" MODIFIED="1717579238006" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/AkkuSpin$main.coverage" NAME="main Coverage Results" MODIFIED="1717584283432" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/NMRVolt$app.coverage" NAME="app Coverage Results" MODIFIED="1704407230014" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

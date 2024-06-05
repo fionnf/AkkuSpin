@@ -299,6 +299,8 @@ def register_integration_callback(app):
         if n_clicks is None:
             raise PreventUpdate
 
+        print("Integrating spectra...")
+
         # Check if inputs are valid
         if not all([ppm_min, ppm_max, internal_ppm_min, internal_ppm_max, normalize_to, voltage_filter_type, voltage_filter_value, nmr_folder, voltage_folder]):
             return go.Figure()
