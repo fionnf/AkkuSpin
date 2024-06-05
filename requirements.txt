@@ -3,3 +3,4 @@ plotly
 numpy
 pandas
 nmrglue
+dash-bootstrap-components

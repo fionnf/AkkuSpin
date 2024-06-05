@@ -25,7 +25,7 @@ def create_nmr_heatmap(ppm_values, nmr_times, heatmap_intensity):
         y=y_axis,
         z=heatmap_intensity,
         colorscale='Viridis',
-        zsmooth='best',
+        #zsmooth='best',
         showscale=False),
     )
 
@@ -39,6 +39,11 @@ def create_nmr_heatmap(ppm_values, nmr_times, heatmap_intensity):
         title="NMR Data and Voltage Trace",
         yaxis_title="Time"
     )
+
+    if isinstance(heatmap_intensity, list):
+        print("NUMBER OF SPECTRA:", len(heatmap_intensity))
+
+
     return fig
 
 

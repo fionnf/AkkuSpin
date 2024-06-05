@@ -1,4 +1,54 @@
 from dash import html, dcc
+import dash_bootstrap_components as dbc
+
+
+def integration_layout(sans_serif_font, input_style):
+    return html.Div([
+        html.H2("Integration Settings", style={'font-family': sans_serif_font, 'font-size': '18px', 'line-height': '1.5', 'padding': '10px', 'margin-top': '0'}),
+        dbc.Row([
+            dbc.Col([
+                html.Label('PPM Range of Sample to Integrate', style={'font-family': sans_serif_font, 'font-size': '16px'}),
+                dcc.Input(id='ppm-range-min', type='number', placeholder='Min', step=0.01, style=input_style),
+                dcc.Input(id='ppm-range-max', type='number', placeholder='Max', step=0.01, style=input_style),
+            ], width=6),
+            dbc.Col([
+                html.Label('PPM Range of Internal Standard', style={'font-family': sans_serif_font, 'font-size': '16px'}),
+                dcc.Input(id='internal-ppm-range-min', type='number', placeholder='Min', step=0.01, style=input_style),
+                dcc.Input(id='internal-ppm-range-max', type='number', placeholder='Max', step=0.01, style=input_style),
+            ], width=6)
+        ]),
+        dbc.Row([
+            dbc.Col([
+                html.Label('Normalize Standard To', style={'font-family': sans_serif_font, 'font-size': '16px'}),
+                dcc.Input(id='normalize-standard-to', type='number', placeholder='Number', step=0.01, style=input_style),
+            ], width=6),
+            dbc.Col([
+                html.Label('Voltage Filter', style={'font-family': sans_serif_font, 'font-size': '16px'}),
+                dcc.RadioItems(
+                    id='voltage-filter-type',
+                    options=[
+                        {'label': '>', 'value': 'gt'},
+                        {'label': '<', 'value': 'lt'}
+                    ],
+                    value='gt',
+                    labelStyle={'display': 'inline-block', 'margin-right': '10px', 'font-family': sans_serif_font, 'font-size': '16px'},
+                    style={'margin-bottom': '10px'}
+                ),
+                dcc.Input(id='voltage-filter-value', type='number', placeholder='Value', step=0.01, style=input_style),
+            ], width=6)
+        ]),
+        dbc.Row([
+            dbc.Col([
+                html.Button('Integrate', id='integrate-button', n_clicks=0, style={'font-family': sans_serif_font, 'font-size': '16px', 'padding': '5px 10px'}),
+            ], width=12)
+        ], style={'margin-top': '10px'}),
+        dbc.Row([
+            dbc.Col([
+                dcc.Graph(id='nmr-plot')
+            ], width=12)
+        ])
+    ])
+
 
 def create_layout():
     sans_serif_font = 'Arial, sans-serif'
@@ -43,10 +93,10 @@ def create_layout():
                 html.H2("Global Settings", style={'font-family': sans_serif_font, 'font-size': '18px', 'line-height': '1.5', 'padding': '10px', 'margin-top': '0'}),
                 html.Label("NMR Folder Path:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.Input(id='nmr_folder_input', type='text', placeholder='Enter NMR Folder Path',
-                          value=r'G:\My Drive\RUG shared\Master Project\Data Backup\NMR400\FF060', style=input_style),
+                          value=r'C:\Users\S3941868\Downloads\Exp90-2h_19F\Exp90-2h_19F', style=input_style),
                 html.Label("Voltage Folder Path:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.Input(id='voltage_folder_input', type='text', placeholder='Enter Voltage Folder Path',
-                          value=r'G:\My Drive\RUG shared\Master Project\Data Backup\XData\BioLogic\FF060', style=input_style),
+                          value=r'C:\Users\S3941868\PycharmProjects\AkkuSpin\Test\Cyclerfolder', style=input_style),
                 html.Label("NMR Format:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.RadioItems(
                     id='nmr_format_selector',
@@ -141,6 +191,12 @@ def create_layout():
                            'margin-top': '0'}),
             dcc.Graph(id='fid_plot', style={'margin': '0'}, config=config),
         ], style={'width': '100%', 'margin': '0 auto'}),
+
+        # Integration layout
+        integration_layout(sans_serif_font, input_style),
+
+        # Store component to save input states
+        dcc.Store(id='input-storage', storage_type='local'),
 
         html.Div(id='dummy_div')
     ], style={'max-width': '90%', 'margin': '0 auto'})
