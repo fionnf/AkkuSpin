@@ -124,14 +124,6 @@ def register_callbacks(app):
                     intensity = data.real
                     heatmap_intensity.append(intensity)
 
-                # Reduce the resolution for larger widths
-                if ppm_max - ppm_min > 25:
-                    reduction_factor = 10
-                    # Apply resolution reduction
-                    print('Applying resolution reduction')
-                    ppm_values = ppm_values[::reduction_factor]
-                    heatmap_intensity = [intensity[::reduction_factor] for intensity in heatmap_intensity]
-
                 # Find the indices for the desired ppm range
                 ppm_indices = [i for i, ppm in enumerate(ppm_values) if ppm_min <= ppm <= ppm_max]
 
@@ -181,99 +173,6 @@ def register_callbacks(app):
             print(f"Error in heatmap callback: {e}")
             return go.Figure(), go.Figure(), go.Figure(), go.Figure(), ""
 
-    # Callback to save input values to dcc.Store
-    @app.callback(
-        Output('input-storage', 'data'),
-        [
-            Input('nmr_folder_input', 'value'),
-            Input('voltage_folder_input', 'value'),
-            Input('nmr_format_selector', 'value'),
-            Input('nucleus_selector', 'value'),
-            Input('data_selector', 'value'),
-            Input('live_time_window_input', 'value'),
-            Input('past_start_datetime', 'value'),
-            Input('past_end_datetime', 'value'),
-            Input('ppm_min_input', 'value'),
-            Input('ppm_max_input', 'value'),
-            Input('ppm-range-min', 'value'),
-            Input('ppm-range-max', 'value'),
-            Input('internal-ppm-range-min', 'value'),
-            Input('internal-ppm-range-max', 'value'),
-            Input('normalize-standard-to', 'value'),
-            Input('voltage-filter-type', 'value'),
-            Input('voltage-filter-value', 'value')
-        ],
-        prevent_initial_call=True  # Prevents this callback from running on initial page load
-    )
-    def save_inputs(nmr_folder, voltage_folder, nmr_format, nucleus, data_type, live_window, past_start, past_end,
-                    ppm_min, ppm_max, ppm_range_min, ppm_range_max, internal_ppm_min, internal_ppm_max,
-                    normalize_to, voltage_filter_type, voltage_filter_value):
-        return {
-            'nmr_folder': nmr_folder,
-            'voltage_folder': voltage_folder,
-            'nmr_format': nmr_format,
-            'nucleus': nucleus,
-            'data_type': data_type,
-            'live_window': live_window,
-            'past_start': past_start,
-            'past_end': past_end,
-            'ppm_min': ppm_min,
-            'ppm_max': ppm_max,
-            'ppm_range_min': ppm_range_min,
-            'ppm_range_max': ppm_range_max,
-            'internal_ppm_min': internal_ppm_min,
-            'internal_ppm_max': internal_ppm_max,
-            'normalize_to': normalize_to,
-            'voltage_filter_type': voltage_filter_type,
-            'voltage_filter_value': voltage_filter_value
-        }
-
-    # Callback to load input values from dcc.Store
-    @app.callback(
-        [
-            Output('nmr_folder_input', 'value'),
-            Output('voltage_folder_input', 'value'),
-            Output('nmr_format_selector', 'value'),
-            Output('nucleus_selector', 'value'),
-            Output('data_selector', 'value'),
-            Output('live_time_window_input', 'value'),
-            Output('past_start_datetime', 'value'),
-            Output('past_end_datetime', 'value'),
-            Output('ppm_min_input', 'value'),
-            Output('ppm_max_input', 'value'),
-            Output('ppm-range-min', 'value'),
-            Output('ppm-range-max', 'value'),
-            Output('internal-ppm-range-min', 'value'),
-            Output('internal-ppm-range-max', 'value'),
-            Output('normalize-standard-to', 'value'),
-            Output('voltage-filter-type', 'value'),
-            Output('voltage-filter-value', 'value')
-        ],
-        Input('input-storage', 'data')
-    )
-    def load_inputs(data):
-        if data is None:
-            raise PreventUpdate
-
-        return (
-            data.get('nmr_folder'),
-            data.get('voltage_folder'),
-            data.get('nmr_format'),
-            data.get('nucleus'),
-            data.get('data_type'),
-            data.get('live_window'),
-            data.get('past_start'),
-            data.get('past_end'),
-            data.get('ppm_min'),
-            data.get('ppm_max'),
-            data.get('ppm_range_min'),
-            data.get('ppm_range_max'),
-            data.get('internal_ppm_min'),
-            data.get('internal_ppm_max'),
-            data.get('normalize_to'),
-            data.get('voltage_filter_type'),
-            data.get('voltage_filter_value')
-        )
 
 
 def register_integration_callback(app):
