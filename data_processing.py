@@ -193,7 +193,11 @@ def process_eclab(directory):
 
 
 def integrate_spectrum(path, integration_limits):
-    dic, data = ng.pipe.read(path)
+    print("Integrating: ")
+    print(path)
+    dic, data, p0, p1, runtime, obs, sw, car = process_nmr_data(path, 'Varian', apply_autophase=True, p0=0.0, p1=0.0)
+    print("Spectrum processed")
+    print(data)
     uc = ng.pipe.make_uc(dic, data)
     ppm_scale = uc.ppm_scale()
 
@@ -213,3 +217,27 @@ def integrate_spectrum(path, integration_limits):
         results.append((name, peak_scale[0], peak_scale[-1], area))
 
     return results, ppm_scale, data
+
+
+def extract_eclab_start(directory):
+
+    eclabfiles = utils.identify_eclab_files(directory)
+    mpr_file_path = eclabfiles[0]
+    mpl_file = eclabfiles[1]
+    mpr_file = BioLogic.MPRfile(mpr_file_path)
+    df = pd.DataFrame(mpr_file.data)
+
+    def extract_start_time(mpl_file_path):
+        # Extracts the start time from an MPL file
+        with open(mpl_file_path, 'r', encoding='ISO-8859-1') as file:
+            for line in file:
+                if line.startswith('Acquisition started on :'):
+                    timestamp = line.split(':')[1].strip()
+                    return pd.to_datetime(timestamp)
+
+    if mpl_file is not None and os.path.exists(mpl_file):
+        start_time = extract_start_time(mpl_file)
+    else:
+        start_time = pd.to_datetime(mpr_file.timestamp)
+    print("start time:")
+    return start_time

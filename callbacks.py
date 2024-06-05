@@ -204,6 +204,8 @@ def register_integration_callback(app):
         if not all([ppm_min, ppm_max, internal_ppm_min, internal_ppm_max, normalize_to, voltage_filter_type, voltage_filter_value, nmr_folder, voltage_folder]):
             return go.Figure()
 
+        print("Inputs valid")
+
         # Read integration limits
         integration_limits = [
             ("peak", ppm_min, ppm_max),
@@ -213,6 +215,7 @@ def register_integration_callback(app):
         # Load voltage data
         eclab_df = data_processing.process_eclab(voltage_folder)
         ec_v_df = eclab_df[1]
+        voltages = ec_v_df['Voltage']
 
         # Filter voltage data based on the specified criteria
         if voltage_filter_type == 'gt':
@@ -220,22 +223,32 @@ def register_integration_callback(app):
         else:
             filtered_voltages = ec_v_df[ec_v_df['Voltage'] < voltage_filter_value]
 
-        # Extract the times from the filtered voltage data
-        valid_times = filtered_voltages['Time']
+        valid_times = filtered_voltages['Timestamp']
 
         # Load and process NMR spectra
-        spectra_paths = sorted(data_processing.find_spectra_in_range(nmr_folder, datetime.min, datetime.max, '1H'))  # Adjust the nucleus parameter as needed
+        spectra_paths = sorted(data_processing.find_spectra_in_range(nmr_folder, datetime.min, datetime.max, '19F'))  # Adjust the nucleus parameter as needed
         integrated_values = []
         times = []
 
         # Convert NMR spectrum times to pandas datetime for easier matching
         nmr_times = pd.Series([data_processing.extract_date_time(path) for path in spectra_paths])
 
+        # Extract start and end times of NMR spectra
+        nmr_start_time = nmr_times.min()
+        nmr_end_time = nmr_times.max()
+
+        # Filter voltage data based on the common time range
+        filtered_voltages = filtered_voltages[(filtered_voltages['Timestamp'] >= nmr_start_time) & (filtered_voltages['Timestamp'] <= nmr_end_time)]
+
+        valid_times = filtered_voltages['Timestamp']
+        print(valid_times)
+
         for voltage_time in valid_times:
             # Find the closest NMR time
             closest_nmr_time = nmr_times.iloc[(nmr_times - voltage_time).abs().argsort()[:1]].values[0]
             spectrum_path = spectra_paths[nmr_times[nmr_times == closest_nmr_time].index[0]]
-            results, ppm_scale, data = integrate_spectrum(spectrum_path, integration_limits)
+            results, ppm_scale, data = data_processing.integrate_spectrum(spectrum_path, integration_limits)
+            print(results)
             for name, start, stop, area in results:
                 if name == "internal_standard":
                     internal_standard_area = area

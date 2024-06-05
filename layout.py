@@ -8,19 +8,19 @@ def integration_layout(sans_serif_font, input_style):
         dbc.Row([
             dbc.Col([
                 html.Label('PPM Range of Sample to Integrate', style={'font-family': sans_serif_font, 'font-size': '16px'}),
-                dcc.Input(id='ppm-range-min', type='number', placeholder='Min', step=0.01, style=input_style),
-                dcc.Input(id='ppm-range-max', type='number', placeholder='Max', step=0.01, style=input_style),
+                dcc.Input(id='ppm-range-min', type='number', placeholder='Min', step=0.01, style=input_style, value='-80'),
+                dcc.Input(id='ppm-range-max', type='number', placeholder='Max', step=0.01, style=input_style, value='-60'),
             ], width=6),
             dbc.Col([
                 html.Label('PPM Range of Internal Standard', style={'font-family': sans_serif_font, 'font-size': '16px'}),
-                dcc.Input(id='internal-ppm-range-min', type='number', placeholder='Min', step=0.01, style=input_style),
-                dcc.Input(id='internal-ppm-range-max', type='number', placeholder='Max', step=0.01, style=input_style),
+                dcc.Input(id='internal-ppm-range-min', type='number', placeholder='Min', step=0.01, style=input_style, value='-115'),
+                dcc.Input(id='internal-ppm-range-max', type='number', placeholder='Max', step=0.01, style=input_style, value='-113'),
             ], width=6)
         ]),
         dbc.Row([
             dbc.Col([
                 html.Label('Normalize Standard To', style={'font-family': sans_serif_font, 'font-size': '16px'}),
-                dcc.Input(id='normalize-standard-to', type='number', placeholder='Number', step=0.01, style=input_style),
+                dcc.Input(id='normalize-standard-to', type='number', placeholder='Number', step=0.01, style=input_style, value='1'),
             ], width=6),
             dbc.Col([
                 html.Label('Voltage Filter', style={'font-family': sans_serif_font, 'font-size': '16px'}),
@@ -93,7 +93,7 @@ def create_layout():
                 html.H2("Global Settings", style={'font-family': sans_serif_font, 'font-size': '18px', 'line-height': '1.5', 'padding': '10px', 'margin-top': '0'}),
                 html.Label("NMR Folder Path:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.Input(id='nmr_folder_input', type='text', placeholder='Enter NMR Folder Path',
-                          value=r'C:\Users\S3941868\Downloads\Exp90-2h_19F\Exp90-2h_19F', style=input_style),
+                          value=r'C:\Users\S3941868\PycharmProjects\AkkuSpin\Test\NMR Folder', style=input_style),
                 html.Label("Voltage Folder Path:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.Input(id='voltage_folder_input', type='text', placeholder='Enter Voltage Folder Path',
                           value=r'C:\Users\S3941868\PycharmProjects\AkkuSpin\Test\Cyclerfolder', style=input_style),
