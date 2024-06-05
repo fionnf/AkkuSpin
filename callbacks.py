@@ -1,4 +1,5 @@
 from dash.dependencies import Input, Output, State
+from dash.exceptions import PreventUpdate
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 import data_processing
@@ -12,31 +13,37 @@ import plotting
 import dash
 from dash import callback_context
 import numpy as np
+
+
 def register_callbacks(app):
     @app.callback(
-        [Output('nmr_plot', 'figure'),
-         Output('first_last_spectrum_plot', 'figure'),
-         Output('fid_plot', 'figure'),
-         Output('cycle_plot', 'figure'),
-         Output('message_area', 'children'),],
-        [State('dummy_div', 'children'),
-         State('nmr_folder_input', 'value'),
-         State('voltage_folder_input', 'value'),
-         State('ppm_min_input', 'value'),
-         State('ppm_max_input', 'value'),
-         State('nmr_format_selector', 'value'),
-         State('nucleus_selector','value'),
-         State('data_selector', 'value'),
-         State('live_time_window_input', 'value'),
-         State('past_start_datetime', 'value'),
-         State('past_end_datetime','value')],
-         [Input('update_button', 'n_clicks'),
-         Input('interval-component', 'n_intervals')
-         ],
+        [
+            Output('nmr_plot', 'figure'),
+            Output('first_last_spectrum_plot', 'figure'),
+            Output('fid_plot', 'figure'),
+            Output('cycle_plot', 'figure'),
+            Output('message_area', 'children'),
+        ],
+        [
+            State('dummy_div', 'children'),
+            State('nmr_folder_input', 'value'),
+            State('voltage_folder_input', 'value'),
+            State('ppm_min_input', 'value'),
+            State('ppm_max_input', 'value'),
+            State('nmr_format_selector', 'value'),
+            State('nucleus_selector', 'value'),
+            State('data_selector', 'value'),
+            State('live_time_window_input', 'value'),
+            State('past_start_datetime', 'value'),
+            State('past_end_datetime', 'value'),
+        ],
+        [
+            Input('update_button', 'n_clicks'),
+            Input('interval-component', 'n_intervals'),
+        ],
     )
-
-    def update_plots(_, nmr_folder, voltage_folder, ppm_min, ppm_max, format_type,
-                     nucleus, data_selector, live_time_window, past_start_datetime, past_end_datetime, n_clicks, n_intervals):
+    def update_plots(_, nmr_folder, voltage_folder, ppm_min, ppm_max, format_type, nucleus, data_selector,
+                     live_time_window, past_start_datetime, past_end_datetime, n_clicks, n_intervals):
         ctx = callback_context
 
         # Identify what triggered the callback
@@ -45,11 +52,11 @@ def register_callbacks(app):
         if not all([nmr_folder, voltage_folder, ppm_min, ppm_max, format_type, nucleus, data_selector, live_time_window,
                     past_start_datetime, past_end_datetime]):
             error_message = "Incomplete or invalid input. Please check your inputs."
-            return go.Figure(), go.Figure(), go.Figure(), error_message
+            return go.Figure(), go.Figure(), go.Figure(), go.Figure(), error_message
 
         if ppm_min > ppm_max:
             error_message = "ppm min > ppm max, Choose a valid ppm range"
-            return go.Figure(), go.Figure(), go.Figure(), error_message
+            return go.Figure(), go.Figure(), go.Figure(), go.Figure(), error_message
 
         try:
             if trigger_id == 'update_button' or trigger_id == 'interval-component':
@@ -58,20 +65,21 @@ def register_callbacks(app):
                 if data_selector == 'live':
                     end_datetime = utils.get_most_recent_time(nmr_folder)
                     if end_datetime is None:
-                        raise ValueError("No NMR spectra found in the specified folder, or incorrect spectra naming (eg. 1H_20231101T000823.fid).")
-                    start_datetime = end_datetime - utils.datetime.timedelta(hours=float(live_time_window))
+                        raise ValueError(
+                            "No NMR spectra found in the specified folder, or incorrect spectra naming (eg. 1H_20231101T000823.fid).")
+                    start_datetime = end_datetime - datetime.timedelta(hours=float(live_time_window))
                 elif data_selector == 'past':
                     # Calculate past time range based on user input
                     start_datetime = datetime.strptime(past_start_datetime, '%Y-%m-%d %H:%M')
                     end_datetime = datetime.strptime(past_end_datetime, '%Y-%m-%d %H:%M')
-                elif data_selector != 'live' and data_selector != 'past':
-                    raise ValueError('dataselector: ', data_selector)
-
+                else:
+                    raise ValueError(f'Invalid data selector: {data_selector}')
 
                 # Find NMR spectra in the calculated time range
                 spectra_paths = data_processing.find_spectra_in_range(nmr_folder, start_datetime, end_datetime, nucleus)
                 spectra_paths = sorted(spectra_paths)
-                print(f'finding nmr spectra in time range: {start_datetime},{end_datetime}')
+                print(f'Finding NMR spectra in time range: {start_datetime}, {end_datetime}')
+
                 # Extract times for the first and last NMR spectra
                 nmr_times = [data_processing.extract_date_time(path) for path in spectra_paths]
                 nmr_start_time, nmr_end_time = min(nmr_times), max(nmr_times)
@@ -104,7 +112,7 @@ def register_callbacks(app):
                         autophase_done = True
                     else:
                         # For subsequent spectra, use stored phase parameters without autophasing
-                         dic, data, p0, p1, runtime, obs, sw, car = data_processing.process_nmr_data(
+                        dic, data, p0, p1, runtime, obs, sw, car = data_processing.process_nmr_data(
                             path=path,
                             nmr_format=format_type,
                             apply_autophase=False,
@@ -130,24 +138,23 @@ def register_callbacks(app):
                 filtered_ppm_values = list(filtered_ppm_values)
 
                 # Create a subplot figure with 2 columns
-                fig = make_subplots(rows=1, cols=2, shared_yaxes=True, column_widths=[0.75, 0.25], horizontal_spacing=0.02)
+                fig = make_subplots(rows=1, cols=2, shared_yaxes=True, column_widths=[0.75, 0.25],
+                                    horizontal_spacing=0.02)
 
-
-                fig_nmr_heatmap = plotting.create_nmr_heatmap(filtered_ppm_values, nmr_times, filtered_heatmap_intensity)
+                fig_nmr_heatmap = plotting.create_nmr_heatmap(filtered_ppm_values, nmr_times,
+                                                              filtered_heatmap_intensity)
                 fig_voltage_trace = plotting.create_voltage_trace(volt_df)
 
                 fig.add_trace(fig_nmr_heatmap['data'][0], row=1, col=1)
                 fig.add_trace(fig_voltage_trace['data'][0], row=1, col=2)
 
                 fig.update_xaxes(range=[ppm_max, ppm_min], title_text="Chemical Shift (ppm)", row=1, col=1)
-
                 fig.update_yaxes(title_text="Time", row=1, col=1)
                 fig.update_xaxes(title_text="Voltage", row=1, col=2)
 
                 first_spectrum_path, last_spectrum_path = utils.find_first_last_spectra(nmr_folder, nucleus)
-
-                spectra_fig = plotting.create_spectra_fig(first_spectrum_path, last_spectrum_path, format_type, nmr_start_time, nmr_end_time)
-
+                spectra_fig = plotting.create_spectra_fig(first_spectrum_path, last_spectrum_path, format_type,
+                                                          nmr_start_time, nmr_end_time)
                 fid_fig = plotting.create_3d_fid_plot(last_spectrum_path, format_type)
 
                 # Check if electrochemistry data directory is provided
@@ -165,11 +172,11 @@ def register_callbacks(app):
             else:
                 print("Callback triggered by an unexpected source.")
                 return go.Figure(), go.Figure(), go.Figure(), go.Figure(), ""
-
         except Exception as e:
             print(f"Error in heatmap callback: {e}")
             return go.Figure(), go.Figure(), go.Figure(), go.Figure(), ""
 
+    # Callback to save input values to dcc.Store
     @app.callback(
         Output('input-storage', 'data'),
         [
@@ -190,7 +197,8 @@ def register_callbacks(app):
             Input('normalize-standard-to', 'value'),
             Input('voltage-filter-type', 'value'),
             Input('voltage-filter-value', 'value')
-        ]
+        ],
+        prevent_initial_call=True  # Prevents this callback from running on initial page load
     )
     def save_inputs(nmr_folder, voltage_folder, nmr_format, nucleus, data_type, live_window, past_start, past_end,
                     ppm_min, ppm_max, ppm_range_min, ppm_range_max, internal_ppm_min, internal_ppm_max,
@@ -261,4 +269,3 @@ def register_callbacks(app):
             data.get('voltage_filter_type'),
             data.get('voltage_filter_value')
         )
-
