@@ -8,7 +8,7 @@ import os
 import eclabfiles as ecf
 import pandas as pd
 import nmrglue as ng
-from datetime import datetime
+from datetime import datetime, timedelta
 import plotting
 import dash
 from dash import callback_context
@@ -17,33 +17,29 @@ import numpy as np
 
 def register_callbacks(app):
     @app.callback(
-        [
-            Output('nmr_plot', 'figure'),
-            Output('first_last_spectrum_plot', 'figure'),
-            Output('fid_plot', 'figure'),
-            Output('cycle_plot', 'figure'),
-            Output('message_area', 'children'),
-        ],
-        [
-            State('dummy_div', 'children'),
-            State('nmr_folder_input', 'value'),
-            State('voltage_folder_input', 'value'),
-            State('ppm_min_input', 'value'),
-            State('ppm_max_input', 'value'),
-            State('nmr_format_selector', 'value'),
-            State('nucleus_selector', 'value'),
-            State('data_selector', 'value'),
-            State('live_time_window_input', 'value'),
-            State('past_start_datetime', 'value'),
-            State('past_end_datetime', 'value'),
-        ],
-        [
-            Input('update_button', 'n_clicks'),
-            Input('interval-component', 'n_intervals'),
-        ],
+        [Output('nmr_plot', 'figure'),
+         Output('first_last_spectrum_plot', 'figure'),
+         Output('fid_plot', 'figure'),
+         Output('cycle_plot', 'figure'),
+         Output('message_area', 'children'),],
+        [State('dummy_div', 'children'),
+         State('nmr_folder_input', 'value'),
+         State('voltage_folder_input', 'value'),
+         State('ppm_min_input', 'value'),
+         State('ppm_max_input', 'value'),
+         State('nmr_format_selector', 'value'),
+         State('nucleus_selector','value'),
+         State('data_selector', 'value'),
+         State('live_time_window_input', 'value'),
+         State('past_start_datetime', 'value'),
+         State('past_end_datetime','value')],
+         [Input('update_button', 'n_clicks'),
+         Input('interval-component', 'n_intervals')
+         ],
     )
-    def update_plots(_, nmr_folder, voltage_folder, ppm_min, ppm_max, format_type, nucleus, data_selector,
-                     live_time_window, past_start_datetime, past_end_datetime, n_clicks, n_intervals):
+
+    def update_plots(_, nmr_folder, voltage_folder, ppm_min, ppm_max, format_type,
+                     nucleus, data_selector, live_time_window, past_start_datetime, past_end_datetime, n_clicks, n_intervals):
         ctx = callback_context
 
         # Identify what triggered the callback
@@ -52,11 +48,11 @@ def register_callbacks(app):
         if not all([nmr_folder, voltage_folder, ppm_min, ppm_max, format_type, nucleus, data_selector, live_time_window,
                     past_start_datetime, past_end_datetime]):
             error_message = "Incomplete or invalid input. Please check your inputs."
-            return go.Figure(), go.Figure(), go.Figure(), go.Figure(), error_message
+            return go.Figure(), go.Figure(), go.Figure(), error_message
 
         if ppm_min > ppm_max:
             error_message = "ppm min > ppm max, Choose a valid ppm range"
-            return go.Figure(), go.Figure(), go.Figure(), go.Figure(), error_message
+            return go.Figure(), go.Figure(), go.Figure(), error_message
 
         try:
             if trigger_id == 'update_button' or trigger_id == 'interval-component':
@@ -65,21 +61,20 @@ def register_callbacks(app):
                 if data_selector == 'live':
                     end_datetime = utils.get_most_recent_time(nmr_folder)
                     if end_datetime is None:
-                        raise ValueError(
-                            "No NMR spectra found in the specified folder, or incorrect spectra naming (eg. 1H_20231101T000823.fid).")
-                    start_datetime = end_datetime - datetime.timedelta(hours=float(live_time_window))
+                        raise ValueError("No NMR spectra found in the specified folder, or incorrect spectra naming (eg. 1H_20231101T000823.fid).")
+                    start_datetime = end_datetime - utils.datetime.timedelta(hours=float(live_time_window))
                 elif data_selector == 'past':
                     # Calculate past time range based on user input
                     start_datetime = datetime.strptime(past_start_datetime, '%Y-%m-%d %H:%M')
                     end_datetime = datetime.strptime(past_end_datetime, '%Y-%m-%d %H:%M')
-                else:
-                    raise ValueError(f'Invalid data selector: {data_selector}')
+                elif data_selector != 'live' and data_selector != 'past':
+                    raise ValueError('dataselector: ', data_selector)
+
 
                 # Find NMR spectra in the calculated time range
                 spectra_paths = data_processing.find_spectra_in_range(nmr_folder, start_datetime, end_datetime, nucleus)
                 spectra_paths = sorted(spectra_paths)
-                print(f'Finding NMR spectra in time range: {start_datetime}, {end_datetime}')
-
+                print(f'finding nmr spectra in time range: {start_datetime},{end_datetime}')
                 # Extract times for the first and last NMR spectra
                 nmr_times = [data_processing.extract_date_time(path) for path in spectra_paths]
                 nmr_start_time, nmr_end_time = min(nmr_times), max(nmr_times)
@@ -112,7 +107,7 @@ def register_callbacks(app):
                         autophase_done = True
                     else:
                         # For subsequent spectra, use stored phase parameters without autophasing
-                        dic, data, p0, p1, runtime, obs, sw, car = data_processing.process_nmr_data(
+                         dic, data, p0, p1, runtime, obs, sw, car = data_processing.process_nmr_data(
                             path=path,
                             nmr_format=format_type,
                             apply_autophase=False,
@@ -129,6 +124,14 @@ def register_callbacks(app):
                     intensity = data.real
                     heatmap_intensity.append(intensity)
 
+                # Reduce the resolution for larger widths
+                if ppm_max - ppm_min > 25:
+                    reduction_factor = 10
+                    # Apply resolution reduction
+                    print('Applying resolution reduction')
+                    ppm_values = ppm_values[::reduction_factor]
+                    heatmap_intensity = [intensity[::reduction_factor] for intensity in heatmap_intensity]
+
                 # Find the indices for the desired ppm range
                 ppm_indices = [i for i, ppm in enumerate(ppm_values) if ppm_min <= ppm <= ppm_max]
 
@@ -138,23 +141,24 @@ def register_callbacks(app):
                 filtered_ppm_values = list(filtered_ppm_values)
 
                 # Create a subplot figure with 2 columns
-                fig = make_subplots(rows=1, cols=2, shared_yaxes=True, column_widths=[0.75, 0.25],
-                                    horizontal_spacing=0.02)
+                fig = make_subplots(rows=1, cols=2, shared_yaxes=True, column_widths=[0.75, 0.25], horizontal_spacing=0.02)
 
-                fig_nmr_heatmap = plotting.create_nmr_heatmap(filtered_ppm_values, nmr_times,
-                                                              filtered_heatmap_intensity)
+
+                fig_nmr_heatmap = plotting.create_nmr_heatmap(filtered_ppm_values, nmr_times, filtered_heatmap_intensity)
                 fig_voltage_trace = plotting.create_voltage_trace(volt_df)
 
                 fig.add_trace(fig_nmr_heatmap['data'][0], row=1, col=1)
                 fig.add_trace(fig_voltage_trace['data'][0], row=1, col=2)
 
                 fig.update_xaxes(range=[ppm_max, ppm_min], title_text="Chemical Shift (ppm)", row=1, col=1)
+
                 fig.update_yaxes(title_text="Time", row=1, col=1)
                 fig.update_xaxes(title_text="Voltage", row=1, col=2)
 
                 first_spectrum_path, last_spectrum_path = utils.find_first_last_spectra(nmr_folder, nucleus)
-                spectra_fig = plotting.create_spectra_fig(first_spectrum_path, last_spectrum_path, format_type,
-                                                          nmr_start_time, nmr_end_time)
+
+                spectra_fig = plotting.create_spectra_fig(first_spectrum_path, last_spectrum_path, format_type, nmr_start_time, nmr_end_time)
+
                 fid_fig = plotting.create_3d_fid_plot(last_spectrum_path, format_type)
 
                 # Check if electrochemistry data directory is provided
@@ -172,6 +176,7 @@ def register_callbacks(app):
             else:
                 print("Callback triggered by an unexpected source.")
                 return go.Figure(), go.Figure(), go.Figure(), go.Figure(), ""
+
         except Exception as e:
             print(f"Error in heatmap callback: {e}")
             return go.Figure(), go.Figure(), go.Figure(), go.Figure(), ""
@@ -269,3 +274,89 @@ def register_callbacks(app):
             data.get('voltage_filter_type'),
             data.get('voltage_filter_value')
         )
+
+
+def register_integration_callback(app):
+    @app.callback(
+        Output('int-plot', 'figure'),
+        [
+            Input('integrate-button', 'n_clicks')
+        ],
+        [
+            State('ppm-range-min', 'value'),
+            State('ppm-range-max', 'value'),
+            State('internal-ppm-range-min', 'value'),
+            State('internal-ppm-range-max', 'value'),
+            State('normalize-standard-to', 'value'),
+            State('voltage-filter-type', 'value'),
+            State('voltage-filter-value', 'value'),
+            State('nmr_folder_input', 'value'),
+            State('voltage_folder_input', 'value')
+        ]
+    )
+    def integrate_spectra(n_clicks, ppm_min, ppm_max, internal_ppm_min, internal_ppm_max, normalize_to,
+                          voltage_filter_type, voltage_filter_value, nmr_folder, voltage_folder):
+        if n_clicks is None:
+            raise PreventUpdate
+
+        # Check if inputs are valid
+        if not all([ppm_min, ppm_max, internal_ppm_min, internal_ppm_max, normalize_to, voltage_filter_type, voltage_filter_value, nmr_folder, voltage_folder]):
+            return go.Figure()
+
+        # Read integration limits
+        integration_limits = [
+            ("peak", ppm_min, ppm_max),
+            ("internal_standard", internal_ppm_min, internal_ppm_max)
+        ]
+
+        # Load voltage data
+        eclab_df = data_processing.process_eclab(voltage_folder)
+        ec_v_df = eclab_df[1]
+
+        # Filter voltage data based on the specified criteria
+        if voltage_filter_type == 'gt':
+            filtered_voltages = ec_v_df[ec_v_df['Voltage'] > voltage_filter_value]
+        else:
+            filtered_voltages = ec_v_df[ec_v_df['Voltage'] < voltage_filter_value]
+
+        # Extract the times from the filtered voltage data
+        valid_times = filtered_voltages['Time']
+
+        # Load and process NMR spectra
+        spectra_paths = sorted(data_processing.find_spectra_in_range(nmr_folder, datetime.min, datetime.max, '1H'))  # Adjust the nucleus parameter as needed
+        integrated_values = []
+        times = []
+
+        # Convert NMR spectrum times to pandas datetime for easier matching
+        nmr_times = pd.Series([data_processing.extract_date_time(path) for path in spectra_paths])
+
+        for voltage_time in valid_times:
+            # Find the closest NMR time
+            closest_nmr_time = nmr_times.iloc[(nmr_times - voltage_time).abs().argsort()[:1]].values[0]
+            spectrum_path = spectra_paths[nmr_times[nmr_times == closest_nmr_time].index[0]]
+            results, ppm_scale, data = integrate_spectrum(spectrum_path, integration_limits)
+            for name, start, stop, area in results:
+                if name == "internal_standard":
+                    internal_standard_area = area
+                else:
+                    integrated_area = area
+            normalized_value = (integrated_area / internal_standard_area) * normalize_to
+            integrated_values.append(normalized_value)
+            times.append(closest_nmr_time)
+
+        # Plot the integrated values over time
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=times, y=integrated_values, mode='lines+markers', name='Integrated Area'))
+
+        # Plot the NMR spectra with integration lines
+        for path in spectra_paths:
+            spectrum_time = data_processing.extract_date_time(path)
+            if spectrum_time in times:
+                results, ppm_scale, data = integrate_spectrum(path, integration_limits)
+                fig.add_trace(go.Scatter(x=ppm_scale, y=data, mode='lines', name='NMR Spectrum'))
+                for name, start, stop, area in results:
+                    fig.add_trace(go.Scatter(x=[start, stop], y=[0, 0], mode='lines', name=f'{name} Integration', line=dict(color='red')))
+
+        fig.update_layout(title='Integrated NMR Spectra', xaxis_title='Time', yaxis_title='Integrated Area')
+
+        return fig

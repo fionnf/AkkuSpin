@@ -190,3 +190,26 @@ def process_eclab(directory):
     })
     print('MPR Processed')
     return processed_cycle_df, processed_voltage_df
+
+
+def integrate_spectrum(path, integration_limits):
+    dic, data = ng.pipe.read(path)
+    uc = ng.pipe.make_uc(dic, data)
+    ppm_scale = uc.ppm_scale()
+
+    results = []
+    for name, start, end in integration_limits:
+        min_index = uc(start, "ppm")
+        max_index = uc(end, "ppm")
+        if min_index > max_index:
+            min_index, max_index = max_index, min_index
+
+        # Extract the peak
+        peak = data[min_index:max_index + 1]
+        peak_scale = ppm_scale[min_index:max_index + 1]
+
+        # Calculate the integrated area
+        area = np.trapz(peak, peak_scale)
+        results.append((name, peak_scale[0], peak_scale[-1], area))
+
+    return results, ppm_scale, data

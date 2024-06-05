@@ -44,7 +44,7 @@ def integration_layout(sans_serif_font, input_style):
         ], style={'margin-top': '10px'}),
         dbc.Row([
             dbc.Col([
-                dcc.Graph(id='nmr-plot')
+                dcc.Graph(id='int-plot')
             ], width=12)
         ])
     ])
