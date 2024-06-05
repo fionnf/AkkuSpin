@@ -208,7 +208,7 @@ def register_integration_callback(app):
 
         # Read integration limits
         integration_limits = [
-            ("peak", ppm_min, ppm_max),
+            ("anolyte", ppm_min, ppm_max),
             ("internal_standard", internal_ppm_min, internal_ppm_max)
         ]
 

@@ -73,6 +73,7 @@ def process_nmr_data(path, nmr_format, apply_autophase=True, p0=0.0, p1=0.0):
         if uid in cache:
             print(f"Retrieving cached data for UID: {uid}")
             dic, data, p0, p1, runtime, obs, sw, car = cache[uid]
+            #print(dic)
         else:
             print(f"Processing and caching data for UID: {uid}")
 
@@ -197,26 +198,26 @@ def integrate_spectrum(path, integration_limits):
     print(path)
     dic, data, p0, p1, runtime, obs, sw, car = process_nmr_data(path, 'Varian', apply_autophase=True, p0=0.0, p1=0.0)
     print("Spectrum processed")
-    print(data)
     uc = ng.pipe.make_uc(dic, data)
     ppm_scale = uc.ppm_scale()
 
     results = []
     for name, start, end in integration_limits:
-        min_index = uc(start, "ppm")
-        max_index = uc(end, "ppm")
-        if min_index > max_index:
-            min_index, max_index = max_index, min_index
+        print(name, start, end)
 
         # Extract the peak
+        min_index = int(start)
+        max_index = int(end)
         peak = data[min_index:max_index + 1]
         peak_scale = ppm_scale[min_index:max_index + 1]
+        print(peak, peak_scale, name)
 
-        # Calculate the integrated area
-        area = np.trapz(peak, peak_scale)
-        results.append((name, peak_scale[0], peak_scale[-1], area))
+        # Integrate using the trapezoidal rule
+        integral = np.trapz(peak, x=peak_scale)
+        print(integral)
+        results.append((name, start, end, integral))
 
-    return results, ppm_scale, data
+    return results
 
 
 def extract_eclab_start(directory):
