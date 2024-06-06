@@ -1,5 +1,6 @@
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
+from dash import dcc
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 import data_processing
@@ -11,9 +12,6 @@ import nmrglue as ng
 from datetime import datetime, timedelta
 import plotting
 import dash
-from dash import callback_context
-import numpy as np
-
 
 def register_callbacks(app):
     @app.callback(
@@ -198,13 +196,11 @@ def register_integration_callback(app):
         if n_clicks is None:
             raise PreventUpdate
 
-        print("Integrating spectra...")
-
         # Check if inputs are valid
         if not all([ppm_min, ppm_max, internal_ppm_min, internal_ppm_max, normalize_to, voltage_filter_type, voltage_filter_value, nmr_folder, voltage_folder]):
             return go.Figure()
 
-        print("Inputs valid")
+        print("Integration Inputs valid")
 
         # Read integration limits
         integration_limits = [
@@ -241,36 +237,23 @@ def register_integration_callback(app):
         filtered_voltages = filtered_voltages[(filtered_voltages['Timestamp'] >= nmr_start_time) & (filtered_voltages['Timestamp'] <= nmr_end_time)]
 
         valid_times = filtered_voltages['Timestamp']
-        print(valid_times)
 
         for voltage_time in valid_times:
             # Find the closest NMR time
             closest_nmr_time = nmr_times.iloc[(nmr_times - voltage_time).abs().argsort()[:1]].values[0]
             spectrum_path = spectra_paths[nmr_times[nmr_times == closest_nmr_time].index[0]]
             results = data_processing.integrate_spectrum(spectrum_path, integration_limits)
-            print("Integration Done!")
-            print(results)
             internal_standard_area = None
             integrated_area = None
             for name, start, stop, area in results:
-                print("Name:", name)
-                print("Start:", start)
-                print("Stop:", stop)
-                print("Area:", area)
                 if name == "internal_standard":
                     internal_standard_area = area
-                    print(internal_standard_area)
                 else:
                     integrated_area = area
-                    print(integrated_area)
                 # Calculate normalized value if both areas are obtained
-            print(internal_standard_area, integrated_area)
             normalized_value = integrated_area/internal_standard_area
             integrated_values.append(normalized_value)
             times.append(closest_nmr_time)
-            print("Loop iteration done")
-        print(integrated_values)
-        print(times)
 
         # Convert numpy datetime64 objects to Python datetime objects
         times = [ts.astype('M8[ms]').astype('O') for ts in times]
@@ -289,7 +272,14 @@ def register_integration_callback(app):
                 type='date'  # Set x-axis type to date
             )
         )
-
-        print("Plotting complete")
+        text_content = utils.generate_text_content(integrated_values, times)
+        print("------------- INTEGRALS TEXT -------------")
+        print("Minimum PPM:", ppm_min)
+        print("Maximum PPM:", ppm_max)
+        print(text_content)
+        print("------------- INTEGRALS List -------------")
+        print(integrated_values)
+        print(times)
+        print("------------------------------------------")
 
         return fig

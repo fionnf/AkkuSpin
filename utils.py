@@ -62,3 +62,9 @@ def generate_uid(path, nucleus, *args):
     uid = hashlib.sha256(combined.encode()).hexdigest()
 
     return uid
+
+def generate_text_content(integrated_values, times):
+    content = "Timestamp, Integrated Value\n"
+    for time, value in zip(times, integrated_values):
+        content += f"{time},{value}\n"
+    return content
