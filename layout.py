@@ -1,8 +1,8 @@
 from dash import html, dcc
 import dash_bootstrap_components as dbc
 
-cyclerfolder = r"C:\Users\fionn\Desktop\AkkuSpin\Test\Cyclerfolder"
-NMR_folder = r"C:\Users\fionn\Desktop\AkkuSpin\Test\NMR Folder"
+cyclerfolder = r"G:\My Drive\RUG shared\Master Project\Experiment files\FF069\FF069_Akkuspin\Cyclerfolder"
+NMR_folder = r"G:\My Drive\RUG shared\Master Project\Experiment files\FF069\FF069"
 
 def integration_layout(sans_serif_font, input_style):
     radio_size = '16px'
@@ -14,13 +14,13 @@ def integration_layout(sans_serif_font, input_style):
         dbc.Row([
             dbc.Col([
                 html.Label('PPM Range of Sample to Integrate', style={'font-family': sans_serif_font, 'font-size': '16px'}),
-                dcc.Input(id='ppm-range-min', type='number', placeholder='Min', step=0.01, style=input_style, value='-80'),
-                dcc.Input(id='ppm-range-max', type='number', placeholder='Max', step=0.01, style=input_style, value='-60'),
+                dcc.Input(id='ppm-range-min', type='number', placeholder='Min', step=0.0001, style=input_style, value='-58.9'),
+                dcc.Input(id='ppm-range-max', type='number', placeholder='Max', step=0.0001, style=input_style, value='-58.6'),
             ], width=4),
             dbc.Col([
                 html.Label('PPM Range of Internal Standard', style={'font-family': sans_serif_font, 'font-size': '16px'}),
-                dcc.Input(id='internal-ppm-range-min', type='number', placeholder='Min', step=0.01, style=input_style, value='-115'),
-                dcc.Input(id='internal-ppm-range-max', type='number', placeholder='Max', step=0.01, style=input_style, value='-113'),
+                dcc.Input(id='internal-ppm-range-min', type='number', placeholder='Min', step=0.0001, style=input_style, value='-115'),
+                dcc.Input(id='internal-ppm-range-max', type='number', placeholder='Max', step=0.0001, style=input_style, value='-113'),
             ], width=4),
             dbc.Col([
                 dcc.RadioItems(
@@ -34,9 +34,9 @@ def integration_layout(sans_serif_font, input_style):
                     style={'font-family': sans_serif_font, 'font-size': radio_size}
                 ),
                 html.Label("Integration Start DateTime (YYYY-MM-DD HH:MM):", style={'font-family': sans_serif_font, 'font-size': '16px'}),
-                dcc.Input(id='int_start_datetime', type='text', placeholder='2023-11-14 17:56', style=input_style, value='2023-11-14 17:56'),
+                dcc.Input(id='int_start_datetime', type='text', placeholder='2023-11-14 17:56', style=input_style, value='2024-04-22 13:00'),
                 html.Label("Integration End DateTime (YYYY-MM-DD HH:MM):", style={'font-family': sans_serif_font, 'font-size': '16px'}),
-                dcc.Input(id='int_end_datetime', type='text', placeholder='2023-11-15 01:06', value='2023-11-15 01:06', style=input_style),
+                dcc.Input(id='int_end_datetime', type='text', placeholder='2023-11-15 01:06', value='2024-04-22 20:00', style=input_style),
             ], width=4)
         ]),
         dbc.Row([
@@ -70,8 +70,6 @@ def integration_layout(sans_serif_font, input_style):
             ], width=12)
         ])
     ], style={'max-width': '90%', 'margin': '0 auto', 'background-color': '#f7f7f7', 'box-sizing': 'border-box'})
-
-
 
 def create_layout():
     sans_serif_font = 'Arial, sans-serif'
@@ -162,10 +160,10 @@ def create_layout():
                 dcc.Input(id='live_time_window_input', type='number', placeholder='Enter Time Window', value=3,
                           style=input_style),
                 html.Label("Historic Start DateTime (YYYY-MM-DD HH:MM):", style={'font-family': sans_serif_font, 'font-size': '16px'}),
-                dcc.Input(id='past_start_datetime', type='text', placeholder='2023-11-14 17:56',
+                dcc.Input(id='past_start_datetime', type='text', placeholder='2024-04-22 13:00',
                           style=input_style, value='2023-11-14 17:56'),
                 html.Label("Historic End DateTime (YYYY-MM-DD HH:MM):", style={'font-family': sans_serif_font, 'font-size': '16px'}),
-                dcc.Input(id='past_end_datetime', type='text', placeholder='2023-11-15 01:06',
+                dcc.Input(id='past_end_datetime', type='text', placeholder='2024-04-22 20:00',
                           value='2023-11-15 01:06', style=input_style),
             ], style={'width': '32%', 'background-color': '#f7f7f7', 'padding': '20px', 'box-sizing': 'border-box',
                       'margin-right': '2%'}),

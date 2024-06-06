@@ -195,31 +195,31 @@ def process_eclab(directory):
 
 
 def integrate_spectrum(path, integration_limits):
-    print("Integrating: ")
-    print(path)
+    print("Integrating: ", path)
     dic, data, p0, p1, runtime, obs, sw, car = process_nmr_data(path, 'Varian', apply_autophase=True, p0=0.0, p1=0.0)
-    print("Spectrum processed")
     uc = ng.pipe.make_uc(dic, data)
-    ppm_scale = uc.ppm_scale()
+    ppm_scale = np.array(uc.ppm_scale(), dtype=float)
 
     results = []
     for name, start, end in integration_limits:
-        print(name, start, end)
+        print("Integrating: ", name, start, end)
+        start = float(start)  # Convert start to float
+        end = float(end)  # Convert end to float
 
         # Extract the peak
-        min_index = int(start)
-        max_index = int(end)
-        peak = data[min_index:max_index + 1]
-        peak_scale = ppm_scale[min_index:max_index + 1]
-        #print(peak, peak_scale, name)
+        # Find nearest ppm indices for start and end values
+        min_index = np.abs(ppm_scale - start).argmin()
+        max_index = np.abs(ppm_scale - end).argmin()
+        peak = data[max_index:min_index + 1]
+        peak_scale = ppm_scale[max_index:min_index + 1]
 
         # Integrate using the trapezoidal rule
+        print("Integrating numerically: ")
         integral = np.trapz(np.abs(peak), x=peak_scale)
         print(integral)
         results.append((name, start, end, integral))
 
     return results
-
 
 def extract_eclab_start(directory):
 

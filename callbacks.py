@@ -261,7 +261,7 @@ def register_integration_callback(app):
                 else:
                     integrated_area = area
                 # Calculate normalized value if both areas are obtained
-            normalized_value = integrated_area/internal_standard_area
+            normalized_value = integrated_area#/internal_standard_area
             integrated_values.append(normalized_value)
             times.append(closest_nmr_time)
 
