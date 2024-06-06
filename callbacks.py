@@ -271,19 +271,25 @@ def register_integration_callback(app):
             print("Loop iteration done")
         print(integrated_values)
         print(times)
-        # Plot the integrated values over time
+
+        # Convert numpy datetime64 objects to Python datetime objects
+        times = [ts.astype('M8[ms]').astype('O') for ts in times]
+
+        # Create the plot
         fig = go.Figure()
-        fig.add_trace(go.Scatter(x=times, y=integrated_values, mode='lines+markers', name='Integrated Area'))
+        fig.add_trace(go.Scatter(x=times, y=integrated_values, mode='markers', name='Integrated peak'))
+        # Adding a line trace
+        # fig.add_trace(go.Scatter(x=times, y=integrated_values, mode='lines', name='Integrated peak (line)'))
+        # Display the plot
+        fig.update_layout(
+            title='Integrated NMR Spectra',
+            xaxis_title='Timestamp',
+            yaxis_title='Integrated Area',
+            xaxis=dict(
+                type='date'  # Set x-axis type to date
+            )
+        )
 
-        # Plot the NMR spectra with integration lines
-        for path in spectra_paths:
-            spectrum_time = data_processing.extract_date_time(path)
-            if spectrum_time in times:
-                results, ppm_scale, data = integrate_spectrum(path, integration_limits)
-                fig.add_trace(go.Scatter(x=ppm_scale, y=data, mode='lines', name='NMR Spectrum'))
-                for name, start, stop, area in results:
-                    fig.add_trace(go.Scatter(x=[start, stop], y=[0, 0], mode='lines', name=f'{name} Integration', line=dict(color='red')))
-
-        fig.update_layout(title='Integrated NMR Spectra', xaxis_title='Time', yaxis_title='Integrated Area')
+        print("Plotting complete")
 
         return fig

@@ -1,6 +1,8 @@
 from dash import html, dcc
 import dash_bootstrap_components as dbc
 
+cyclerfolder = r"C:\Users\fionn\Desktop\AkkuSpin\Test\Cyclerfolder"
+NMR_folder = r"C:\Users\fionn\Desktop\AkkuSpin\Test\NMR Folder"
 
 def integration_layout(sans_serif_font, input_style):
     return html.Div([
@@ -93,10 +95,10 @@ def create_layout():
                 html.H2("Global Settings", style={'font-family': sans_serif_font, 'font-size': '18px', 'line-height': '1.5', 'padding': '10px', 'margin-top': '0'}),
                 html.Label("NMR Folder Path:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.Input(id='nmr_folder_input', type='text', placeholder='Enter NMR Folder Path',
-                          value=r'C:\Users\S3941868\PycharmProjects\AkkuSpin\Test\NMR Folder', style=input_style),
+                          value=NMR_folder, style=input_style),
                 html.Label("Voltage Folder Path:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.Input(id='voltage_folder_input', type='text', placeholder='Enter Voltage Folder Path',
-                          value=r'C:\Users\S3941868\PycharmProjects\AkkuSpin\Test\Cyclerfolder', style=input_style),
+                          value=cyclerfolder, style=input_style),
                 html.Label("NMR Format:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.RadioItems(
                     id='nmr_format_selector',
