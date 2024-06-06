@@ -247,17 +247,30 @@ def register_integration_callback(app):
             # Find the closest NMR time
             closest_nmr_time = nmr_times.iloc[(nmr_times - voltage_time).abs().argsort()[:1]].values[0]
             spectrum_path = spectra_paths[nmr_times[nmr_times == closest_nmr_time].index[0]]
-            results, ppm_scale, data = data_processing.integrate_spectrum(spectrum_path, integration_limits)
+            results = data_processing.integrate_spectrum(spectrum_path, integration_limits)
+            print("Integration Done!")
             print(results)
+            internal_standard_area = None
+            integrated_area = None
             for name, start, stop, area in results:
+                print("Name:", name)
+                print("Start:", start)
+                print("Stop:", stop)
+                print("Area:", area)
                 if name == "internal_standard":
                     internal_standard_area = area
+                    print(internal_standard_area)
                 else:
                     integrated_area = area
-            normalized_value = (integrated_area / internal_standard_area) * normalize_to
+                    print(integrated_area)
+                # Calculate normalized value if both areas are obtained
+            print(internal_standard_area, integrated_area)
+            normalized_value = integrated_area/internal_standard_area
             integrated_values.append(normalized_value)
             times.append(closest_nmr_time)
-
+            print("Loop iteration done")
+        print(integrated_values)
+        print(times)
         # Plot the integrated values over time
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=times, y=integrated_values, mode='lines+markers', name='Integrated Area'))

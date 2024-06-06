@@ -8,6 +8,7 @@ import pandas as pd
 import shelve
 import hashlib
 import os
+import numpy as np
 
 
 
@@ -210,10 +211,10 @@ def integrate_spectrum(path, integration_limits):
         max_index = int(end)
         peak = data[min_index:max_index + 1]
         peak_scale = ppm_scale[min_index:max_index + 1]
-        print(peak, peak_scale, name)
+        #print(peak, peak_scale, name)
 
         # Integrate using the trapezoidal rule
-        integral = np.trapz(peak, x=peak_scale)
+        integral = np.trapz(np.abs(peak), x=peak_scale)
         print(integral)
         results.append((name, start, end, integral))
 
