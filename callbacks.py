@@ -12,6 +12,7 @@ import nmrglue as ng
 from datetime import datetime, timedelta
 import plotting
 import dash
+from dash import callback_context
 
 def register_callbacks(app):
     @app.callback(
@@ -188,16 +189,21 @@ def register_integration_callback(app):
             State('voltage-filter-type', 'value'),
             State('voltage-filter-value', 'value'),
             State('nmr_folder_input', 'value'),
-            State('voltage_folder_input', 'value')
+            State('voltage_folder_input', 'value'),
+            State('data_int', 'value'),
+            State('int_start_datetime', 'value'),
+            State('int_end_datetime', 'value')
         ]
     )
     def integrate_spectra(n_clicks, ppm_min, ppm_max, internal_ppm_min, internal_ppm_max, normalize_to,
-                          voltage_filter_type, voltage_filter_value, nmr_folder, voltage_folder):
+                          voltage_filter_type, voltage_filter_value, nmr_folder, voltage_folder,data_int,
+                          int_start_datetime, int_end_datetime):
         if n_clicks is None:
             raise PreventUpdate
 
         # Check if inputs are valid
-        if not all([ppm_min, ppm_max, internal_ppm_min, internal_ppm_max, normalize_to, voltage_filter_type, voltage_filter_value, nmr_folder, voltage_folder]):
+        if not all([ppm_min, ppm_max, internal_ppm_min, internal_ppm_max, normalize_to, voltage_filter_type, voltage_filter_value, nmr_folder, voltage_folder,data_int,
+                          int_start_datetime, int_end_datetime]):
             return go.Figure()
 
         print("Integration Inputs valid")
@@ -228,6 +234,10 @@ def register_integration_callback(app):
 
         # Convert NMR spectrum times to pandas datetime for easier matching
         nmr_times = pd.Series([data_processing.extract_date_time(path) for path in spectra_paths])
+        if data_int == 'range':
+            start_datetime = pd.to_datetime(int_start_datetime)
+            end_datetime = pd.to_datetime(int_end_datetime)
+            nmr_times = nmr_times[(nmr_times >= start_datetime) & (nmr_times <= end_datetime)]
 
         # Extract start and end times of NMR spectra
         nmr_start_time = nmr_times.min()

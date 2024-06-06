@@ -5,25 +5,45 @@ cyclerfolder = r"C:\Users\fionn\Desktop\AkkuSpin\Test\Cyclerfolder"
 NMR_folder = r"C:\Users\fionn\Desktop\AkkuSpin\Test\NMR Folder"
 
 def integration_layout(sans_serif_font, input_style):
+    radio_size = '16px'
     return html.Div([
-        html.H2("Integration Settings", style={'font-family': sans_serif_font, 'font-size': '18px', 'line-height': '1.5', 'padding': '10px', 'margin-top': '0'}),
+        html.Div([
+            html.H2("Integration Settings", style={'font-family': sans_serif_font, 'font-size': '18px', 'line-height': '1.5', 'padding': '10px', 'margin-top': '0'}),
+        ], style={ 'margin': '0', 'padding': '0'}),
+
         dbc.Row([
             dbc.Col([
                 html.Label('PPM Range of Sample to Integrate', style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.Input(id='ppm-range-min', type='number', placeholder='Min', step=0.01, style=input_style, value='-80'),
                 dcc.Input(id='ppm-range-max', type='number', placeholder='Max', step=0.01, style=input_style, value='-60'),
-            ], width=6),
+            ], width=4),
             dbc.Col([
                 html.Label('PPM Range of Internal Standard', style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.Input(id='internal-ppm-range-min', type='number', placeholder='Min', step=0.01, style=input_style, value='-115'),
                 dcc.Input(id='internal-ppm-range-max', type='number', placeholder='Max', step=0.01, style=input_style, value='-113'),
-            ], width=6)
+            ], width=4),
+            dbc.Col([
+                dcc.RadioItems(
+                    id='data_int',
+                    options=[
+                        {'label': 'Plot all Data', 'value': 'all'},
+                        {'label': 'Plot time range', 'value': 'range'}
+                    ],
+                    value='all',
+                    labelStyle={'display': 'block'},
+                    style={'font-family': sans_serif_font, 'font-size': radio_size}
+                ),
+                html.Label("Integration Start DateTime (YYYY-MM-DD HH:MM):", style={'font-family': sans_serif_font, 'font-size': '16px'}),
+                dcc.Input(id='int_start_datetime', type='text', placeholder='2023-11-14 17:56', style=input_style, value='2023-11-14 17:56'),
+                html.Label("Integration End DateTime (YYYY-MM-DD HH:MM):", style={'font-family': sans_serif_font, 'font-size': '16px'}),
+                dcc.Input(id='int_end_datetime', type='text', placeholder='2023-11-15 01:06', value='2023-11-15 01:06', style=input_style),
+            ], width=4)
         ]),
         dbc.Row([
             dbc.Col([
                 html.Label('Normalize Standard To', style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.Input(id='normalize-standard-to', type='number', placeholder='Number', step=0.01, style=input_style, value='1'),
-            ], width=6),
+            ], width=4),
             dbc.Col([
                 html.Label('Voltage Filter', style={'font-family': sans_serif_font, 'font-size': '16px'}),
                 dcc.RadioItems(
@@ -37,7 +57,7 @@ def integration_layout(sans_serif_font, input_style):
                     style={'margin-bottom': '10px'}
                 ),
                 dcc.Input(id='voltage-filter-value', type='number', placeholder='Value', step=0.01, style=input_style),
-            ], width=6)
+            ], width=4)
         ]),
         dbc.Row([
             dbc.Col([
@@ -49,7 +69,8 @@ def integration_layout(sans_serif_font, input_style):
                 dcc.Graph(id='int-plot')
             ], width=12)
         ])
-    ])
+    ], style={'max-width': '90%', 'margin': '0 auto', 'background-color': '#f7f7f7', 'box-sizing': 'border-box'})
+
 
 
 def create_layout():
