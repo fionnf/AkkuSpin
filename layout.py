@@ -29,7 +29,7 @@ def integration_layout(sans_serif_font, input_style):
                         {'label': 'Plot all Data', 'value': 'all'},
                         {'label': 'Plot time range', 'value': 'range'}
                     ],
-                    value='all',
+                    value='range',
                     labelStyle={'display': 'block'},
                     style={'font-family': sans_serif_font, 'font-size': radio_size}
                 ),
@@ -56,7 +56,7 @@ def integration_layout(sans_serif_font, input_style):
                     labelStyle={'display': 'inline-block', 'margin-right': '10px', 'font-family': sans_serif_font, 'font-size': '16px'},
                     style={'margin-bottom': '10px'}
                 ),
-                dcc.Input(id='voltage-filter-value', type='number', placeholder='Value', step=0.01, style=input_style),
+                dcc.Input(id='voltage-filter-value', type='number', placeholder='Value', step=0.0001, style=input_style),
             ], width=4)
         ]),
         dbc.Row([
