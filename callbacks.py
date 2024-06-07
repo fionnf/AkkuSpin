@@ -250,7 +250,16 @@ def register_integration_callback(app):
         # Filter voltage data based on the common time range
         filtered_voltages = filtered_voltages[(filtered_voltages['Timestamp'] >= nmr_start_time) & (filtered_voltages['Timestamp'] <= nmr_end_time)]
 
+        def round_to_nearest_minute(timestamp):
+            return timestamp.replace(second=0, microsecond=0)
+
         valid_times = filtered_voltages['Timestamp']
+        valid_times_rounded = [round_to_nearest_minute(time) for time in valid_times]
+        valid_times_filtered = []
+        for time in valid_times_rounded:
+            if time not in valid_times_filtered:
+                valid_times_filtered.append(time)
+        valid_times = valid_times_filtered
 
         # Initialize progress bar
         progress_bar = tqdm(total=len(valid_times), desc="Integration Progress")
