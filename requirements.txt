@@ -4,3 +4,4 @@ numpy
 pandas
 nmrglue
 dash-bootstrap-components
+tqdm

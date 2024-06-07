@@ -72,11 +72,11 @@ def process_nmr_data(path, nmr_format, apply_autophase=True, p0=0.0, p1=0.0):
 
     with shelve.open(cache_path) as cache:
         if uid in cache:
-            print(f"Retrieving cached data for UID: {uid}")
+            #print(f"Retrieving cached data for UID: {uid}")
             dic, data, p0, p1, runtime, obs, sw, car = cache[uid]
             #print(dic)
         else:
-            print(f"Processing and caching data for UID: {uid}")
+            #print(f"Processing and caching data for UID: {uid}")
 
             dic, data, sw, obs, car, label, runtime = read_nmr_data_lowmem(path, nmr_format)
 
@@ -131,8 +131,6 @@ def eclab_voltage(processed_voltage_df, start_time, end_time):
 
 
 def process_eclab(directory):
-
-    print('Processing MPR file')
 
     eclabfiles = utils.identify_eclab_files(directory)
     mpr_file_path = eclabfiles[0]
@@ -195,14 +193,13 @@ def process_eclab(directory):
 
 
 def integrate_spectrum(path, integration_limits):
-    print("Integrating: ", path)
+    #print("Integrating: ", path)
     dic, data, p0, p1, runtime, obs, sw, car = process_nmr_data(path, 'Varian', apply_autophase=True, p0=0.0, p1=0.0)
     uc = ng.pipe.make_uc(dic, data)
     ppm_scale = np.array(uc.ppm_scale(), dtype=float)
 
     results = []
     for name, start, end in integration_limits:
-        print("Integrating: ", name, start, end)
         start = float(start)  # Convert start to float
         end = float(end)  # Convert end to float
 
@@ -214,9 +211,7 @@ def integrate_spectrum(path, integration_limits):
         peak_scale = ppm_scale[max_index:min_index + 1]
 
         # Integrate using the trapezoidal rule
-        print("Integrating numerically: ")
         integral = np.trapz(np.abs(peak), x=peak_scale)
-        print(integral)
         results.append((name, start, end, integral))
 
     return results

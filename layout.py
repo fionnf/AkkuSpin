@@ -1,8 +1,8 @@
 from dash import html, dcc
 import dash_bootstrap_components as dbc
 
-cyclerfolder = r"G:\My Drive\RUG shared\Master Project\Experiment files\FF069\FF069_Akkuspin\Cyclerfolder"
-NMR_folder = r"G:\My Drive\RUG shared\Master Project\Experiment files\FF069\FF069"
+cyclerfolder = r"G:\.shortcut-targets-by-id\1gpf-XKVVvMHbMGqpyQS5Amwp9fh8r96B\RUG shared\Master Project\Experiment files\FF069\FF069_Akkuspin\Cyclerfolder"
+NMR_folder = r"G:\.shortcut-targets-by-id\1gpf-XKVVvMHbMGqpyQS5Amwp9fh8r96B\RUG shared\Master Project\Experiment files\FF069\FF069"
 
 def integration_layout(sans_serif_font, input_style):
     radio_size = '16px'
@@ -14,7 +14,7 @@ def integration_layout(sans_serif_font, input_style):
         dbc.Row([
             dbc.Col([
                 html.Label('PPM Range of Sample to Integrate', style={'font-family': sans_serif_font, 'font-size': '16px'}),
-                dcc.Input(id='ppm-range-min', type='number', placeholder='Min', step=0.0001, style=input_style, value='-58.9'),
+                dcc.Input(id='ppm-range-min', type='number', placeholder='Min', step=0.0001, style=input_style, value='-58.7'),
                 dcc.Input(id='ppm-range-max', type='number', placeholder='Max', step=0.0001, style=input_style, value='-58.6'),
             ], width=4),
             dbc.Col([

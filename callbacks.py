@@ -13,6 +13,7 @@ from datetime import datetime, timedelta
 import plotting
 import dash
 from dash import callback_context
+from tqdm import tqdm
 
 def register_callbacks(app):
     @app.callback(
@@ -89,7 +90,7 @@ def register_callbacks(app):
                 heatmap_intensity = []
                 spectrum_runtime = []
                 ppm_values = None
-
+                progress_bar = tqdm(total=len(spectra_paths), desc="Processing Spectra")
                 for index, path in enumerate(spectra_paths):
                     # Ensure correct argument passing. Adjust according to the updated function signature
                     if not autophase_done:
@@ -122,6 +123,8 @@ def register_callbacks(app):
 
                     intensity = data.real
                     heatmap_intensity.append(intensity)
+                    progress_bar.update(1)
+                progress_bar.close()
 
                 # Find the indices for the desired ppm range
                 ppm_indices = [i for i, ppm in enumerate(ppm_values) if ppm_min <= ppm <= ppm_max]
@@ -232,6 +235,7 @@ def register_integration_callback(app):
         integrated_values = []
         times = []
 
+
         # Convert NMR spectrum times to pandas datetime for easier matching
         nmr_times = pd.Series([data_processing.extract_date_time(path) for path in spectra_paths])
         if data_int == 'range':
@@ -247,6 +251,9 @@ def register_integration_callback(app):
         filtered_voltages = filtered_voltages[(filtered_voltages['Timestamp'] >= nmr_start_time) & (filtered_voltages['Timestamp'] <= nmr_end_time)]
 
         valid_times = filtered_voltages['Timestamp']
+
+        # Initialize progress bar
+        progress_bar = tqdm(total=len(valid_times), desc="Integration Progress")
 
         for voltage_time in valid_times:
             # Find the closest NMR time
@@ -264,7 +271,8 @@ def register_integration_callback(app):
             normalized_value = integrated_area#/internal_standard_area
             integrated_values.append(normalized_value)
             times.append(closest_nmr_time)
-
+            progress_bar.update(1)
+        progress_bar.close()
         # Convert numpy datetime64 objects to Python datetime objects
         times = [ts.astype('M8[ms]').astype('O') for ts in times]
 
