@@ -7,11 +7,10 @@ import numpy as np
 import pandas as pd
 
 
-def create_nmr_heatmap(ppm_values, nmr_times, heatmap_intensity):
+def create_nmr_heatmap(ppm_values, nmr_times, heatmap_intensity, experiment_start_time):
     fig = go.Figure()
 
     # Calculate time since the start of the experiment
-    experiment_start_time = min(nmr_times)
     time_since_start = [(t - experiment_start_time).total_seconds() / 3600 for t in nmr_times]  # Time in hours
 
     # Add heatmap trace

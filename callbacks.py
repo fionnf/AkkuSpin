@@ -143,8 +143,12 @@ def register_callbacks(app):
                 # Create a subplot figure with 2 columns
                 fig = make_subplots(rows=1, cols=2, shared_yaxes=True, column_widths=[0.75, 0.25], horizontal_spacing=0.02)
 
-                experiment_start_time = min(nmr_times)
-                fig_nmr_heatmap = plotting.create_nmr_heatmap(filtered_ppm_values, nmr_times, filtered_heatmap_intensity)
+                # Get the true start time (timestamp of the first spectrum in the folder)
+                true_start_time = utils.find_true_start_time(nmr_folder, nucleus)
+                experiment_start_time = true_start_time
+                print("Start time for plot")
+                print(experiment_start_time)
+                fig_nmr_heatmap = plotting.create_nmr_heatmap(filtered_ppm_values, nmr_times, filtered_heatmap_intensity, experiment_start_time)
                 # Pass the start time to the voltage trace function
                 fig_voltage_trace = plotting.create_voltage_trace(volt_df, experiment_start_time)
 
@@ -153,7 +157,7 @@ def register_callbacks(app):
 
                 fig.update_xaxes(range=[ppm_max, ppm_min], title_text="Chemical Shift (ppm)", row=1, col=1)
 
-                fig.update_yaxes(title_text="Time", row=1, col=1)
+                fig.update_yaxes(title_text="Exp. Time (hours)", row=1, col=1)
                 fig.update_xaxes(title_text="Voltage", row=1, col=2)
 
                 first_spectrum_path, last_spectrum_path = utils.find_first_last_spectra(nmr_folder, nucleus)

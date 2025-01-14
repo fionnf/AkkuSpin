@@ -2,6 +2,7 @@ import datetime
 import os
 import pandas as pd
 import hashlib
+import data_processing
 
 
 def get_most_recent_time(directory):
@@ -68,3 +69,16 @@ def generate_text_content(integrated_values, times):
     for time, value in zip(times, integrated_values):
         content += f"{time},{value}\n"
     return content
+
+def find_true_start_time(nmr_folder, nucleus):
+    # List all files in the NMR folder
+    all_files = [os.path.join(nmr_folder, f) for f in os.listdir(nmr_folder) if f.endswith(".fid")]
+
+    # Extract timestamps from all files
+    timestamps = [data_processing.extract_date_time(f) for f in all_files if nucleus in f]
+
+    # Return the earliest timestamp
+    if timestamps:
+        return min(timestamps)
+    else:
+        raise ValueError("No valid spectra found in the specified folder.")
