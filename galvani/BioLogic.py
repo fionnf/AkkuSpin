@@ -563,9 +563,8 @@ def VMPdata_dtype_from_colIDs(colIDs):
             continue
 
     # Add debug prints here
-    print(f"Type List: {type_list}")
-    print(f"Total Size: {np.dtype(type_list).itemsize}")
-
+    #print(f"Type List: {type_list}")
+    #print(f"Total Size: {np.dtype(type_list).itemsize}")
     return np.dtype(type_list), flags_dict
 
 
