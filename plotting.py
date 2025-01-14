@@ -47,20 +47,26 @@ def create_nmr_heatmap(ppm_values, nmr_times, heatmap_intensity):
     return fig
 
 
-def create_voltage_trace(df):
-    fig = go.Figure()
+def create_voltage_trace(df, experiment_start_time):
+    # Calculate time since the start of the experiment
+    df['time_since_start'] = (df['Timestamp'] - experiment_start_time).dt.total_seconds() / 3600
 
+    fig = go.Figure()
     fig.add_trace(go.Scatter(
         x=df['Voltage'],
-        y=df['Timestamp'],
+        y=df['time_since_start'],  # Use time since start
         mode='lines',
-        line=dict(color='Red')
+        name='Voltage Trace'
     ))
 
+    fig.update_xaxes(
+        title="Voltage (V)"
+    )
+    fig.update_yaxes(
+        title="Time Since Start (hours)"
+    )
     fig.update_layout(
-        title="Voltage Trace",
-        xaxis_title="Voltage (V)",
-        yaxis_title="Time"
+        title="Voltage Trace"
     )
 
     return fig

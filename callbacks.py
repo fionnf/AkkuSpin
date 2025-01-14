@@ -143,9 +143,10 @@ def register_callbacks(app):
                 # Create a subplot figure with 2 columns
                 fig = make_subplots(rows=1, cols=2, shared_yaxes=True, column_widths=[0.75, 0.25], horizontal_spacing=0.02)
 
-
+                experiment_start_time = min(nmr_times)
                 fig_nmr_heatmap = plotting.create_nmr_heatmap(filtered_ppm_values, nmr_times, filtered_heatmap_intensity)
-                fig_voltage_trace = plotting.create_voltage_trace(volt_df)
+                # Pass the start time to the voltage trace function
+                fig_voltage_trace = plotting.create_voltage_trace(volt_df, experiment_start_time)
 
                 fig.add_trace(fig_nmr_heatmap['data'][0], row=1, col=1)
                 fig.add_trace(fig_voltage_trace['data'][0], row=1, col=2)
