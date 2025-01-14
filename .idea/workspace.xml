@@ -4,13 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c46ea227-d559-4ffa-92c3-11a7b053a423" name="Changes" comment="fix: remove duplicates from integration data">
+    <list default="true" id="c46ea227-d559-4ffa-92c3-11a7b053a423" name="Changes" comment="fix: working new eclab files import in custom galvani">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/layout.py" beforeDir="false" afterPath="$PROJECT_DIR$/layout.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -49,8 +59,10 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Python.BioLogic.executor&quot;: &quot;Run&quot;,
     &quot;Python.Unnamed.executor&quot;: &quot;Run&quot;,
     &quot;Python.callbacks.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.debug_galvani.executor&quot;: &quot;Run&quot;,
     &quot;Python.layout.executor&quot;: &quot;Run&quot;,
     &quot;Python.main.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
@@ -113,6 +125,8 @@
       <workItem from="1728634806927" duration="976000" />
       <workItem from="1730719953553" duration="647000" />
       <workItem from="1730826605010" duration="275000" />
+      <workItem from="1736852331508" duration="4684000" />
+      <workItem from="1736857513099" duration="602000" />
     </task>
     <task id="LOCAL-00001" summary="finally rebased and working!">
       <option name="closed" value="true" />
@@ -170,7 +184,55 @@
       <option name="project" value="LOCAL" />
       <updated>1717748346429</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="fix: remove duplicates from integration data">
+      <option name="closed" value="true" />
+      <created>1736852906071</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1736852906071</updated>
+    </task>
+    <task id="LOCAL-00009" summary="prob: try and debug new column mismatch issues">
+      <option name="closed" value="true" />
+      <created>1736853293060</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1736853293060</updated>
+    </task>
+    <task id="LOCAL-00010" summary="prob: debugging of issues in galvani package">
+      <option name="closed" value="true" />
+      <created>1736855102038</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1736855102038</updated>
+    </task>
+    <task id="LOCAL-00011" summary="fix: skip the column 122 and give it an arbitary name">
+      <option name="closed" value="true" />
+      <created>1736856167691</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1736856167691</updated>
+    </task>
+    <task id="LOCAL-00012" summary="fix: working new eclab files import in custom galvani">
+      <option name="closed" value="true" />
+      <created>1736856488096</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1736856488096</updated>
+    </task>
+    <task id="LOCAL-00013" summary="fix: working new eclab files import in custom galvani">
+      <option name="closed" value="true" />
+      <created>1736856646434</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1736856646434</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -202,15 +264,21 @@
     <MESSAGE value="fix: Add progress bar in printout intgeration and spectra" />
     <MESSAGE value="fix: make V increments for input on integration smaller" />
     <MESSAGE value="fix: remove duplicates from integration data" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: remove duplicates from integration data" />
+    <MESSAGE value="prob: try and debug new column mismatch issues" />
+    <MESSAGE value="prob: debugging of issues in galvani package" />
+    <MESSAGE value="fix: skip the column 122 and give it an arbitary name" />
+    <MESSAGE value="fix: working new eclab files import in custom galvani" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: working new eclab files import in custom galvani" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/NMRVolt$cap.coverage" NAME="cap Coverage Results" MODIFIED="1704410607546" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/AkkuSpin$plotting.coverage" NAME="plotting Coverage Results" MODIFIED="1708383791569" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/AkkuSpin$layout.coverage" NAME="layout Coverage Results" MODIFIED="1708384113996" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/NMRVolt$main.coverage" NAME="main Coverage Results" MODIFIED="1704816725475" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/AkkuSpin$main.coverage" NAME="main Coverage Results" MODIFIED="1736857513586" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/AkkuSpin$callbacks.coverage" NAME="callbacks Coverage Results" MODIFIED="1708384205204" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/AkkuSpin$main.coverage" NAME="main Coverage Results" MODIFIED="1717753265340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/AkkuSpin$debug_galvani.coverage" NAME="debug_galvani Coverage Results" MODIFIED="1736856111546" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/NMRVolt$cap.coverage" NAME="cap Coverage Results" MODIFIED="1704410607546" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/AkkuSpin$BioLogic.coverage" NAME="BioLogic Coverage Results" MODIFIED="1736855585331" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/galvani" />
+    <SUITE FILE_PATH="coverage/AkkuSpin$layout.coverage" NAME="layout Coverage Results" MODIFIED="1708384113996" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/NMRVolt$app.coverage" NAME="app Coverage Results" MODIFIED="1704407230014" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/AkkuSpin$plotting.coverage" NAME="plotting Coverage Results" MODIFIED="1708383791569" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/NMRVolt$main.coverage" NAME="main Coverage Results" MODIFIED="1704816725475" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

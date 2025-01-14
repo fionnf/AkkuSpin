@@ -187,6 +187,9 @@ def create_layout():
             style={'font-family': sans_serif_font, 'font-size': '16px'}
         ),
 
+        # Progress bar (added here)
+        dbc.Progress(id='progress-bar', value=0, striped=True, animated=True, style={'margin': '10px 0'}),
+
         # NMR Plot
         html.Div([
             dcc.Graph(id='nmr_plot', style={'margin': '0'}, config=config),
