@@ -143,9 +143,6 @@ def process_eclab(directory):
     except Exception as e:
         print(f"Error loading MPR file: {e}")
         raise
-    print("MPR Header:", mpr_file.header)
-    print("MPR Techniques:", mpr_file.techniques)
-    print("MPR Data Columns:", mpr_file.data.columns)
     print("MPR file read")
     df = pd.DataFrame(mpr_file.data)
     print("MPR file loaded")
