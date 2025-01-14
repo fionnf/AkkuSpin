@@ -10,39 +10,39 @@ import pandas as pd
 def create_nmr_heatmap(ppm_values, nmr_times, heatmap_intensity):
     fig = go.Figure()
 
-    # Re-create the y-axis with constant intervals.
-    # This depends on the ppm_values being recorded at almost constant intervals
-    # and an even distribution of data points across the time range.
+    # Calculate time since the start of the experiment
+    experiment_start_time = min(nmr_times)
+    time_since_start = [(t - experiment_start_time).total_seconds() / 3600 for t in nmr_times]  # Time in hours
 
-
-    y_axis_start = min(nmr_times).replace(second=0, microsecond=0)
-    y_axis_end = max(nmr_times).replace(second=0, microsecond=0)
-    y_axis = pd.date_range(start=y_axis_start, end=y_axis_end, periods=len(nmr_times))
-    #y_axis = nmr_times
-
+    # Add heatmap trace
     fig.add_trace(go.Heatmap(
         x=ppm_values,
-        y=y_axis,
+        y=time_since_start,
         z=heatmap_intensity,
         colorscale='Viridis',
-        #zsmooth='best',
-        showscale=False),
-    )
+        showscale=False
+    ))
 
+    # Update x-axis for ppm values
     fig.update_xaxes(
         title="Chemical Shift (ppm)",
         autorange="reversed",
         range=[ppm_values[-1], ppm_values[0]]
     )
 
-    fig.update_layout(
-        title="NMR Data and Voltage Trace",
-        yaxis_title="Time"
+    # Update y-axis to reflect time since start
+    fig.update_yaxes(
+        title="Time Since Start (hours)"
     )
 
+    # Update layout
+    fig.update_layout(
+        title="NMR Data Heatmap",
+    )
+
+    # Debugging: Print the number of spectra
     if isinstance(heatmap_intensity, list):
         print("NUMBER OF SPECTRA:", len(heatmap_intensity))
-
 
     return fig
 
