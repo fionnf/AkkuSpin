@@ -83,6 +83,8 @@ def register_callbacks(app):
                 eclab_df = data_processing.process_eclab(voltage_folder)
                 ec_v_df = eclab_df[1]
                 volt_df = data_processing.eclab_voltage(ec_v_df, start_datetime, end_datetime)
+                print("Columns in volt_df:", volt_df.columns)
+                print("First few rows of volt_df:", volt_df.head())
 
                 autophase_done = False
                 phase_params = (None, None)
