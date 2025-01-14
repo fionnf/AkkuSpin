@@ -100,9 +100,12 @@ def register_callbacks(app):
                         dic, data, p0, p1, runtime, obs, sw, car = data_processing.process_nmr_data(
                             path=path,
                             nmr_format=format_type,
-                            apply_autophase=True,
-                            p0=0,
-                            p1=0
+                            apply_autophase=False,
+                            #apply_autophase=True,
+                            #p0=0,
+                            #p1=0,
+                            p0=-260.143324985434,
+                            p1=26.94935982565039
                         )
                         # Store phase parameters from the first spectrum for subsequent use
                         phase_params = (p0, p1)

@@ -103,13 +103,16 @@ def process_nmr_data(path, nmr_format, apply_autophase=True, p0=0.0, p1=0.0):
                 C.from_bruker(dic, data, udic)
 
             dic, data = C.to_pipe()
-            dic, data = ng.pipe_proc.em(dic, data, lb=1.5)
+            dic, data = ng.pipe_proc.em(dic, data, lb=2)
             dic, data = ng.pipe_proc.zf(dic, data, auto=True)
             dic, data = ng.pipe_proc.ft(dic, data, auto=True)
 
             if apply_autophase:
                 data, phase_params = ng.proc_autophase.autops(data, 'acme', return_phases=True)
                 p0, p1 = phase_params
+                print("Phasing parameters:")
+                print(p0)
+                print(p1)
             else:
                 dic, data = ng.process.pipe_proc.ps(dic, data, p0=p0, p1=p1)
 
