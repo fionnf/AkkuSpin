@@ -535,54 +535,37 @@ def parse_BioLogic_date(date_text):
 
 
 def VMPdata_dtype_from_colIDs(colIDs):
-    """Get a numpy record type from a list of column ID numbers.
-
-    The binary layout of the data in the MPR file is described by the sequence
-    of column ID numbers in the file header. This function converts that
-    sequence into a numpy dtype which can then be used to load data from the
-    file with np.frombuffer().
-
-    Some column IDs refer to small values which are packed into a single byte.
-    The second return value is a dict describing the bit masks with which to
-    extract these columns from the flags byte.
-
-    """
+    """Get a numpy record type from a list of column ID numbers."""
     dtype_map = VMPdata_colID_dtype_map.copy()
-    # If we detect a key corresponding to the stack mode, we load the specific colIDs
-    if 103 in colIDs or 424 in colIDs:
-        for key, value in stack_mode_colID_dtype_map.items():
-            dtype_map[key] = value
-
     type_list = []
     field_name_counts = defaultdict(int)
     flags_dict = OrderedDict()
+
     for colID in colIDs:
         if colID in VMPdata_colID_flag_map:
-            # Some column IDs represent boolean flags or small integers
-            # These are all packed into a single 'flags' byte whose position
-            # in the overall record is determined by the position of the first
-            # column ID of flag type. If there are several flags present,
-            # there is still only one 'flags' int
             if "flags" not in field_name_counts:
                 type_list.append(("flags", "u1"))
                 field_name_counts["flags"] = 1
             flag_name, flag_mask, flag_type = VMPdata_colID_flag_map[colID]
-            # TODO what happens if a flag colID has already been seen
-            # i.e. if flag_name is already present in flags_dict?
-            # Does it create a second 'flags' byte in the record?
             flags_dict[flag_name] = (np.uint8(flag_mask), flag_type)
         elif colID in dtype_map:
             field_name, field_type = dtype_map[colID]
             field_name_counts[field_name] += 1
             count = field_name_counts[field_name]
             if count > 1:
-                unique_field_name = "%s %d" % (field_name, count)
+                unique_field_name = f"{field_name} {count}"
             else:
                 unique_field_name = field_name
             type_list.append((unique_field_name, field_type))
         else:
-            print(f"Warning: Skipping unknown Column ID {colID}")
+            print(f"Warning: Skipping unknown Column ID {colID}. Adding placeholder.")
+            type_list.append((f"Unknown {colID}", "<u8"))  # Adjust placeholder size if needed
             continue
+
+    # Add debug prints here
+    print(f"Type List: {type_list}")
+    print(f"Total Size: {np.dtype(type_list).itemsize}")
+
     return np.dtype(type_list), flags_dict
 
 
