@@ -6,3 +6,4 @@ nmrglue
 dash-bootstrap-components
 tqdm
 eclabfiles
+galvani

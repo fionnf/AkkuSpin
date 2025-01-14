@@ -131,14 +131,27 @@ def eclab_voltage(processed_voltage_df, start_time, end_time):
 
 
 def process_eclab(directory):
-
+    print("Processing ECLab data")
     eclabfiles = utils.identify_eclab_files(directory)
+    print("ECLab files identified")
     mpr_file_path = eclabfiles[0]
     mpl_file = eclabfiles[1]
-    mpr_file = BioLogic.MPRfile(mpr_file_path)
+    # Read the MPR file (problematic)
+    try:
+        mpr_file = BioLogic.MPRfile(mpr_file_path)
+        print("MPR file loaded successfully")
+    except Exception as e:
+        print(f"Error loading MPR file: {e}")
+        raise
+    print("MPR Header:", mpr_file.header)
+    print("MPR Techniques:", mpr_file.techniques)
+    print("MPR Data Columns:", mpr_file.data.columns)
+    print("MPR file read")
     df = pd.DataFrame(mpr_file.data)
+    print("MPR file loaded")
 
     def extract_start_time(mpl_file_path):
+        print("Extracting start time")
         # Extracts the start time from an MPL file
         with open(mpl_file_path, 'r', encoding='ISO-8859-1') as file:
             for line in file:
