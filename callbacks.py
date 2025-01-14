@@ -141,7 +141,7 @@ def register_callbacks(app):
                 filtered_ppm_values = list(filtered_ppm_values)
 
                 # Create a subplot figure with 2 columns
-                fig = make_subplots(rows=1, cols=2, shared_yaxes=True, column_widths=[0.75, 0.25], horizontal_spacing=0.02)
+                fig = make_subplots(rows=1, cols=2, shared_yaxes=True, column_widths=[0.50, 0.50], horizontal_spacing=0.02)
 
                 # Get the true start time (timestamp of the first spectrum in the folder)
                 true_start_time = utils.find_true_start_time(nmr_folder, nucleus)
