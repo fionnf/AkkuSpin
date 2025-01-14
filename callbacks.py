@@ -104,6 +104,7 @@ def register_callbacks(app):
                             #apply_autophase=True,
                             #p0=0,
                             #p1=0,
+                            #custom phasing parameters below override autophase...
                             p0=-260.143324985434,
                             p1=26.94935982565039
                         )
