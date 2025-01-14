@@ -5,3 +5,4 @@ pandas
 nmrglue
 dash-bootstrap-components
 tqdm
+eclabfiles

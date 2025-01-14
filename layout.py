@@ -1,8 +1,8 @@
 from dash import html, dcc
 import dash_bootstrap_components as dbc
 
-cyclerfolder = r"G:\.shortcut-targets-by-id\1gpf-XKVVvMHbMGqpyQS5Amwp9fh8r96B\RUG shared\Master Project\Experiment files\FF069\FF069_Akkuspin\Cyclerfolder"
-NMR_folder = r"G:\.shortcut-targets-by-id\1gpf-XKVVvMHbMGqpyQS5Amwp9fh8r96B\RUG shared\Master Project\Experiment files\FF069\FF069"
+cyclerfolder = '/Users/fionnferreira/Downloads/BioLogic Files/flow_nmr'
+NMR_folder = '/Users/fionnferreira/Downloads/NMR'
 
 def integration_layout(sans_serif_font, input_style):
     radio_size = '16px'

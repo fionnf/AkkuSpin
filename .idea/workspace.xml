@@ -20,6 +20,18 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;fionnf&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/fionnf/AkkuSpin.git&quot;,
+    &quot;accountId&quot;: &quot;1e2258d4-a16f-4851-8542-4d00eefc8dbf&quot;
+  }
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -82,8 +94,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-PY-241.14494.200" />
-        <option value="bundled-python-sdk-86178adc3299-28c9f5db9ffe-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.14494.200" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-PY-241.18034.82" />
+        <option value="bundled-python-sdk-975db3bf15a3-2767605e8bc2-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.18034.82" />
       </set>
     </attachedChunks>
   </component>
@@ -98,6 +110,9 @@
       <workItem from="1708342811169" duration="4009000" />
       <workItem from="1715517896304" duration="2618000" />
       <workItem from="1715617427016" duration="6875000" />
+      <workItem from="1728634806927" duration="976000" />
+      <workItem from="1730719953553" duration="647000" />
+      <workItem from="1730826605010" duration="275000" />
     </task>
     <task id="LOCAL-00001" summary="finally rebased and working!">
       <option name="closed" value="true" />
