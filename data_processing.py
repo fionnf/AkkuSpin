@@ -114,7 +114,7 @@ def process_nmr_data(path, nmr_format, apply_autophase=True, p0=0.0, p1=0.0):
                 dic, data = ng.process.pipe_proc.ps(dic, data, p0=p0, p1=p1)
 
             # Cache the processed data
-            cache[uid] = (dic, data, p0, p1, runtime, obs, sw, car)
+            #cache[uid] = (dic, data, p0, p1, runtime, obs, sw, car)
 
     return dic, data, p0, p1, runtime, obs, sw, car
 
