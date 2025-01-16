@@ -172,10 +172,10 @@ def create_layout():
             html.Div([
                 html.H2("Plot Settings", style={'font-family': sans_serif_font, 'font-size': '18px', 'line-height': '1.5', 'padding': '10px', 'margin-top': '0'}),
                 html.Label("Min PPM:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
-                dcc.Input(id='ppm_min_input', type='number', placeholder='Min PPM', value=-59.5,
+                dcc.Input(id='ppm_min_input', type='number', placeholder='Min PPM', value=-61,
                           style=input_style),
                 html.Label("Max PPM:", style={'font-family': sans_serif_font, 'font-size': '16px'}),
-                dcc.Input(id='ppm_max_input', type='number', placeholder='Max PPM', value=-57,
+                dcc.Input(id='ppm_max_input', type='number', placeholder='Max PPM', value=-57.5,
                           style=input_style),
                 html.Button('Update', id='update_button', n_clicks=0),
             ], style={'width': '32%', 'background-color': '#f7f7f7', 'padding': '20px', 'box-sizing': 'border-box'}),
