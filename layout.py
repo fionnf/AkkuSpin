@@ -87,12 +87,12 @@ def create_layout():
     }
 
     config = {
-        'toImageButtonOptions': {
-            'format': 'png',
-            'filename': 'nmr_heatmap',
-            'height': 500,
-            'width': 1100,
-            'scale': 3
+        "toImageButtonOptions": {
+            "format": "png",  # Options: 'png', 'svg', 'jpeg', 'webp'
+            "filename": "Akkuspin Heatmap",  # Default file name
+            "height": 800,
+            "width": 1200,
+            "scale": 3
         }
     }
 

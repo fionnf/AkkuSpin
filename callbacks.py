@@ -154,27 +154,43 @@ def register_callbacks(app):
                 fig.add_trace(fig_nmr_heatmap['data'][0], row=1, col=1)
                 fig.add_trace(fig_voltage_trace['data'][0], row=1, col=2)
 
+                fig.update_layout(
+                    height=800,
+                    width=1200,
+                )
+
+                # Add annotation in the bottom-right corner
+                fig.add_annotation(
+                    text="Akkuspin",  # Text to display
+                    font=dict(size=12, color="lightgrey"),  # Font size and color
+                    xref="paper",  # Reference the full figure width
+                    yref="paper",  # Reference the full figure height
+                    x=0.62,  # Bottom-right corner (95% of the width)
+                    y=0.01,  # Bottom edge (5% of the height)
+                    showarrow=False  # No arrow
+                )
+
                 fig.update_xaxes(
                     range=[ppm_max, ppm_min],
                     title_text="Chemical Shift (ppm)",
-                    title_font=dict(size=16, color="black"),
-                    tickfont=dict(size=12, color="black"),
+                    title_font=dict(size=18, color="black"),
+                    tickfont=dict(size=16, color="black"),
                     row=1,
                     col=1
                 )
 
                 fig.update_yaxes(
                     title_text="Exp. Time (hours)",
-                    title_font=dict(size=16, color="black"),
-                    tickfont=dict(size=12, color="black"),
+                    title_font=dict(size=18, color="black"),
+                    tickfont=dict(size=16, color="black"),
                     row=1,
                     col=1
                 )
 
                 fig.update_xaxes(
-                    title_text="Voltage",
-                    title_font=dict(size=16, color="black"),
-                    tickfont=dict(size=12, color="black"),
+                    title_text="Voltage trace (V)",
+                    title_font=dict(size=18, color="black"),
+                    tickfont=dict(size=16, color="black"),
                     row=1,
                     col=2
                 )
