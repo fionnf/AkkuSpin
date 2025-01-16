@@ -1,4 +1,4 @@
-from galvani import BioLogic
+from galvani_mod import BioLogic
 
 mpr_file_path = '/Users/fionnferreira/Downloads/BioLogic Files/flow_nmr/fw05_flow1_C01.mpr'
 

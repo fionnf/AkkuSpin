@@ -2,7 +2,7 @@ import datetime
 import nmrglue as ng
 import os
 import utils
-from galvani import BioLogic
+from galvani_mod import BioLogic
 from datetime import timedelta
 import pandas as pd
 import shelve
