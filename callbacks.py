@@ -180,7 +180,7 @@ def register_callbacks(app):
                 )
 
                 fig.update_yaxes(
-                    title_text="Exp. Time (hours)",
+                    title_text="Experiment Time (hours)",
                     title_font=dict(size=18, color="black"),
                     tickfont=dict(size=16, color="black"),
                     row=1,
