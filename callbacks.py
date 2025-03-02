@@ -154,6 +154,7 @@ def register_callbacks(app):
                 fig.add_trace(fig_nmr_heatmap['data'][0], row=1, col=1)
                 fig.add_trace(fig_voltage_trace['data'][0], row=1, col=2)
                 fig.add_trace(fig_voltage_trace['data'][1], row=1, col=2)
+                fig.data[-1].update(xaxis='x3')
 
                 fig.update_layout(
                     height=800,
@@ -190,10 +191,21 @@ def register_callbacks(app):
 
                 fig.update_xaxes(
                     title_text="Voltage Profile (V)",
-                    title_font=dict(size=20, color="black"),
-                    tickfont=dict(size=18, color="black"),
+                    title_font=dict(size=20, color="red"),
+                    tickfont=dict(size=18, color="red"),
                     row=1,
                     col=2
+                )
+
+                fig.update_layout(
+                    showlegend=False,
+                    xaxis3=dict(
+                        overlaying='x2',  # same horizontal domain as the bottom axis
+                        side='top',  # label/ticks on top
+                        title='Q - Q₀ (mAh)',  # top axis label
+                        title_font = dict(size=20, color="blue"),  # Consistent font size and color
+                        tickfont = dict(size=18, color="blue")
+                    )
                 )
 
                 first_spectrum_path, last_spectrum_path = utils.find_first_last_spectra(nmr_folder, nucleus)

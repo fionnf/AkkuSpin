@@ -65,6 +65,7 @@ def create_voltage_trace(df, experiment_start_time):
         x=df['Q_minus_Q0'],
         y=df['time_since_start'],  # Use time since start
         mode='lines',
+        line=dict(color='blue'),
         #name='Q_minus_Q0 Trace'
     ), secondary_y=False)
 
