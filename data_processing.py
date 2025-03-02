@@ -134,6 +134,7 @@ def eclab_voltage(processed_voltage_df, start_time, end_time):
 
 
 def process_eclab(directory):
+    Q0 = 1.23
     print("Processing ECLab data")
     eclabfiles = utils.identify_eclab_files(directory)
     print("ECLab files identified")
@@ -146,9 +147,9 @@ def process_eclab(directory):
     except Exception as e:
         print(f"Error loading MPR file: {e}")
         raise
-    print("MPR file read")
+    print("MPR file read...")
     df = pd.DataFrame(mpr_file.data)
-    print("MPR file loaded")
+    print(df.head())
 
     def extract_start_time(mpl_file_path):
         print("Extracting start time")
@@ -179,6 +180,7 @@ def process_eclab(directory):
         start_time = pd.to_datetime(mpr_file.timestamp)
 
     df['Absolute_Time_UTC'] = df['time/s'].apply(lambda s: start_time + timedelta(seconds=s))
+    df['Abs_Q_charge_discharge'] = df['Q charge/discharge/mA.h'].abs()
 
     time = df.groupby('Full_Cycle_Number')['time/s'].max()
     time_utc = df.groupby('Full_Cycle_Number')['Absolute_Time_UTC'].max()
@@ -188,7 +190,7 @@ def process_eclab(directory):
         'Cycle_Number': cycle_numbers,
         'Charge_Capacity': charge_capacity.reindex(cycle_numbers, fill_value=0),
         'Discharge_Capacity': discharge_capacity.reindex(cycle_numbers, fill_value=0),
-        'Coulombic Efficiency': coulombic_efficiency.reindex(cycle_numbers, fill_value=100),  # Default to 100% efficiency if no data
+        'Coulombic Efficiency': coulombic_efficiency.reindex(cycle_numbers, fill_value=100),
         'Time': time.reindex(cycle_numbers, fill_value=0),
         'Timestamp': time_utc.reindex(cycle_numbers, fill_value=0)
     })
@@ -196,11 +198,15 @@ def process_eclab(directory):
     full_time = df['time/s']
     full_volt = df['Ewe/V']
     full_time_utc = df['Absolute_Time_UTC']
+    df['Q_minus_Q0'] = df['Abs_Q_charge_discharge'] - Q0
+    qq0 = df['Q_minus_Q0']
     processed_voltage_df = pd.DataFrame({
         'Time':full_time,
         'Timestamp':full_time_utc,
-        'Voltage':full_volt
+        'Voltage':full_volt,
+        'Q_minus_Q0': qq0
     })
+
     print('MPR Processed')
     return processed_cycle_df, processed_voltage_df
 

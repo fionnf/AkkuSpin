@@ -173,24 +173,24 @@ def register_callbacks(app):
                 fig.update_xaxes(
                     range=[ppm_max, ppm_min],
                     title_text="Chemical Shift (ppm)",
-                    title_font=dict(size=18, color="black"),
-                    tickfont=dict(size=16, color="black"),
+                    title_font=dict(size=20, color="black"),
+                    tickfont=dict(size=18, color="black"),
                     row=1,
                     col=1
                 )
 
                 fig.update_yaxes(
-                    title_text="Experiment Time (hours)",
-                    title_font=dict(size=18, color="black"),
-                    tickfont=dict(size=16, color="black"),
+                    title_text="Experiment Time (h)",
+                    title_font=dict(size=20, color="black"),
+                    tickfont=dict(size=18, color="black"),
                     row=1,
                     col=1
                 )
 
                 fig.update_xaxes(
-                    title_text="Voltage trace (V)",
-                    title_font=dict(size=18, color="black"),
-                    tickfont=dict(size=16, color="black"),
+                    title_text="Voltage Profile (V)",
+                    title_font=dict(size=20, color="black"),
+                    tickfont=dict(size=18, color="black"),
                     row=1,
                     col=2
                 )

@@ -31,7 +31,7 @@ def create_nmr_heatmap(ppm_values, nmr_times, heatmap_intensity, experiment_star
 
     # Update y-axis to reflect time since start
     fig.update_yaxes(
-        title="Time Since Start (hours)"
+        title="Experiment Time (h)"
     )
 
     # Update layout
@@ -62,7 +62,7 @@ def create_voltage_trace(df, experiment_start_time):
         title="Voltage (V)"
     )
     fig.update_yaxes(
-        title="Time Since Start (hours)"
+        title="Experiment Time (h)"
     )
     fig.update_layout(
         title="Voltage Trace"
