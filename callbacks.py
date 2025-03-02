@@ -191,6 +191,10 @@ def register_callbacks(app):
 
                 fig.update_xaxes(
                     title_text="Voltage Profile (V)",
+                    showgrid=False,
+                    gridcolor='lightpink',  # Set grid line color
+                    gridwidth=1,  # Set grid line width
+                    minor=dict(showgrid=False),  # Hide minor grid lines
                     title_font=dict(size=20, color="red"),
                     tickfont=dict(size=18, color="red"),
                     row=1,
@@ -203,6 +207,10 @@ def register_callbacks(app):
                         overlaying='x2',  # same horizontal domain as the bottom axis
                         side='top',  # label/ticks on top
                         title='Q - Q₀ (mAh)',  # top axis label
+                        showgrid=False,
+                        gridcolor='lightblue',  # Set grid line color
+                        gridwidth=1,  # Set grid line width
+                        minor=dict(showgrid=False),  # Hide minor grid lines
                         title_font = dict(size=20, color="blue"),  # Consistent font size and color
                         tickfont = dict(size=18, color="blue")
                     )
