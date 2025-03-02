@@ -50,26 +50,36 @@ def create_voltage_trace(df, experiment_start_time):
     # Calculate time since the start of the experiment
     df['time_since_start'] = (df['Timestamp'] - experiment_start_time).dt.total_seconds() / 3600
 
-    fig = go.Figure()
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+    # Add voltage trace
     fig.add_trace(go.Scatter(
         x=df['Voltage'],
         y=df['time_since_start'],  # Use time since start
         mode='lines',
-        name='Voltage Trace'
-    ))
+        #name='Voltage Trace'
+    ), secondary_y=False)
+
+    # Add Q_minus_Q0 trace
+    fig.add_trace(go.Scatter(
+        x=df['Q_minus_Q0'],
+        y=df['time_since_start'],  # Use time since start
+        mode='lines',
+        #name='Q_minus_Q0 Trace'
+    ), secondary_y=False)
 
     fig.update_xaxes(
         title="Voltage (V)"
     )
     fig.update_yaxes(
-        title="Experiment Time (h)"
+        title="Experiment Time (h)",
+        secondary_y=False
     )
     fig.update_layout(
-        title="Voltage Trace"
+        title="Voltage and Q_minus_Q0 Trace"
     )
-
+    #fig.show()
     return fig
-
 
 
 def create_spectra_fig(first_spectrum_path, last_spectrum_path, format_type, nmr_start_time, nmr_end_time):

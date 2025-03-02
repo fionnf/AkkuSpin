@@ -134,7 +134,7 @@ def eclab_voltage(processed_voltage_df, start_time, end_time):
 
 
 def process_eclab(directory):
-    Q0 = 1.23
+
     print("Processing ECLab data")
     eclabfiles = utils.identify_eclab_files(directory)
     print("ECLab files identified")
@@ -149,7 +149,8 @@ def process_eclab(directory):
         raise
     print("MPR file read...")
     df = pd.DataFrame(mpr_file.data)
-    print(df.head())
+    pd.set_option('display.max_columns', None)
+    print(df)
 
     def extract_start_time(mpl_file_path):
         print("Extracting start time")
@@ -198,16 +199,17 @@ def process_eclab(directory):
     full_time = df['time/s']
     full_volt = df['Ewe/V']
     full_time_utc = df['Absolute_Time_UTC']
-    df['Q_minus_Q0'] = df['Abs_Q_charge_discharge'] - Q0
-    qq0 = df['Q_minus_Q0']
+    qq0 = df['(Q-Qo)/mA.h']
     processed_voltage_df = pd.DataFrame({
         'Time':full_time,
         'Timestamp':full_time_utc,
         'Voltage':full_volt,
-        'Q_minus_Q0': qq0
+        'Q_minus_Q0':qq0
     })
 
     print('MPR Processed')
+    pd.set_option('display.max_columns', None)
+    print(processed_voltage_df)
     return processed_cycle_df, processed_voltage_df
 
 
